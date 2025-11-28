@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Enimara - The OS for the Unstructured</title>
 
-  <link rel="icon" type="image/x-icon" href="Enimara Favicon.png">
-
+    <link rel="icon" type="image/x-icon" href="Enimara Favicon.png">
+    
   <!-- Ionic Framework (Used for Mobile UI Components) -->
   <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
   <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
@@ -373,7 +373,7 @@
     /* CHARTS */
     .chart-container {
       display: flex;
-      justify-content: space-around;
+      flex-direction: column; /* Stack charts vertically */
       align-items: center;
       margin: 20px 0;
       padding: 10px;
@@ -382,12 +382,13 @@
       border: 1px solid var(--ion-border-color);
     }
     .chart-placeholder {
-      width: 45%;
+      width: 90%;
       height: 120px;
       display: flex;
       align-items: flex-end;
       justify-content: center;
       gap: 4px;
+      margin-bottom: 20px;
     }
     .chart-bar {
       width: 15%;
@@ -403,12 +404,62 @@
         font-size: 0.7rem;
         color: var(--ion-text-color);
         font-weight: 600;
+        white-space: nowrap;
     }
-    .chart-pie {
-      width: 45%;
-      height: 120px;
-      border-radius: 50%;
-      /* Colors will be set dynamically by JS based on theme */
+    .chart-line {
+        width: 90%;
+        height: 120px;
+        position: relative;
+        margin-top: 10px;
+    }
+    .chart-line-grid {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .chart-line-grid-line {
+        width: 100%;
+        height: 1px;
+        background: var(--ion-border-color);
+        opacity: 0.3;
+    }
+    .chart-line-graph {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-around;
+    }
+    .chart-line-point {
+        width: 8px;
+        height: 8px;
+        background: var(--ion-color-primary);
+        border-radius: 50%;
+        position: relative;
+    }
+    .chart-line-point-value {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.6rem;
+        color: var(--ion-text-color);
+        font-weight: 600;
+        white-space: nowrap;
+    }
+    .chart-line-line {
+        position: absolute;
+        background: var(--ion-color-primary);
+        height: 2px;
+        /* Calculated dynamically */
     }
 
     /* AI ADVICE */
@@ -607,7 +658,18 @@
               <div class="chart-placeholder" id="bar-chart-placeholder">
                 <!-- Bars will be added by JS -->
               </div>
-              <div class="chart-pie" id="pie-chart-placeholder"></div>
+              <div class="chart-line" id="line-chart-placeholder">
+                  <div class="chart-line-grid">
+                      <div class="chart-line-grid-line"></div>
+                      <div class="chart-line-grid-line"></div>
+                      <div class="chart-line-grid-line"></div>
+                      <div class="chart-line-grid-line"></div>
+                      <div class="chart-line-grid-line"></div>
+                  </div>
+                  <div class="chart-line-graph" id="line-chart-graph">
+                      <!-- Points and lines will be added by JS -->
+                  </div>
+              </div>
             </div>
           </div>
 
@@ -1240,25 +1302,25 @@
          <div class="app-card">
            <label class="text-xs font-bold text-gray">Item Name</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <input type="text" value="Rice (50kg)">
+             <input type="text" id="stock-update-item-name" value="Rice (50kg)" readonly>
            </div>
 
            <label class="text-xs font-bold text-gray">Action</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <select>
-               <option>StockIn</option>
-               <option>StockOut</option>
+             <select id="stock-update-action">
+               <option value="StockIn">Stock In</option>
+               <option value="StockOut">Stock Out</option>
              </select>
            </div>
 
            <label class="text-xs font-bold text-gray">Quantity</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <input type="number" value="24">
+             <input type="number" id="stock-update-quantity" value="10" min="1">
            </div>
 
            <label class="text-xs font-bold text-gray">Note</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <textarea placeholder="Give small note on stock here" rows="3"></textarea>
+             <textarea id="stock-update-note" placeholder="Give small note on stock here" rows="3"></textarea>
            </div>
          </div>
 
@@ -1385,6 +1447,10 @@
     // Global variables for stats
     let todaySales = 120000;
     let lowStocks = 5;
+    // Global variable for current month revenue
+    let currentMonthRevenue = 0; // Will be calculated from sales log
+    // Global variable for current year total revenue (excluding current month)
+    let currentYearTotalRevenue = 11263000; // Base amount
 
     // --- New Function: Show Toast (Alert Replacement) ---
     // Uses Ionic's built-in toast component for non-intrusive feedback
@@ -1547,6 +1613,17 @@
             const sku = modalId.split('-')[3]; // Extract SKU from modal ID
             loadInventoryItemForEdit(sku);
         }
+        // Special logic for Stock Update modal to populate fields
+        if (modalId.startsWith('page-stock-update-')) {
+            const sku = modalId.split('-')[3]; // Extract SKU from modal ID
+            const inventory = getInventory();
+            const item = inventory.find(i => i.sku === sku);
+            if (item) {
+                document.getElementById('stock-update-item-name').value = item.name;
+                // Store the SKU for the update function
+                document.getElementById('page-stock-update-rc001').setAttribute('data-sku', sku);
+            }
+        }
         // Special logic for Add Product modal to populate categories
         if (modalId === 'page-add-product') {
             populateCategorySelect();
@@ -1605,7 +1682,7 @@
                     </div>
                     <div style="display: flex; gap: 8px;">
                       <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-inventory-${item.sku}')">Edit</ion-button>
-                      <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);" onclick="recordInventoryActivity('${item.name}', 'Restock', 20)">Restock</ion-button>
+                      <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);" onclick="openModal('page-stock-update-${item.sku}')">Restock</ion-button>
                     </div>
                 `;
                 list.appendChild(itemDiv);
@@ -1675,6 +1752,46 @@
         addActivityToLog(action, itemName, `Qty: ${qty}`, "");
         showToast(`${action} for ${itemName} recorded and pending sync.`, 'success');
     }
+
+    // --- Stock Update Logic ---
+    function updateStock() {
+        const sku = document.getElementById('page-stock-update-rc001').getAttribute('data-sku');
+        const action = document.getElementById('stock-update-action').value;
+        const quantity = parseInt(document.getElementById('stock-update-quantity').value) || 0;
+        const note = document.getElementById('stock-update-note').value;
+
+        if (quantity <= 0) {
+            showToast('Quantity must be greater than 0.', 'warning');
+            return;
+        }
+
+        const inventory = getInventory();
+        const itemIndex = inventory.findIndex(i => i.sku === sku);
+
+        if (itemIndex !== -1) {
+            if (action === 'StockIn') {
+                inventory[itemIndex].stock += quantity;
+            } else if (action === 'StockOut') {
+                inventory[itemIndex].stock = Math.max(0, inventory[itemIndex].stock - quantity); // Prevent negative stock
+            }
+
+            saveInventory(inventory);
+            renderInventoryList(); // Update the list view
+
+            // Add activity log entry
+            const actionText = action === 'StockIn' ? 'Restock' : 'Stock Out';
+            addActivityToLog(actionText, inventory[itemIndex].name, `Qty: ${quantity}`, `Note: ${note}`);
+            // Increment the sync counter
+            pendingSyncCount++;
+            updateSyncBadge();
+
+            showToast(`${actionText} for ${inventory[itemIndex].name} completed.`, 'success');
+            closeModal('page-stock-update-rc001');
+        } else {
+            showToast('Error: Item not found.', 'danger');
+        }
+    }
+
 
     // --- POS Management ---
     function renderPosItemsList() {
@@ -1803,6 +1920,10 @@
 
         // Re-render inventory list to reflect stock changes
         renderInventoryList();
+
+        // Update current month revenue and total year revenue
+        currentMonthRevenue += totalNum;
+        currentYearTotalRevenue += totalNum;
 
         // Simulate a sale by updating the today's sales stat
         todaySales += totalNum;
@@ -1997,14 +2118,6 @@
         closeModal('page-record-payment-johnadams');
     }
     
-    function updateStock() {
-        // Increment the sync counter
-        pendingSyncCount++;
-        updateSyncBadge();
-        
-        showToast('Stock updated and pending sync.', 'success');
-        closeModal('page-stock-update-rc001');
-    }
 
     // --- Helper Functions ---
     function addActivityToLog(action, item, qty, amount) {
@@ -2121,46 +2234,38 @@
     }
 
     function renderCharts() {
+        renderBarChart();
+        renderLineChart();
+    }
+
+    function renderBarChart() {
         const barChartPlaceholder = document.getElementById('bar-chart-placeholder');
-        const pieChartPlaceholder = document.getElementById('pie-chart-placeholder');
+        barChartPlaceholder.innerHTML = ''; // Clear previous bars
 
-        // Clear previous charts
-        barChartPlaceholder.innerHTML = '';
-        pieChartPlaceholder.style.background = '';
+        // Simulate revenue data for last 5 months (Oct, Nov, Dec last year, Jan, Feb this year, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov this year)
+        const now = new Date();
+        const currentMonth = now.getMonth(); // 0-11 (Jan-Nov)
+        const currentYear = now.getFullYear();
 
-        // Get sales and inventory data for charting
-        const salesLog = JSON.parse(localStorage.getItem('enimara-sales-log')) || [];
-        const inventory = getInventory();
+        // Generate 5 months of revenue data
+        const months = [];
+        const revenues = [];
+        for (let i = 4; i >= 0; i--) {
+            const date = new Date(currentYear, currentMonth - i, 1);
+            months.push(date.toLocaleString('default', { month: 'short' }));
+            // Generate random revenue within the specified range for previous months
+            if (i > 0) { // Not current month
+                revenues.push(Math.floor(Math.random() * (1340677 - 820340 + 1)) + 820340);
+            } else { // Current month, use dynamic value
+                revenues.push(currentMonthRevenue);
+            }
+        }
 
-        // Simulate category-based sales data from logs (simplified)
-        const categorySales = {};
-        const categoryCounts = {};
-        salesLog.forEach(sale => {
-            // This is a simplification. In a real app, you'd link sales to specific items/categories.
-            // For demo, we'll just distribute sales across default categories.
-            const cats = ['Foodstuff', 'Beverages', 'Household', 'Electronics', 'Clothing'];
-            const randomCat = cats[Math.floor(Math.random() * cats.length)];
-            categorySales[randomCat] = (categorySales[randomCat] || 0) + (parseInt(sale.total.replace(/[^\d]/g, '')) || 0);
-            categoryCounts[randomCat] = (categoryCounts[randomCat] || 0) + 1;
-        });
+        const maxValue = Math.max(...revenues, 1); // Ensure non-zero max for scaling
 
-        // Use inventory counts as another data source for the bar chart
-        const categoryInventory = {};
-        inventory.forEach(item => {
-            categoryInventory[item.category] = (categoryInventory[item.category] || 0) + item.stock;
-        });
-
-        const categories = Object.keys(categorySales).length > 0 ? Object.keys(categorySales) : ['Foodstuff', 'Beverages', 'Household'];
-        const salesData = categories.map(cat => categorySales[cat] || 0);
-        const inventoryData = categories.map(cat => categoryInventory[cat] || 0);
-
-        // Render Bar Chart (Sales vs Inventory)
-        const maxValue = Math.max(...salesData, ...inventoryData, 1); // Ensure non-zero max
-        categories.forEach((cat, index) => {
-            const salesValue = salesData[index] || 0;
-            const invValue = inventoryData[index] || 0;
-            const barHeightSales = (salesValue / maxValue) * 100;
-            const barHeightInv = (invValue / maxValue) * 100;
+        months.forEach((month, index) => {
+            const revenue = revenues[index];
+            const barHeightPercent = (revenue / maxValue) * 100;
 
             const barContainer = document.createElement('div');
             barContainer.style.display = 'flex';
@@ -2168,49 +2273,89 @@
             barContainer.style.alignItems = 'center';
             barContainer.style.height = '100%';
             barContainer.style.justifyContent = 'flex-end';
+            barContainer.style.flex = '1'; // Distribute space equally
 
-            const barSales = document.createElement('div');
-            barSales.className = 'chart-bar';
-            barSales.style.height = `${barHeightSales}%`;
-            barSales.style.background = 'var(--ion-color-secondary)'; // Use secondary color for sales
-            barSales.style.position = 'relative';
-            barSales.style.marginBottom = '2px'; // Small gap between bars
-            barSales.innerHTML = `<div class="chart-bar-value">${salesValue}</div>`;
+            const bar = document.createElement('div');
+            bar.className = 'chart-bar';
+            bar.style.height = `${barHeightPercent}%`;
+            bar.style.background = 'var(--ion-color-secondary)'; // Use secondary color for bars
+            bar.style.position = 'relative';
+            bar.style.margin = '0 2px'; // Add small margin between bars
 
-            const barInv = document.createElement('div');
-            barInv.className = 'chart-bar';
-            barInv.style.height = `${barHeightInv}%`;
-            barInv.style.background = 'var(--ion-color-primary)'; // Use primary color for inventory
-            barInv.style.position = 'relative';
-            barInv.innerHTML = `<div class="chart-bar-value">${invValue}</div>`;
+            const valueLabel = document.createElement('div');
+            valueLabel.className = 'chart-bar-value';
+            valueLabel.textContent = `₦${revenue.toLocaleString()}`;
 
-            barContainer.appendChild(barSales);
-            barContainer.appendChild(barInv);
+            bar.appendChild(valueLabel);
+            barContainer.appendChild(bar);
+
+            // Add month label below the bar
+            const monthLabel = document.createElement('div');
+            monthLabel.style.fontSize = '0.6rem';
+            monthLabel.style.color = 'var(--ion-text-color)';
+            monthLabel.style.fontWeight = '600';
+            monthLabel.style.marginTop = '4px';
+            monthLabel.textContent = month;
+
+            barContainer.appendChild(monthLabel);
             barChartPlaceholder.appendChild(barContainer);
         });
+    }
 
+    function renderLineChart() {
+        const graphContainer = document.getElementById('line-chart-graph');
+        graphContainer.innerHTML = ''; // Clear previous points and lines
 
-        // Render Pie Chart (Inventory Distribution by Category)
-        let startAngle = 0;
-        let colors = [];
-        if (isDarkMode) {
-            colors = ['#F4A42A', '#60A5FA', '#34D399', '#F87171', '#A78BFA']; // Gold, Light Blue, Light Green, Light Red, Light Purple for dark mode
-        } else {
-            colors = ['#0C2340', '#F4A42A', '#10B981', '#EF4444', '#8B5CF6']; // Navy, Gold, Green, Red, Purple for light mode
-        }
-        let totalInventory = inventory.reduce((sum, item) => sum + item.stock, 0);
-        if (totalInventory === 0) totalInventory = 1; // Avoid division by zero
-        let gradientString = '';
-        categories.forEach((cat, index) => {
-            const stockInCat = inventory.filter(item => item.category === cat).reduce((sum, item) => sum + item.stock, 0);
-            const sliceAngle = (stockInCat / totalInventory) * 360;
-            const color = colors[index % colors.length];
-            gradientString += `${color} ${startAngle}deg ${(startAngle + sliceAngle)}deg, `;
-            startAngle += sliceAngle;
+        // Simulate revenue data for 5 years (including current year)
+        const years = ['2020', '2021', '2022', '2023', '2024']; // 2024 is current year
+        const revenues = [8500000, 9200000, 10100000, 10800000, currentYearTotalRevenue]; // Last value is dynamic
+
+        const maxValue = Math.max(...revenues, 1); // Ensure non-zero max for scaling
+        const numPoints = years.length;
+
+        years.forEach((year, index) => {
+            const revenue = revenues[index];
+            const yPercent = 100 - (revenue / maxValue) * 100; // Invert for top-down coordinate system
+            const xPercent = (index / (numPoints - 1)) * 100;
+
+            const point = document.createElement('div');
+            point.className = 'chart-line-point';
+            point.style.bottom = `${yPercent}%`;
+            point.style.left = `${xPercent}%`;
+
+            const valueLabel = document.createElement('div');
+            valueLabel.className = 'chart-line-point-value';
+            valueLabel.textContent = `₦${revenue.toLocaleString()}`;
+
+            point.appendChild(valueLabel);
+            graphContainer.appendChild(point);
+
+            // Draw line segment to next point (if not the last point)
+            if (index < numPoints - 1) {
+                const nextRevenue = revenues[index + 1];
+                const nextYPercent = 100 - (nextRevenue / maxValue) * 100;
+                const nextXPercent = ((index + 1) / (numPoints - 1)) * 100;
+
+                const line = document.createElement('div');
+                line.className = 'chart-line-line';
+                line.style.background = 'var(--ion-color-primary)'; // Use primary color for line
+
+                // Calculate length and angle of the line
+                const deltaX = nextXPercent - xPercent;
+                const deltaY = yPercent - nextYPercent; // Note: yPercent decreases as revenue increases
+                const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                const angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+
+                line.style.width = `${length}%`;
+                line.style.transformOrigin = 'left center';
+                line.style.transform = `rotate(${angle}deg)`;
+                line.style.left = `${xPercent}%`;
+                line.style.bottom = `${yPercent}%`;
+                line.style.marginLeft = '4px'; // Adjust for point center
+
+                graphContainer.appendChild(line);
+            }
         });
-        // Remove trailing comma and space, add final color
-        gradientString = gradientString.slice(0, -2) + `, ${colors[0]} 360deg`;
-        pieChartPlaceholder.style.background = `conic-gradient(${gradientString})`;
     }
 
 
@@ -2293,7 +2438,21 @@
             localStorage.setItem('enimara-sales-log', JSON.stringify(salesLog));
         }
 
-        // 8. Start on login page (default)
+        // 8. Calculate current month/year revenue from sales log
+        const allSales = JSON.parse(localStorage.getItem('enimara-sales-log')) || [];
+        const now = new Date();
+        const currentMonthNum = now.getMonth();
+        const currentYearNum = now.getFullYear();
+
+        currentMonthRevenue = 0;
+        allSales.forEach(sale => {
+            const saleDate = new Date(sale.timestamp);
+            if (saleDate.getMonth() === currentMonthNum && saleDate.getFullYear() === currentYearNum) {
+                currentMonthRevenue += parseInt(sale.total.replace(/[^\d]/g, '')) || 0;
+            }
+        });
+
+        // 9. Start on login page (default)
         navigateTo('login');
     });
 
