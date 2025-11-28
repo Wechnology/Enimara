@@ -373,7 +373,7 @@
     /* CHARTS */
     .chart-container {
       display: flex;
-      flex-direction: column; /* Stack charts vertically */
+      justify-content: space-around;
       align-items: center;
       margin: 20px 0;
       padding: 10px;
@@ -382,84 +382,27 @@
       border: 1px solid var(--ion-border-color);
     }
     .chart-placeholder {
-      width: 90%;
+      width: 45%;
       height: 120px;
       display: flex;
       align-items: flex-end;
       justify-content: center;
       gap: 4px;
-      margin-bottom: 20px;
     }
     .chart-bar {
       width: 15%;
       background: var(--ion-color-secondary);
       border-radius: 4px 4px 0 0;
-      position: relative;
     }
-    .chart-bar-value {
-        position: absolute;
-        top: -20px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.7rem;
-        color: var(--ion-text-color);
-        font-weight: 600;
-        white-space: nowrap;
-    }
-    .chart-line {
-        width: 90%;
-        height: 120px;
-        position: relative;
-        margin-top: 10px;
-    }
-    .chart-line-grid {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-    .chart-line-grid-line {
-        width: 100%;
-        height: 1px;
-        background: var(--ion-border-color);
-        opacity: 0.3;
-    }
-    .chart-line-graph {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-around;
-    }
-    .chart-line-point {
-        width: 8px;
-        height: 8px;
-        background: var(--ion-color-primary);
-        border-radius: 50%;
-        position: relative;
-    }
-    .chart-line-point-value {
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.6rem;
-        color: var(--ion-text-color);
-        font-weight: 600;
-        white-space: nowrap;
-    }
-    .chart-line-line {
-        position: absolute;
-        background: var(--ion-color-primary);
-        height: 2px;
-        /* Calculated dynamically */
+    .chart-pie {
+      width: 45%;
+      height: 120px;
+      border-radius: 50%;
+      background: conic-gradient(
+          var(--ion-color-primary) 0% 40%,
+          var(--ion-color-secondary) 40% 70%,
+          #10B981 70% 100%
+      );
     }
 
     /* AI ADVICE */
@@ -530,53 +473,6 @@
       background: transparent;
     }
 
-    /* SALES & ACTIVITY TABLE */
-    .activity-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 16px;
-    }
-    .activity-table th, .activity-table td {
-        padding: 12px 8px;
-        text-align: left;
-        border-bottom: 1px solid var(--ion-border-color);
-    }
-    .activity-table th {
-        background-color: var(--ion-card-background);
-        font-weight: 600;
-        color: var(--ion-text-color);
-    }
-
-    /* INSTRUCTIONS MODAL */
-    .instructions-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.7);
-        z-index: 10000;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-    }
-    .instructions-content {
-        background: var(--ion-card-background);
-        border-radius: 16px;
-        padding: 24px;
-        max-width: 90%;
-        width: 400px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-    .instructions-content h3 {
-        margin-top: 0;
-    }
-    .instructions-content p {
-        margin-bottom: 16px;
-    }
-
   </style>
 </head>
 <body>
@@ -642,7 +538,7 @@
               </div>
               <div class="font-bold text-xl" style="margin-top: 8px;" id="today-sales">₦ 120,000</div>
             </div>
-            <div class="app-card" style="flex: 1; margin-bottom: 0;">
+            <div class="app-card" style="flex: 1; margin-bottom: 0;" onclick="switchTab('activity-details')">
                <div style="display: flex; justify-content: space-between;">
                 <span class="text-xs text-gray">Low stocks</span>
                 <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
@@ -655,21 +551,14 @@
           <div class="app-card">
             <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Sales Overview</h3>
             <div class="chart-container">
-              <div class="chart-placeholder" id="bar-chart-placeholder">
-                <!-- Bars will be added by JS -->
+              <div class="chart-placeholder">
+                <div class="chart-bar" style="height: 60%;"></div>
+                <div class="chart-bar" style="height: 80%;"></div>
+                <div class="chart-bar" style="height: 100%;"></div>
+                <div class="chart-bar" style="height: 70%;"></div>
+                <div class="chart-bar" style="height: 40%;"></div>
               </div>
-              <div class="chart-line" id="line-chart-placeholder">
-                  <div class="chart-line-grid">
-                      <div class="chart-line-grid-line"></div>
-                      <div class="chart-line-grid-line"></div>
-                      <div class="chart-line-grid-line"></div>
-                      <div class="chart-line-grid-line"></div>
-                      <div class="chart-line-grid-line"></div>
-                  </div>
-                  <div class="chart-line-graph" id="line-chart-graph">
-                      <!-- Points and lines will be added by JS -->
-                  </div>
-              </div>
+              <div class="chart-pie"></div>
             </div>
           </div>
 
@@ -700,7 +589,37 @@
              <span class="text-xs text-primary font-bold" onclick="switchTab('activity-details')">See all</span>
           </div>
           <div class="app-card" style="padding: 0;" id="recent-activity-list">
-             <!-- Items will be added by JS, limited to 5 -->
+             <div class="transaction-item">
+               <div style="display: flex; align-items: center; padding: 0 8px;">
+                 <div style="width: 32px; height: 32px; background: #F3F4F6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                   <ion-icon name="trending-up-outline"></ion-icon>
+                 </div>
+                 <div style="flex: 1;">
+                   <div class="font-bold text-sm">Pepsi cola</div>
+                   <div class="text-xs text-gray">Staff: Joy B.</div>
+                 </div>
+                 <div style="text-align: right; flex-shrink: 0;">
+                   <div class="font-bold text-sm">Sale</div>
+                   <div class="text-xs text-gray">Qty: 10</div>
+                 </div>
+               </div>
+             </div>
+             
+             <div class="transaction-item">
+               <div style="display: flex; align-items: center; padding: 0 8px;">
+                 <div style="width: 32px; height: 32px; background: #F3F4F6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                   <ion-icon name="download-outline"></ion-icon>
+                 </div>
+                 <div style="flex: 1;">
+                   <div class="font-bold text-sm">Nivea Roll on</div>
+                   <div class="text-xs text-gray">Admin: Modupe</div>
+                 </div>
+                 <div style="text-align: right; flex-shrink: 0;">
+                   <div class="font-bold text-sm">Restock</div>
+                   <div class="text-xs text-gray">Qty: 30</div>
+                 </div>
+               </div>
+             </div>
           </div>
 
           <!-- AI Advice -->
@@ -749,7 +668,7 @@
           <div style="display: flex; gap: 12px; margin-bottom: 24px;">
             <div class="custom-input" style="flex: 1; margin-bottom: 0;">
               <ion-icon name="search-outline" style="margin-right: 8px; color: #999;"></ion-icon>
-              <input placeholder="Search item..." id="pos-search">
+              <input placeholder="Search item...">
             </div>
             <div style="width: 50px; background: var(--ion-border-color); border-radius: 12px; display: flex; align-items: center; justify-content: center;" onclick="startScanner()">
               <ion-icon name="scan-outline" style="font-size: 24px;"></ion-icon>
@@ -772,11 +691,19 @@
                </div>
                <!-- Items will be dynamically added here -->
                <div id="pos-items-list">
-                 <!-- Items added by JS -->
+                 <div class="pos-item-row" data-id="1">
+                   <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                     <div>
+                       <div class="font-bold text-sm">Brewery Coffee x 2</div>
+                       <div class="text-xs text-gray">SKU: #001</div>
+                     </div>
+                     <div class="font-bold">₦ 1,200</div>
+                   </div>
+                 </div>
                </div>
                 <div style="border-top: 1px dashed var(--ion-border-color); padding-top: 12px; margin-top: 12px; display: flex; justify-content: space-between;">
                  <span class="font-bold text-lg">Total</span>
-                 <span class="font-bold text-lg" id="pos-total">₦ 0</span>
+                 <span class="font-bold text-lg" id="pos-total">₦ 1,200</span>
                </div>
              </div>
              
@@ -808,7 +735,7 @@
 
            <div class="custom-input">
              <ion-icon name="search-outline" style="margin-right: 8px;"></ion-icon>
-             <input placeholder="Search products..." id="inventory-search">
+             <input placeholder="Search products...">
            </div>
 
            <!-- Tabs -->
@@ -822,7 +749,59 @@
            <!-- Item List -->
            <div id="inventory-list">
              <!-- Items will be dynamically generated here -->
-             <!-- Initial items will be populated by JS -->
+             <div class="inventory-item" data-category="foodstuff">
+               <div class="inventory-details">
+                 <div>
+                   <span class="font-bold text-lg text-primary">Rice (50kg)</span>
+                   <div class="text-xs text-gray">SKU: RC-001</div>
+                 </div>
+                 <span class="font-bold">₦ 45,000</span>
+               </div>
+               <div style="display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 12px;">
+                 <span class="text-xs text-gray">Foodstuff</span>
+                 <span class="inventory-stock">12 Bags left</span>
+               </div>
+               <div style="display: flex; gap: 8px;">
+                 <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-inventory-rc001')">Edit</ion-button>
+                 <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);" onclick="openModal('page-stock-update-rc001')">Restock</ion-button>
+               </div>
+             </div>
+
+             <div class="inventory-item" data-category="beverages">
+               <div class="inventory-details">
+                 <div>
+                   <span class="font-bold text-lg text-primary">Milk Powder</span>
+                   <div class="text-xs text-gray">SKU: MK-022</div>
+                 </div>
+                 <span class="font-bold">₦ 500</span>
+               </div>
+               <div style="display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 12px;">
+                 <span class="text-xs text-gray">Beverages</span>
+                 <span class="inventory-stock">40 Cans left</span>
+               </div>
+               <div style="display: flex; gap: 8px;">
+                 <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-inventory-mk022')">Edit</ion-button>
+                 <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);" onclick="openModal('page-stock-update-mk022')">Restock</ion-button>
+               </div>
+             </div>
+
+             <div class="inventory-item" data-category="household">
+               <div class="inventory-details">
+                 <div>
+                   <span class="font-bold text-lg text-primary">Dishwasher</span>
+                   <div class="text-xs text-gray">SKU: DW-001</div>
+                 </div>
+                 <span class="font-bold">₦ 2,500</span>
+               </div>
+               <div style="display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 12px;">
+                 <span class="text-xs text-gray">Household</span>
+                 <span class="inventory-stock">5 Units left</span>
+               </div>
+               <div style="display: flex; gap: 8px;">
+                 <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-inventory-dw001')">Edit</ion-button>
+                 <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);" onclick="openModal('page-stock-update-dw001')">Restock</ion-button>
+               </div>
+             </div>
            </div>
            
            <div style="height: 80px;"></div>
@@ -1249,32 +1228,37 @@
          <div class="app-card">
            <label class="text-xs font-bold text-gray">Product name</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <input type="text" id="edit-product-name" value="Rice (50kg)">
+             <input type="text" value="Rice (50kg)">
            </div>
 
            <label class="text-xs font-bold text-gray">Category</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <input type="text" id="edit-product-category" value="Foodstuff">
+             <select>
+                 <option>Foodstuff</option>
+                 <option>Beverages</option>
+                 <option>Household</option>
+                 <!-- Options will be populated dynamically -->
+             </select>
            </div>
 
            <label class="text-xs font-bold text-gray">Stock Quantity</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <input type="number" id="edit-product-stock" value="12">
+             <input type="number" value="24">
            </div>
 
            <label class="text-xs font-bold text-gray">Selling Price</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <input type="number" id="edit-product-price" value="45000">
+             <input type="number" value="45000">
            </div>
 
            <label class="text-xs font-bold text-gray">Cost Price</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <input type="number" id="edit-product-cost" value="35000">
+             <input type="number" value="35000">
            </div>
 
            <label class="text-xs font-bold text-gray">Sku/Barcode</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <input type="text" id="edit-product-sku" value="RC-001">
+             <input type="text" value="RC-001">
              <ion-icon name="scan-outline" class="text-gray"></ion-icon>
            </div>
          </div>
@@ -1302,25 +1286,25 @@
          <div class="app-card">
            <label class="text-xs font-bold text-gray">Item Name</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <input type="text" id="stock-update-item-name" value="Rice (50kg)" readonly>
+             <input type="text" value="Rice (50kg)">
            </div>
 
            <label class="text-xs font-bold text-gray">Action</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <select id="stock-update-action">
-               <option value="StockIn">Stock In</option>
-               <option value="StockOut">Stock Out</option>
+             <select>
+               <option>StockIn</option>
+               <option>StockOut</option>
              </select>
            </div>
 
            <label class="text-xs font-bold text-gray">Quantity</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <input type="number" id="stock-update-quantity" value="10" min="1">
+             <input type="number" value="24">
            </div>
 
            <label class="text-xs font-bold text-gray">Note</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <textarea id="stock-update-note" placeholder="Give small note on stock here" rows="3"></textarea>
+             <textarea placeholder="Give small note on stock here" rows="3"></textarea>
            </div>
          </div>
 
@@ -1421,36 +1405,16 @@
       <div class="scanner-text">Scanning...</div>
     </div>
 
-    <!-- ================== 14. INSTRUCTIONS MODAL ================== -->
-    <div id="instructions-modal" class="instructions-modal hidden">
-        <div class="instructions-content">
-            <h3 class="font-bold text-lg text-primary">How to Use Offline Mode</h3>
-            <p class="text-sm text-gray">Click the "Online" or "Offline" button at the top of the Home screen to simulate your connection status.</p>
-            <p class="text-sm text-gray">When offline, changes are saved locally and will sync automatically when you reconnect.</p>
-            <p class="text-sm text-gray">The "Pending sync" badge appears only when you are offline and have unsaved changes.</p>
-            <ion-button expand="block" class="btn-main" onclick="closeModal('instructions-modal')">Got it!</ion-button>
-        </div>
-    </div>
-
   </ion-app>
 
   <!-- ================== LOGIC ================== -->
   <script>
     // Global variable to track pending syncs
     let pendingSyncCount = 0;
-    // Global variable to track real online status (from navigator.onLine)
-    let isRealOnline = navigator.onLine;
-    // Global variable to track simulated online status (used for UI badges, etc.)
-    let isSimulatedOnline = isRealOnline; // Start with real status
+    // Global variable to track simulated online status
+    let isSimulatedOnline = true;
     // Global variable to track current theme
     let isDarkMode = false;
-    // Global variables for stats
-    let todaySales = 120000;
-    let lowStocks = 5;
-    // Global variable for current month revenue
-    let currentMonthRevenue = 0; // Will be calculated from sales log
-    // Global variable for current year total revenue (excluding current month)
-    let currentYearTotalRevenue = 11263000; // Base amount
 
     // --- New Function: Show Toast (Alert Replacement) ---
     // Uses Ionic's built-in toast component for non-intrusive feedback
@@ -1465,19 +1429,15 @@
         await toast.present();
     }
 
-    // --- New Function: Check Online Status (Updated for simulation & real status) ---
-    // Toggles visibility of the offline badge based on simulated status, but updates simulated status from real status.
+    // --- New Function: Check Online Status (Updated for simulation) ---
+    // Toggles visibility of the offline badge based on simulated status.
     function checkOnlineStatus() {
-      // Update simulated status from real status
-      isRealOnline = navigator.onLine;
-      // The simulated status now reflects the real status
-      isSimulatedOnline = isRealOnline;
-
+      const isOnline = isSimulatedOnline;
       // Select all elements with the class 'offline-badge'
       const badges = document.querySelectorAll('.offline-badge');
       
       badges.forEach(badge => {
-        if (isSimulatedOnline) {
+        if (isOnline) {
           // If online, hide the badge
           badge.classList.add('hidden');
         } else {
@@ -1489,7 +1449,7 @@
       // Update the online/offline button text and class
       const onlineOfflineBtn = document.getElementById('online-offline-btn');
       if (onlineOfflineBtn) {
-          if (isSimulatedOnline) {
+          if (isOnline) {
               onlineOfflineBtn.classList.remove('offline');
               onlineOfflineBtn.classList.add('online');
               onlineOfflineBtn.innerText = 'Online';
@@ -1503,18 +1463,14 @@
       // Update pending sync badge visibility based on simulated status
       updateSyncBadge();
 
-      console.log('Real Online Status:', isRealOnline ? 'Online' : 'Offline');
-      console.log('Simulated Online Status:', isSimulatedOnline ? 'Online' : 'Offline');
+      console.log('Simulated Online Status:', isOnline ? 'Online' : 'Offline');
     }
 
     // --- New Function: Toggle Online Status (Simulation) ---
-    // This function now acts as a toggle for the simulated status, which is then used by checkOnlineStatus
     function toggleOnlineStatus() {
-        // Toggle the simulated status
         isSimulatedOnline = !isSimulatedOnline;
-        // Call checkOnlineStatus to update UI elements
         checkOnlineStatus();
-        showToast(`Simulated connection set to ${isSimulatedOnline ? 'Online' : 'Offline'}.`, isSimulatedOnline ? 'success' : 'warning');
+        showToast(`Switched to ${isSimulatedOnline ? 'Online' : 'Offline'} mode.`, isSimulatedOnline ? 'success' : 'warning');
     }
 
     // --- New Function: Toggle Theme (Light/Dark Mode) ---
@@ -1528,23 +1484,7 @@
             document.getElementById('theme-toggle').checked = false;
         }
         localStorage.setItem('enimara-theme', isDarkMode ? 'dark' : 'light');
-        // Re-render charts to adapt to theme
-        renderCharts();
         showToast(`Switched to ${isDarkMode ? 'Dark' : 'Light'} mode.`, 'secondary');
-    }
-
-    // --- New Function: Update Sync Badge (Based on offline status) ---
-    function updateSyncBadge() {
-      const badge = document.getElementById('pending-sync-badge');
-      if (badge) {
-          // Show badge only if offline AND there are pending syncs
-          if (!isSimulatedOnline && pendingSyncCount > 0) {
-              badge.classList.remove('hidden');
-              document.getElementById('sync-count').innerText = pendingSyncCount;
-          } else {
-              badge.classList.add('hidden');
-          }
-      }
     }
 
     // --- Navigation Logic ---
@@ -1562,7 +1502,6 @@
       document.getElementById('page-shop-details').classList.add('hidden');
       document.getElementById('page-device-id').classList.add('hidden');
       document.getElementById('page-create-category').classList.add('hidden');
-      document.getElementById('instructions-modal').classList.add('hidden');
       
       // Show requested page
       if(page === 'login') {
@@ -1585,21 +1524,12 @@
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.getElementById('btn-' + tabName).classList.add('active');
 
-      // Special logic for new tabs
-      if (tabName === 'home') {
-          // Show instructions modal on home load if needed (optional)
-          // openModal('instructions-modal');
-          renderCharts();
-          renderRecentActivity();
-      } else if (tabName === 'sales-details') {
-          renderSalesDetails();
-      } else if (tabName === 'activity-details') {
-          renderAllActivity();
-      } else if (tabName === 'inventory') {
-          renderInventoryList();
-      } else if (tabName === 'pos') {
-          renderPosItemsList(); // Refresh POS items from inventory
-      }
+       // Special logic for Sales and Activity Details tabs to populate data
+       if (tabName === 'sales-details') {
+            renderSalesDetails();
+       } else if (tabName === 'activity-details') {
+            renderAllActivity();
+       }
     }
 
     // --- Modal Logic ---
@@ -1608,22 +1538,6 @@
       const modal = document.getElementById(modalId);
       if (modal) {
         modal.classList.remove('hidden');
-        // Special logic for Edit Inventory modal to populate fields
-        if (modalId.startsWith('page-edit-inventory-')) {
-            const sku = modalId.split('-')[3]; // Extract SKU from modal ID
-            loadInventoryItemForEdit(sku);
-        }
-        // Special logic for Stock Update modal to populate fields
-        if (modalId.startsWith('page-stock-update-')) {
-            const sku = modalId.split('-')[3]; // Extract SKU from modal ID
-            const inventory = getInventory();
-            const item = inventory.find(i => i.sku === sku);
-            if (item) {
-                document.getElementById('stock-update-item-name').value = item.name;
-                // Store the SKU for the update function
-                document.getElementById('page-stock-update-rc001').setAttribute('data-sku', sku);
-            }
-        }
         // Special logic for Add Product modal to populate categories
         if (modalId === 'page-add-product') {
             populateCategorySelect();
@@ -1643,325 +1557,21 @@
       }
     }
 
-    // --- Inventory Management ---
-    function getInventory() {
-        return JSON.parse(localStorage.getItem('enimara-inventory')) || [
-            { sku: 'RC-001', name: 'Rice (50kg)', category: 'Foodstuff', price: 45000, stock: 12, cost: 35000 },
-            { sku: 'MK-022', name: 'Milk Powder', category: 'Beverages', price: 500, stock: 40, cost: 300 },
-            { sku: 'DW-001', name: 'Dishwasher', category: 'Household', price: 2500, stock: 5, cost: 2000 }
-        ];
-    }
-
-    function saveInventory(inventory) {
-        localStorage.setItem('enimara-inventory', JSON.stringify(inventory));
-    }
-
-    function renderInventoryList() {
-        const list = document.getElementById('inventory-list');
-        const inventory = getInventory();
-        const currentCategory = document.querySelector('.category-tab.active').textContent.toLowerCase();
-
-        list.innerHTML = ''; // Clear existing items
-        inventory.forEach(item => {
-            if (currentCategory === 'all' || item.category.toLowerCase() === currentCategory) {
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'inventory-item';
-                itemDiv.setAttribute('data-category', item.category.toLowerCase());
-                itemDiv.setAttribute('data-sku', item.sku); // Store SKU as data attribute
-                itemDiv.innerHTML = `
-                    <div class="inventory-details">
-                      <div>
-                        <span class="font-bold text-lg text-primary">${item.name}</span>
-                        <div class="text-xs text-gray">SKU: ${item.sku}</div>
-                      </div>
-                      <span class="font-bold">₦ ${item.price}</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 12px;">
-                      <span class="text-xs text-gray">${item.category}</span>
-                      <span class="inventory-stock">${item.stock} Units left</span>
-                    </div>
-                    <div style="display: flex; gap: 8px;">
-                      <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-inventory-${item.sku}')">Edit</ion-button>
-                      <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);" onclick="openModal('page-stock-update-${item.sku}')">Restock</ion-button>
-                    </div>
-                `;
-                list.appendChild(itemDiv);
-            }
-        });
-    }
-
-    function loadInventoryItemForEdit(sku) {
-        const inventory = getInventory();
-        const item = inventory.find(i => i.sku === sku);
-        if (item) {
-            document.getElementById('edit-product-name').value = item.name;
-            document.getElementById('edit-product-category').value = item.category;
-            document.getElementById('edit-product-stock').value = item.stock;
-            document.getElementById('edit-product-price').value = item.price;
-            document.getElementById('edit-product-cost').value = item.cost;
-            document.getElementById('edit-product-sku').value = item.sku;
-            // Store the original SKU for saving
-            document.getElementById('page-edit-inventory-rc001').setAttribute('data-original-sku', sku);
-        }
-    }
-
-    function saveInventoryEdit() {
-        const originalSku = document.getElementById('page-edit-inventory-rc001').getAttribute('data-original-sku');
-        const inventory = getInventory();
-        const index = inventory.findIndex(i => i.sku === originalSku);
-
-        if (index !== -1) {
-            // Update the item in the inventory array
-            inventory[index] = {
-                sku: document.getElementById('edit-product-sku').value,
-                name: document.getElementById('edit-product-name').value,
-                category: document.getElementById('edit-product-category').value,
-                price: parseInt(document.getElementById('edit-product-price').value) || 0,
-                stock: parseInt(document.getElementById('edit-product-stock').value) || 0,
-                cost: parseInt(document.getElementById('edit-product-cost').value) || 0
-            };
-
-            // Save the updated inventory
-            saveInventory(inventory);
-
-            // Re-render the inventory list to reflect changes
-            renderInventoryList();
-
-            // Also re-render the POS items list if needed
-            if (document.getElementById('tab-pos').classList.contains('hidden') === false) {
-                renderPosItemsList();
-            }
-
-            // Increment the sync counter
-            pendingSyncCount++;
-            updateSyncBadge();
-
-            showToast('Inventory updated and pending sync.', 'success');
-            closeModal('page-edit-inventory-rc001');
-        } else {
-            showToast('Error: Item not found for editing.', 'danger');
-        }
-    }
-
-    function recordInventoryActivity(itemName, action, qty) {
-        // Increment the sync counter
-        pendingSyncCount++;
-        updateSyncBadge();
-
-        // Add to global activity log
-        addActivityToLog(action, itemName, `Qty: ${qty}`, "");
-        showToast(`${action} for ${itemName} recorded and pending sync.`, 'success');
-    }
-
-    // --- Stock Update Logic ---
-    function updateStock() {
-        const sku = document.getElementById('page-stock-update-rc001').getAttribute('data-sku');
-        const action = document.getElementById('stock-update-action').value;
-        const quantity = parseInt(document.getElementById('stock-update-quantity').value) || 0;
-        const note = document.getElementById('stock-update-note').value;
-
-        if (quantity <= 0) {
-            showToast('Quantity must be greater than 0.', 'warning');
-            return;
-        }
-
-        const inventory = getInventory();
-        const itemIndex = inventory.findIndex(i => i.sku === sku);
-
-        if (itemIndex !== -1) {
-            if (action === 'StockIn') {
-                inventory[itemIndex].stock += quantity;
-            } else if (action === 'StockOut') {
-                inventory[itemIndex].stock = Math.max(0, inventory[itemIndex].stock - quantity); // Prevent negative stock
-            }
-
-            saveInventory(inventory);
-            renderInventoryList(); // Update the list view
-
-            // Add activity log entry
-            const actionText = action === 'StockIn' ? 'Restock' : 'Stock Out';
-            addActivityToLog(actionText, inventory[itemIndex].name, `Qty: ${quantity}`, `Note: ${note}`);
-            // Increment the sync counter
-            pendingSyncCount++;
-            updateSyncBadge();
-
-            showToast(`${actionText} for ${inventory[itemIndex].name} completed.`, 'success');
-            closeModal('page-stock-update-rc001');
-        } else {
-            showToast('Error: Item not found.', 'danger');
-        }
-    }
-
-
-    // --- POS Management ---
-    function renderPosItemsList() {
-        // This function populates the POS search/selection list from inventory
-        // For simplicity in this demo, we just update the search placeholder suggestion
-        const posSearch = document.getElementById('pos-search');
-        const inventory = getInventory();
-        if (inventory.length > 0) {
-            const firstItemName = inventory[0].name;
-            posSearch.placeholder = `Search item... (e.g. ${firstItemName})`;
-        }
-    }
-
-    let posCart = []; // Array to hold items in the POS cart
-
-    function togglePos() {
-      const empty = document.getElementById('pos-empty');
-      const active = document.getElementById('pos-active');
-
-      if (empty.classList.contains('hidden')) {
-        // If active state is shown, try to add a random item from inventory
-        const inventory = getInventory();
-        if (inventory.length > 0) {
-            const randomItem = inventory[Math.floor(Math.random() * inventory.length)];
-            if (randomItem.stock > 0) { // Only add if stock is available
-                addToPosCart(randomItem);
-            } else {
-                showToast('Item is out of stock!', 'warning');
-            }
-        }
-      } else {
-        // If empty state is shown, switch to active state
-        empty.classList.add('hidden');
-        active.classList.remove('hidden');
-        // Clear cart when switching from empty
-        posCart = [];
-        updatePosTotal();
-        renderPosCartItems();
-      }
-    }
-
-    function addToPosCart(item) {
-        // Check if item already exists in cart
-        const existingItemIndex = posCart.findIndex(cartItem => cartItem.sku === item.sku);
-        if (existingItemIndex !== -1) {
-            // If exists, increment quantity (if stock allows)
-            if (posCart[existingItemIndex].quantity < item.stock) {
-                posCart[existingItemIndex].quantity++;
-            } else {
-                showToast('Not enough stock for this item.', 'warning');
-                return;
-            }
-        } else {
-            // If new, add to cart with quantity 1
-            if (item.stock > 0) {
-                posCart.push({ ...item, quantity: 1 });
-            } else {
-                showToast('Item is out of stock!', 'warning');
-                return;
-            }
-        }
-        renderPosCartItems();
-        updatePosTotal();
-    }
-
-    function renderPosCartItems() {
-        const list = document.getElementById('pos-items-list');
-        list.innerHTML = ''; // Clear existing items
-
-        posCart.forEach((cartItem, index) => {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'pos-item-row';
-            itemDiv.innerHTML = `
-                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                  <div>
-                    <div class="font-bold text-sm">${cartItem.name} x ${cartItem.quantity}</div>
-                    <div class="text-xs text-gray">SKU: ${cartItem.sku}</div>
-                  </div>
-                  <div class="font-bold">₦ ${cartItem.price * cartItem.quantity}</div>
-                </div>
-            `;
-            list.appendChild(itemDiv);
-        });
-    }
-
-    function updatePosTotal() {
-        let total = 0;
-        posCart.forEach(item => {
-            total += item.price * item.quantity;
-        });
-        document.getElementById('pos-total').textContent = `₦ ${total}`;
-    }
-
-    function recordSale() {
-        if (posCart.length === 0) {
-            showToast('Cannot record a sale with an empty cart.', 'warning');
-            return;
-        }
-
-        // Increment the sync counter
-        pendingSyncCount++;
-        updateSyncBadge();
-
-        // Get the total amount from the POS screen
-        const totalAmount = document.getElementById('pos-total').textContent;
-        const totalNum = parseInt(totalAmount.replace(/[^\d]/g, ''));
-
-        // Update inventory stock based on cart items
-        const inventory = getInventory();
-        let lowStocksChanged = false;
-        posCart.forEach(cartItem => {
-            const invItemIndex = inventory.findIndex(i => i.sku === cartItem.sku);
-            if (invItemIndex !== -1) {
-                inventory[invItemIndex].stock -= cartItem.quantity;
-                if (inventory[invItemIndex].stock <= 5 && inventory[invItemIndex].stock + cartItem.quantity > 5) {
-                    // Stock just went low
-                    lowStocks++;
-                    lowStocksChanged = true;
-                } else if (inventory[invItemIndex].stock <= 0 && inventory[invItemIndex].stock + cartItem.quantity > 0) {
-                    // Stock just ran out, but was already low, so don't double count
-                    // We only care about crossing the 'low' threshold
-                }
-            }
-        });
-        saveInventory(inventory);
-
-        // Re-render inventory list to reflect stock changes
-        renderInventoryList();
-
-        // Update current month revenue and total year revenue
-        currentMonthRevenue += totalNum;
-        currentYearTotalRevenue += totalNum;
-
-        // Simulate a sale by updating the today's sales stat
-        todaySales += totalNum;
-        document.getElementById('today-sales').innerText = `₦ ${todaySales.toLocaleString()}`;
-        localStorage.setItem('enimara-today-sales', todaySales);
-
-        // Update low stocks count if necessary
-        if (lowStocksChanged) {
-            document.getElementById('low-stocks').innerText = lowStocks;
-            localStorage.setItem('enimara-low-stocks', lowStocks);
-        }
-
-        // Add a new activity to the recent activity list and sales details
-        const firstItemName = posCart[0]?.name || "Item";
-        const totalItemsInCart = posCart.reduce((sum, item) => sum + item.quantity, 0);
-        // Add to global activity log
-        addActivityToLog("Sale", firstItemName, `Qty: ${totalItemsInCart}`, totalAmount);
-        // Add to sales details log
-        addSaleToLog(totalAmount, "Cash"); // Assuming cash for demo
-
-        // Clear the POS cart
-        posCart = [];
-        document.getElementById('pos-active').classList.add('hidden');
-        document.getElementById('pos-empty').classList.remove('hidden');
-        renderPosCartItems(); // Clear the visual cart
-        updatePosTotal(); // Reset total
-
-        showToast(`Sale of ${totalAmount} recorded and pending sync.`, 'success');
-    }
-
     // --- Inventory Category Filtering Logic ---
     function filterCategory(category) {
         // Update active tab
         document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
         event.target.classList.add('active');
 
-        // Re-render inventory list with new filter
-        renderInventoryList();
+        // Filter items based on data-category attribute
+        const items = document.querySelectorAll('#inventory-list .inventory-item');
+        items.forEach(item => {
+            if (category === 'all' || item.getAttribute('data-category') === category) {
+                item.classList.remove('hidden');
+            } else {
+                item.classList.add('hidden');
+            }
+        });
     }
 
     // --- Product Category Selection Logic ---
@@ -2057,6 +1667,113 @@
         }
     });
 
+    // --- POS Toggle Logic (Updated) ---
+    function togglePos() {
+      const empty = document.getElementById('pos-empty');
+      const active = document.getElementById('pos-active');
+
+      if (empty.classList.contains('hidden')) {
+        // If active state is shown, add an item to the list
+        addPosItem();
+      } else {
+        // If empty state is shown, switch to active state and add the first item
+        empty.classList.add('hidden');
+        active.classList.remove('hidden');
+        // Clear any existing items from the list when switching from empty
+        document.getElementById('pos-items-list').innerHTML = '';
+        addPosItem(); // Add the first item
+      }
+    }
+
+    // --- New Function: Add Item to POS Cart ---
+    let posItemCounter = 1; // Counter for unique item IDs
+    function addPosItem() {
+        const list = document.getElementById('pos-items-list');
+        const newItemId = `pos-item-${++posItemCounter}`; // Increment and create unique ID
+
+        const newItem = document.createElement('div');
+        newItem.className = 'pos-item-row';
+        newItem.setAttribute('data-id', newItemId); // Store ID as data attribute
+
+        // Randomly select a product name and price for demo
+        const demoProducts = [
+            { name: 'Pepsi 350ml', price: 150 },
+            { name: 'Nivea Roll-on', price: 650 },
+            { name: 'Golden Morn', price: 800 },
+            { name: 'Bread (Honey)', price: 600 },
+            { name: 'Milo 300g', price: 1200 }
+        ];
+        const randomProduct = demoProducts[Math.floor(Math.random() * demoProducts.length)];
+        const quantity = Math.floor(Math.random() * 5) + 1; // Random quantity 1-5
+        const totalItemPrice = randomProduct.price * quantity;
+
+        newItem.innerHTML = `
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <div>
+                <div class="font-bold text-sm">${randomProduct.name} x ${quantity}</div>
+                <div class="text-xs text-gray">SKU: #${newItemId.split('-')[2]}</div>
+              </div>
+              <div class="font-bold">₦ ${totalItemPrice}</div>
+            </div>
+        `;
+
+        list.appendChild(newItem);
+
+        // Update the total
+        updatePosTotal();
+    }
+
+    // --- New Function: Update POS Total ---
+    function updatePosTotal() {
+        const items = document.querySelectorAll('#pos-items-list .pos-item-row');
+        let total = 0;
+
+        items.forEach(item => {
+            // Extract the price from the inner text (this is a simple parse, assumes format like "₦ 1200")
+            const priceText = item.querySelector('.font-bold:last-child').textContent;
+            const price = parseInt(priceText.replace(/[^\d]/g, '')) || 0; // Remove non-digits, parse as int
+            total += price;
+        });
+
+        document.getElementById('pos-total').textContent = `₦ ${total}`;
+    }
+
+    // --- POS Record Sales Logic (Updated) ---
+    function recordSale() {
+        // Increment the sync counter
+        pendingSyncCount++;
+        updateSyncBadge();
+
+        // Get the total amount from the POS screen
+        const totalAmount = document.getElementById('pos-total').textContent;
+
+        // Simulate a sale by updating the today's sales stat
+        const currentSales = parseInt(document.getElementById('today-sales').innerText.replace(/[^\d]/g, '')) || 0;
+        const newSales = currentSales + parseInt(totalAmount.replace(/[^\d]/g, '')); // Add the simulated sale amount
+        document.getElementById('today-sales').innerText = `₦ ${newSales.toLocaleString()}`;
+
+        // Simulate a low stock alert (reduce by 1 or 2 items randomly)
+        const currentLowStocks = parseInt(document.getElementById('low-stocks').innerText) || 5;
+        const reduction = Math.floor(Math.random() * 2) + 1; // Randomly 1 or 2
+        const newLowStocks = Math.max(0, currentLowStocks - reduction); // Ensure it doesn't go below 0
+        document.getElementById('low-stocks').innerText = newLowStocks;
+
+        // Add a new activity to the recent activity list
+        // Get the first item name from the cart for the activity log
+        const firstItemElement = document.querySelector('#pos-items-list .font-bold.text-sm');
+        const firstItemName = firstItemElement ? firstItemElement.textContent.split(' x ')[0] : "Item";
+        // Count total items in the cart for the activity log
+        const totalItemsInCart = document.querySelectorAll('#pos-items-list .pos-item-row').length;
+        addRecentActivityItem(firstItemName, "Sale", `Qty: ${totalItemsInCart}`, totalAmount);
+
+        // Clear the POS cart by hiding the active state and showing the empty state
+        document.getElementById('pos-active').classList.add('hidden');
+        document.getElementById('pos-empty').classList.remove('hidden');
+        // Also clear the items list
+        document.getElementById('pos-items-list').innerHTML = '';
+
+        showToast(`Sale of ${totalAmount} recorded and pending sync.`, 'success');
+    }
 
     // --- Form Save Interactions (for demonstration) ---
     function saveCustomer() {
@@ -2073,35 +1790,15 @@
         pendingSyncCount++;
         updateSyncBadge();
         
-        const name = document.getElementById('product-name-input').value;
-        const price = parseInt(document.getElementById('product-price-input').value) || 0;
-        const stock = parseInt(document.getElementById('product-stock-input').value) || 0;
-        const category = document.getElementById('product-category-input').value;
-
-        if (!name) {
-             showToast('Please enter a product name.', 'warning');
-             return;
-        }
-
-        const newSku = `NEW-${Math.floor(Math.random() * 10000)}`;
-        const newProduct = {
-            sku: newSku,
-            name: name,
-            category: category,
-            price: price,
-            stock: stock,
-            cost: price * 0.8 // Example cost calculation
-        };
-
-        const inventory = getInventory();
-        inventory.push(newProduct);
-        saveInventory(inventory);
-
-        showToast(`"${name}" added and pending sync.`, 'success');
+        // Get the product name from the input
+        const productName = document.getElementById('product-name-input').value || "New Product";
+        // Get the selected category
+        const selectedCategory = document.getElementById('product-category-input').value;
+        showToast(`"${productName}" added to ${selectedCategory} and pending sync.`, 'success');
         closeModal('page-add-product');
-
-        // Re-render inventory list
-        renderInventoryList();
+        
+        // Simulate adding the product to the inventory list
+        addProductToInventoryList(productName, selectedCategory);
     }
 
     function saveShopDetails() {
@@ -2118,93 +1815,107 @@
         closeModal('page-record-payment-johnadams');
     }
     
+    function saveInventoryEdit() {
+        // Increment the sync counter
+        pendingSyncCount++;
+        updateSyncBadge();
+        
+        showToast('Inventory updated and pending sync.', 'success');
+        closeModal('page-edit-inventory-rc001');
+    }
+    
+    function updateStock() {
+        // Increment the sync counter
+        pendingSyncCount++;
+        updateSyncBadge();
+        
+        showToast('Stock updated and pending sync.', 'success');
+        closeModal('page-stock-update-rc001');
+    }
 
     // --- Helper Functions ---
-    function addActivityToLog(action, item, qty, amount) {
-        const activityLog = JSON.parse(localStorage.getItem('enimara-activity-log')) || [];
-        activityLog.unshift({
-            timestamp: new Date().toISOString(),
-            action: action,
-            item: item,
-            qty: qty,
-            amount: amount
-        });
-        // Keep only the last 100 activities to prevent localStorage bloat
-        localStorage.setItem('enimara-activity-log', JSON.stringify(activityLog.slice(0, 100)));
-        // Re-render recent activity if on home screen
-        if (document.getElementById('tab-home').classList.contains('hidden') === false) {
-            renderRecentActivity();
-        }
-        // Re-render all activity if on activity details screen
-        if (document.getElementById('tab-activity-details').classList.contains('hidden') === false) {
-            renderAllActivity();
-        }
+    function updateSyncBadge() {
+      document.getElementById('sync-count').innerText = pendingSyncCount;
+      if (pendingSyncCount > 0) {
+        document.getElementById('pending-sync-badge').classList.remove('hidden');
+      } else {
+        document.getElementById('pending-sync-badge').classList.add('hidden');
+      }
+    }
+    
+    function addRecentActivityItem(itemName, action, qty, amount = "") {
+      const list = document.getElementById('recent-activity-list');
+      const newItem = document.createElement('div');
+      newItem.className = 'transaction-item';
+      
+      newItem.innerHTML = `
+        <div style="display: flex; align-items: center; padding: 0 8px;">
+          <div style="width: 32px; height: 32px; background: #F3F4F6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+            <ion-icon name="${action === 'Sale' ? 'trending-up-outline' : 'download-outline'}"></ion-icon>
+          </div>
+          <div style="flex: 1;">
+            <div class="font-bold text-sm">${itemName}</div>
+            <div class="text-xs text-gray">Staff: Joy B.</div>
+          </div>
+          <div style="text-align: right; flex-shrink: 0;">
+            <div class="font-bold text-sm">${action}</div>
+            <div class="text-xs text-gray">${qty} ${amount ? `<br>${amount}` : ''}</div>
+          </div>
+        </div>
+      `;
+      
+      // Insert at the top of the list
+      list.insertBefore(newItem, list.firstChild);
     }
 
-    function addSaleToLog(total, paymentMethod) {
-        const salesLog = JSON.parse(localStorage.getItem('enimara-sales-log')) || [];
-        salesLog.unshift({
-            timestamp: new Date().toISOString(),
-            total: total,
-            paymentMethod: paymentMethod
-        });
-        // Keep only the last 100 sales to prevent localStorage bloat
-        localStorage.setItem('enimara-sales-log', JSON.stringify(salesLog.slice(0, 100)));
-        // Re-render sales details if on sales details screen
-        if (document.getElementById('tab-sales-details').classList.contains('hidden') === false) {
-            renderSalesDetails();
-        }
-    }
+    function renderSalesDetails() {
+        const tbody = document.querySelector('#sales-table tbody');
+        // Clear existing items (in a real app, this would be populated from data)
+        tbody.innerHTML = '';
 
-    function renderRecentActivity() {
-        const list = document.getElementById('recent-activity-list');
-        const activityLog = JSON.parse(localStorage.getItem('enimara-activity-log')) || [];
-        // Take only the first 5 items
-        const recentActivities = activityLog.slice(0, 5);
+        // Simulate adding some sales records
+        const salesRecords = [
+            { date: '2025-01-20', items: 'Pepsi x10, Nivea x2', total: '₦ 2,800', payment: 'Cash' },
+            { date: '2025-01-19', items: 'Rice x1', total: '₦ 45,000', payment: 'POS' },
+            { date: '2025-01-18', items: 'Milk x5', total: '₦ 2,500', payment: 'Cash' },
+        ];
 
-        list.innerHTML = ''; // Clear existing items
-        recentActivities.forEach(activity => {
-            const date = new Date(activity.timestamp).toLocaleDateString();
-            const time = new Date(activity.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            const item = document.createElement('div');
-            item.className = 'transaction-item';
-            item.innerHTML = `
-                <div style="display: flex; align-items: center; padding: 0 8px;">
-                  <div style="width: 32px; height: 32px; background: #F3F4F6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
-                    <ion-icon name="${activity.action === 'Sale' ? 'trending-up-outline' : 'download-outline'}"></ion-icon>
-                  </div>
-                  <div style="flex: 1;">
-                    <div class="font-bold text-sm">${activity.item}</div>
-                    <div class="text-xs text-gray">Staff: Joy B.</div>
-                  </div>
-                  <div style="text-align: right; flex-shrink: 0;">
-                    <div class="font-bold text-sm">${activity.action}</div>
-                    <div class="text-xs text-gray">${activity.qty} ${activity.amount ? `<br>${activity.amount}` : ''}</div>
-                    <div class="text-xs text-gray">${time}</div>
-                  </div>
-                </div>
+        salesRecords.forEach(record => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${record.date}</td>
+                <td>${record.items}</td>
+                <td>${record.total}</td>
+                <td>${record.payment}</td>
             `;
-            list.appendChild(item);
+            tbody.appendChild(row);
         });
     }
 
     function renderAllActivity() {
         const list = document.getElementById('all-activity-list');
-        const activityLog = JSON.parse(localStorage.getItem('enimara-activity-log')) || [];
+        // Clear existing items (in a real app, this would be populated from data)
+        list.innerHTML = '';
 
-        list.innerHTML = ''; // Clear existing items
-        activityLog.forEach(activity => {
-            const date = new Date(activity.timestamp).toLocaleDateString();
-            const time = new Date(activity.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        // Simulate adding some activity records
+        const activityRecords = [
+            { timestamp: '2025-01-20T10:30:00', item: 'Pepsi', action: 'Sale', qty: 'Qty: 10', amount: '₦ 1,500' },
+            { timestamp: '2025-01-20T09:15:00', item: 'Nivea Roll-on', action: 'Restock', qty: 'Qty: 20', amount: '' },
+            { timestamp: '2025-01-19T16:45:00', item: 'Rice (50kg)', action: 'Sale', qty: 'Qty: 1', amount: '₦ 45,000' },
+            { timestamp: '2025-01-18T14:20:00', item: 'Milk Powder', action: 'Sale', qty: 'Qty: 5', amount: '₦ 2,500' },
+        ];
+
+        activityRecords.forEach(record => {
+            const date = new Date(record.timestamp).toLocaleDateString();
+            const time = new Date(record.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
             const item = document.createElement('div');
             item.className = 'app-card';
             item.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <div>
-                    <div class="font-bold text-sm">${activity.item}</div>
-                    <div class="text-xs text-gray">${activity.action} - ${activity.qty} ${activity.amount ? `(${activity.amount})` : ''}</div>
+                    <div class="font-bold text-sm">${record.item}</div>
+                    <div class="text-xs text-gray">${record.action} - ${record.qty} ${record.amount ? `(${record.amount})` : ''}</div>
                     <div class="text-xs text-gray">${date} at ${time}</div>
                   </div>
                 </div>
@@ -2212,164 +1923,40 @@
             list.appendChild(item);
         });
     }
-
-    function renderSalesDetails() {
-        const tbody = document.querySelector('#sales-table tbody');
-        const salesLog = JSON.parse(localStorage.getItem('enimara-sales-log')) || [];
-
-        tbody.innerHTML = ''; // Clear existing items
-        salesLog.forEach(sale => {
-            const date = new Date(sale.timestamp).toLocaleDateString();
-            const time = new Date(sale.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${date}<br><span class="text-xs text-gray">${time}</span></td>
-                <td>Sale Transaction</td> <!-- Simplified for demo -->
-                <td>${sale.total}</td>
-                <td>${sale.paymentMethod}</td>
-            `;
-            tbody.appendChild(row);
-        });
+    
+    function addProductToInventoryList(productName, category) {
+      const list = document.getElementById('inventory-list');
+      const newItem = document.createElement('div');
+      newItem.className = 'inventory-item';
+      newItem.setAttribute('data-category', category.toLowerCase()); // Set data-category for filtering
+      
+      newItem.innerHTML = `
+        <div class="inventory-details">
+          <div>
+            <span class="font-bold text-lg text-primary">${productName}</span>
+            <div class="text-xs text-gray">SKU: NEW-${Math.floor(Math.random()*1000)}</div>
+          </div>
+          <span class="font-bold">₦ 500</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 12px;">
+          <span class="text-xs text-gray">${category}</span>
+          <span class="inventory-stock">10 Units left</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);">Edit</ion-button>
+          <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);">Restock</ion-button>
+        </div>
+      `;
+      
+      // Insert at the top of the list
+      list.insertBefore(newItem, list.firstChild);
     }
-
-    function renderCharts() {
-        renderBarChart();
-        renderLineChart();
-    }
-
-    function renderBarChart() {
-        const barChartPlaceholder = document.getElementById('bar-chart-placeholder');
-        barChartPlaceholder.innerHTML = ''; // Clear previous bars
-
-        // Simulate revenue data for last 5 months (Oct, Nov, Dec last year, Jan, Feb this year, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov this year)
-        const now = new Date();
-        const currentMonth = now.getMonth(); // 0-11 (Jan-Nov)
-        const currentYear = now.getFullYear();
-
-        // Generate 5 months of revenue data
-        const months = [];
-        const revenues = [];
-        for (let i = 4; i >= 0; i--) {
-            const date = new Date(currentYear, currentMonth - i, 1);
-            months.push(date.toLocaleString('default', { month: 'short' }));
-            // Generate random revenue within the specified range for previous months
-            if (i > 0) { // Not current month
-                revenues.push(Math.floor(Math.random() * (1340677 - 820340 + 1)) + 820340);
-            } else { // Current month, use dynamic value
-                revenues.push(currentMonthRevenue);
-            }
-        }
-
-        const maxValue = Math.max(...revenues, 1); // Ensure non-zero max for scaling
-
-        months.forEach((month, index) => {
-            const revenue = revenues[index];
-            const barHeightPercent = (revenue / maxValue) * 100;
-
-            const barContainer = document.createElement('div');
-            barContainer.style.display = 'flex';
-            barContainer.style.flexDirection = 'column';
-            barContainer.style.alignItems = 'center';
-            barContainer.style.height = '100%';
-            barContainer.style.justifyContent = 'flex-end';
-            barContainer.style.flex = '1'; // Distribute space equally
-
-            const bar = document.createElement('div');
-            bar.className = 'chart-bar';
-            bar.style.height = `${barHeightPercent}%`;
-            bar.style.background = 'var(--ion-color-secondary)'; // Use secondary color for bars
-            bar.style.position = 'relative';
-            bar.style.margin = '0 2px'; // Add small margin between bars
-
-            const valueLabel = document.createElement('div');
-            valueLabel.className = 'chart-bar-value';
-            valueLabel.textContent = `₦${revenue.toLocaleString()}`;
-
-            bar.appendChild(valueLabel);
-            barContainer.appendChild(bar);
-
-            // Add month label below the bar
-            const monthLabel = document.createElement('div');
-            monthLabel.style.fontSize = '0.6rem';
-            monthLabel.style.color = 'var(--ion-text-color)';
-            monthLabel.style.fontWeight = '600';
-            monthLabel.style.marginTop = '4px';
-            monthLabel.textContent = month;
-
-            barContainer.appendChild(monthLabel);
-            barChartPlaceholder.appendChild(barContainer);
-        });
-    }
-
-    function renderLineChart() {
-        const graphContainer = document.getElementById('line-chart-graph');
-        graphContainer.innerHTML = ''; // Clear previous points and lines
-
-        // Simulate revenue data for 5 years (including current year)
-        const years = ['2020', '2021', '2022', '2023', '2024']; // 2024 is current year
-        const revenues = [8500000, 9200000, 10100000, 10800000, currentYearTotalRevenue]; // Last value is dynamic
-
-        const maxValue = Math.max(...revenues, 1); // Ensure non-zero max for scaling
-        const numPoints = years.length;
-
-        years.forEach((year, index) => {
-            const revenue = revenues[index];
-            const yPercent = 100 - (revenue / maxValue) * 100; // Invert for top-down coordinate system
-            const xPercent = (index / (numPoints - 1)) * 100;
-
-            const point = document.createElement('div');
-            point.className = 'chart-line-point';
-            point.style.bottom = `${yPercent}%`;
-            point.style.left = `${xPercent}%`;
-
-            const valueLabel = document.createElement('div');
-            valueLabel.className = 'chart-line-point-value';
-            valueLabel.textContent = `₦${revenue.toLocaleString()}`;
-
-            point.appendChild(valueLabel);
-            graphContainer.appendChild(point);
-
-            // Draw line segment to next point (if not the last point)
-            if (index < numPoints - 1) {
-                const nextRevenue = revenues[index + 1];
-                const nextYPercent = 100 - (nextRevenue / maxValue) * 100;
-                const nextXPercent = ((index + 1) / (numPoints - 1)) * 100;
-
-                const line = document.createElement('div');
-                line.className = 'chart-line-line';
-                line.style.background = 'var(--ion-color-primary)'; // Use primary color for line
-
-                // Calculate length and angle of the line
-                const deltaX = nextXPercent - xPercent;
-                const deltaY = yPercent - nextYPercent; // Note: yPercent decreases as revenue increases
-                const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-                const angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
-
-                line.style.width = `${length}%`;
-                line.style.transformOrigin = 'left center';
-                line.style.transform = `rotate(${angle}deg)`;
-                line.style.left = `${xPercent}%`;
-                line.style.bottom = `${yPercent}%`;
-                line.style.marginLeft = '4px'; // Adjust for point center
-
-                graphContainer.appendChild(line);
-            }
-        });
-    }
-
-
-    function updateSyncBadge() {
-      const badge = document.getElementById('pending-sync-badge');
-      if (badge) {
-          // Show badge only if offline AND there are pending syncs
-          if (!isSimulatedOnline && pendingSyncCount > 0) {
-              badge.classList.remove('hidden');
-              document.getElementById('sync-count').innerText = pendingSyncCount;
-          } else {
-              badge.classList.add('hidden');
-          }
-      }
+    
+    function filterCategory(category) {
+      // This is a simple simulation. In a real app, this would filter the actual data.
+      document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+      event.target.classList.add('active');
+      showToast(`Filtered by ${category} category.`, 'secondary');
     }
     
     function startScanner() {
@@ -2383,7 +1970,10 @@
 
     // --- Initial Setup and Listeners ---
     document.addEventListener('DOMContentLoaded', () => {
-        // 1. Load theme preference from localStorage
+        // 1. Check and set online/offline status immediately
+        checkOnlineStatus();
+        
+        // 2. Load theme preference from localStorage
         const savedTheme = localStorage.getItem('enimara-theme');
         if (savedTheme === 'dark') {
             isDarkMode = true;
@@ -2395,64 +1985,11 @@
             document.getElementById('theme-toggle').checked = false;
         }
 
-        // 2. Load stats from localStorage
-        const savedSales = localStorage.getItem('enimara-today-sales');
-        if (savedSales) {
-            todaySales = parseInt(savedSales);
-            document.getElementById('today-sales').innerText = `₦ ${todaySales.toLocaleString()}`;
-        }
-        const savedLowStocks = localStorage.getItem('enimara-low-stocks');
-        if (savedLowStocks) {
-            lowStocks = parseInt(savedLowStocks);
-            document.getElementById('low-stocks').innerText = lowStocks;
-        }
-
-        // 3. Load initial online status from localStorage (or default to navigator.onLine)
-        // Note: navigator.onLine is the source of truth, so we don't strictly need to store this in localStorage
-        // but we can use it to initialize the simulated status if needed.
-        // For this demo, we'll start with the real status from navigator.onLine
-        isRealOnline = navigator.onLine;
-        isSimulatedOnline = isRealOnline; // Start with real status
-
-        // 4. Set initial online status UI
-        checkOnlineStatus();
-
-        // 5. Listen for real-time online/offline events
+        // 3. Listen for real-time online/offline events
         window.addEventListener('online', checkOnlineStatus);
         window.addEventListener('offline', checkOnlineStatus);
-
-        // 6. Initialize inventory list on load if needed
-        if (!localStorage.getItem('enimara-inventory')) {
-            saveInventory(getInventory()); // Save default inventory if not present
-        }
-
-        // 7. Initialize default sales log if empty
-        const salesLog = JSON.parse(localStorage.getItem('enimara-sales-log')) || [];
-        if (salesLog.length === 0) {
-            // Add an initial sale record matching the default sales amount
-            salesLog.push({
-                timestamp: new Date().toISOString(),
-                total: "₦ 120,000",
-                paymentMethod: "Cash"
-            });
-            localStorage.setItem('enimara-sales-log', JSON.stringify(salesLog));
-        }
-
-        // 8. Calculate current month/year revenue from sales log
-        const allSales = JSON.parse(localStorage.getItem('enimara-sales-log')) || [];
-        const now = new Date();
-        const currentMonthNum = now.getMonth();
-        const currentYearNum = now.getFullYear();
-
-        currentMonthRevenue = 0;
-        allSales.forEach(sale => {
-            const saleDate = new Date(sale.timestamp);
-            if (saleDate.getMonth() === currentMonthNum && saleDate.getFullYear() === currentYearNum) {
-                currentMonthRevenue += parseInt(sale.total.replace(/[^\d]/g, '')) || 0;
-            }
-        });
-
-        // 9. Start on login page (default)
+        
+        // 4. Start on login page (default)
         navigateTo('login');
     });
 
