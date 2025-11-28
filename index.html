@@ -1,0 +1,1885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Enimara - The OS for the Unstructured</title>
+
+  <!-- Ionic Framework (Used for Mobile UI Components) -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+
+  <!-- Ionicons for Icons -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.js"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- ENIMARA BRAND THEME & DARK MODE --- */
+    :root {
+      --ion-font-family: 'Noto Sans', sans-serif;
+      --ion-color-primary: #0C2340; /* Deep Navy */
+      --ion-color-primary-rgb: 12, 35, 64;
+      --ion-color-secondary: #F4A42A; /* Warm Gold */
+      --ion-color-secondary-rgb: 244, 164, 42;
+      --ion-background-color: #F9FAFB;
+      --ion-text-color: #1F2937;
+      --ion-card-background: white;
+      --ion-border-color: #E5E7EB;
+      --ion-success: #10B981;
+      --ion-warning: #F59E0B;
+      --ion-danger: #EF4444;
+    }
+
+    .dark-mode {
+      --ion-color-primary: #F4A42A; /* Warm Gold */
+      --ion-color-primary-rgb: 244, 164, 42;
+      --ion-color-secondary: #0C2340; /* Deep Navy */
+      --ion-color-secondary-rgb: 12, 35, 64;
+      --ion-background-color: #111827;
+      --ion-text-color: #F3F4F6;
+      --ion-card-background: #1F2937;
+      --ion-border-color: #374151;
+    }
+
+    body { 
+      font-family: 'Noto Sans', sans-serif; 
+      background-color: var(--ion-background-color);
+      color: var(--ion-text-color);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* UTILITIES */
+    .text-primary { color: var(--ion-color-primary); }
+    .text-secondary { color: var(--ion-color-secondary); }
+    .text-success { color: var(--ion-success); }
+    .text-warning { color: var(--ion-warning); }
+    .text-danger { color: var(--ion-danger); }
+    .font-bold { font-weight: 700; }
+    .text-sm { font-size: 0.875rem; }
+    .text-xs { font-size: 0.75rem; }
+    .text-gray { color: #9CA3AF; }
+    
+    .hidden { display: none !important; }
+
+    /* CUSTOM INPUTS */
+    .custom-input {
+      background: var(--ion-card-background);
+      border: 1px solid var(--ion-border-color);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+    }
+    .custom-input input, .custom-input select, .custom-input textarea {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 16px;
+      color: var(--ion-text-color);
+      background: transparent;
+    }
+
+    /* CARDS */
+    .app-card {
+      background: var(--ion-card-background);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--ion-border-color);
+      margin-bottom: 16px;
+    }
+
+    /* OFFLINE BADGE - Dynamically shown by JS */
+    .offline-badge {
+      background: #FEF3C7; /* Light Gold background */
+      color: #92400E; /* Dark Gold text */
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+      padding: 6px 12px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #FCD34D;
+    }
+
+    /* QUICK ACTIONS */
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .quick-btn {
+      background: var(--ion-card-background);
+      padding: 12px 4px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      border: 1px solid var(--ion-border-color);
+    }
+    .quick-btn ion-icon {
+      font-size: 24px;
+      margin-bottom: 4px;
+      color: var(--ion-text-color);
+    }
+
+    /* BUTTONS */
+    .btn-main {
+      --background: var(--ion-color-primary);
+      --border-radius: 24px;
+      height: 50px;
+      font-weight: 600;
+      margin-top: 20px;
+    }
+    .btn-secondary {
+      --background: var(--ion-color-secondary);
+      --border-radius: 24px;
+      height: 50px;
+      font-weight: 600;
+      margin-top: 20px;
+    }
+
+    /* PAGE TRANSITIONS */
+    .page-container {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: var(--ion-background-color);
+      overflow-y: auto;
+      z-index: 10;
+      padding-bottom: 60px; /* Account for tab bar */
+    }
+    
+    /* TAB BAR */
+    .custom-tab-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--ion-card-background);
+      border-top: 1px solid var(--ion-border-color);
+      height: 60px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 100;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .tab-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #9CA3AF;
+      font-size: 10px;
+      background: none;
+      border: none;
+    }
+    .tab-btn.active {
+      color: var(--ion-color-primary);
+    }
+    .tab-btn ion-icon {
+      font-size: 24px;
+      margin-bottom: 2px;
+    }
+
+    /* PENDING SYNC BADGE */
+    .pending-sync-badge {
+      background: #F3F4F6;
+      color: #6B7280;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      padding: 8px 16px;
+      border-radius: 20px;
+      margin-top: 16px;
+      border: 1px solid #E5E7EB;
+    }
+
+    /* CUSTOMER LIST ITEM */
+    .customer-item {
+      background: var(--ion-card-background);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap; /* Allow wrapping for buttons on small screens */
+      gap: 8px; /* Add space between elements */
+      border: 1px solid var(--ion-border-color);
+    }
+    .customer-info {
+      flex: 1;
+      min-width: 150px; /* Ensure info takes some space */
+    }
+    .customer-balance {
+      background: #E5E7EB;
+      color: #374151;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      align-self: flex-start; /* Align to top */
+    }
+    .customer-actions {
+      display: flex;
+      gap: 8px;
+      width: 100%; /* Full width on wrap */
+      justify-content: flex-end; /* Align buttons to the right */
+    }
+
+    /* TRANSACTION HISTORY ITEM */
+    .transaction-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--ion-border-color);
+    }
+    .transaction-item:last-child {
+      border-bottom: none;
+    }
+
+    /* INVENTORY LIST ITEM */
+    .inventory-item {
+      background: var(--ion-card-background);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
+      border: 1px solid var(--ion-border-color);
+    }
+    .inventory-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .inventory-stock {
+      background: #E5E7EB;
+      color: #374151;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* CATEGORY TABS */
+    .category-tabs {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--ion-border-color);
+    }
+    .category-tab {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      background: #F3F4F6;
+      color: #6B7280;
+    }
+    .category-tab.active {
+      background: var(--ion-color-primary);
+      color: white;
+    }
+    .category-tab:not(.active):hover {
+      background: #E5E7EB;
+    }
+
+    /* SIMULATED SCANNER */
+    .scanner-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .scanner-frame {
+      width: 80%;
+      max-width: 300px;
+      height: 200px;
+      border: 4px solid var(--ion-color-secondary);
+      position: relative;
+    }
+    .scanner-frame::before,
+    .scanner-frame::after {
+      content: '';
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--ion-color-secondary);
+    }
+    .scanner-frame::before {
+      top: -4px;
+      left: -4px;
+      border-right: none;
+      border-bottom: none;
+    }
+    .scanner-frame::after {
+      bottom: -4px;
+      right: -4px;
+      border-left: none;
+      border-top: none;
+    }
+    .scanner-text {
+      margin-top: 20px;
+      color: white;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    /* ONLINE/OFFLINE BUTTON */
+    .online-offline-btn {
+      background: #E5E7EB;
+      color: #374151;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .online-offline-btn.online {
+      background: #D1FAE5; /* Light green */
+      color: #065F46; /* Dark green */
+    }
+    .online-offline-btn.offline {
+      background: #FEF3C7; /* Light gold */
+      color: #92400E; /* Dark gold */
+    }
+
+    /* CHARTS */
+    .chart-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin: 20px 0;
+      padding: 10px;
+      border-radius: 12px;
+      background: var(--ion-card-background);
+      border: 1px solid var(--ion-border-color);
+    }
+    .chart-placeholder {
+      width: 45%;
+      height: 120px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 4px;
+    }
+    .chart-bar {
+      width: 15%;
+      background: var(--ion-color-secondary);
+      border-radius: 4px 4px 0 0;
+    }
+    .chart-pie {
+      width: 45%;
+      height: 120px;
+      border-radius: 50%;
+      background: conic-gradient(
+          var(--ion-color-primary) 0% 40%,
+          var(--ion-color-secondary) 40% 70%,
+          #10B981 70% 100%
+      );
+    }
+
+    /* AI ADVICE */
+    .ai-advice-container {
+      margin-top: 20px;
+    }
+    .ai-advice-card {
+      background: #FDE68A; /* Light gold */
+      color: #92400E; /* Dark gold */
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      border: 1px solid #FCD34D;
+    }
+    .ai-advice-icon {
+      font-size: 24px;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    .ai-advice-text {
+      flex: 1;
+    }
+    .ai-advice-action {
+      margin-left: 12px;
+      flex-shrink: 0;
+    }
+
+    /* SETTINGS LIST ITEM */
+    .settings-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--ion-border-color);
+    }
+    .settings-item:last-child {
+      border-bottom: none;
+    }
+    .settings-icon {
+      font-size: 24px;
+      margin-right: 12px;
+      color: var(--ion-color-primary);
+    }
+    .settings-label {
+      flex: 1;
+    }
+    .settings-toggle {
+      margin-left: auto;
+    }
+
+    /* CREATE CATEGORY MODAL */
+    .create-category-input {
+      background: var(--ion-card-background);
+      border: 1px solid var(--ion-border-color);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+    }
+    .create-category-input input {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 16px;
+      color: var(--ion-text-color);
+      background: transparent;
+    }
+
+  </style>
+</head>
+<body>
+  <ion-app>
+    
+    <!-- ================== 1. LOGIN PAGE ================== -->
+    <div id="page-login" class="page-container" style="z-index: 200; background: var(--ion-card-background); padding: 24px; display: flex; flex-direction: column; justify-content: center;">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <!-- Logo SVG -->
+        <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin: 0 auto;">
+          <path d="M50 90C75 75 90 50 90 25C90 15 80 5 50 5C20 5 10 15 10 25C10 50 25 75 50 90Z" stroke="var(--ion-color-secondary)" stroke-width="4"/>
+          <path d="M30 40 C 30 25, 70 25, 70 40" stroke="var(--ion-color-secondary)" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="50" cy="25" r="8" fill="var(--ion-color-secondary)"/>
+          <path d="M50 40 V 65" stroke="var(--ion-color-primary)" stroke-width="6" stroke-linecap="round"/>
+          <path d="M50 65 L 35 50" stroke="var(--ion-color-primary)" stroke-width="6" stroke-linecap="round"/>
+          <path d="M50 65 L 65 50" stroke="var(--ion-color-primary)" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+        <h1 class="text-primary font-bold" style="margin-top: 10px;">Enimara</h1>
+      </div>
+
+      <h2 class="font-bold text-xl" style="margin-bottom: 20px;">Sign In</h2>
+      
+      <label class="text-xs font-bold text-gray">Email Address</label>
+      <div class="custom-input">
+        <input type="email" value="admin@your-email.com">
+      </div>
+
+      <label class="text-xs font-bold text-gray">Password</label>
+      <div class="custom-input">
+        <input type="password" value="password123">
+        <ion-icon name="eye-off-outline" class="text-gray"></ion-icon>
+      </div>
+
+      <ion-button expand="block" class="btn-main" onclick="navigateTo('dashboard')">Sign In</ion-button>
+    </div>
+
+
+    <!-- ================== 2. DASHBOARD CONTAINER ================== -->
+    <div id="page-dashboard" class="page-container hidden">
+      
+      <!-- TAB 1: HOME -->
+      <div id="tab-home" class="tab-content">
+        <div class="ion-padding">
+          <!-- OFFLINE BADGE: Toggled by JS based on navigator.onLine status -->
+          <div class="offline-badge hidden" id="offline-badge-home">You're offline. Changes will sync when you reconnect</div>
+          
+          <!-- Header -->
+          <div style="display: flex; align-items: center; margin-bottom: 24px;">
+            <div style="width: 48px; height: 48px; border-radius: 50%; background: #ddd; overflow: hidden; margin-right: 12px;">
+              <img src="https://i.pravatar.cc/150?img=11" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div>
+              <div class="text-xs text-gray">Welcome back,</div>
+              <div class="font-bold text-lg text-primary">Oreoluwa Store</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div class="online-offline-btn online" id="online-offline-btn" onclick="toggleOnlineStatus()">
+                  Online
+              </div>
+              <ion-icon name="notifications-outline" style="font-size: 24px;"></ion-icon>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div style="display: flex; gap: 12px; margin-bottom: 24px;">
+            <div class="app-card" style="flex: 1; margin-bottom: 0;">
+              <div style="display: flex; justify-content: space-between;">
+                <span class="text-xs text-gray">Today's sales</span>
+                <ion-icon name="scale-outline" class="text-secondary"></ion-icon>
+              </div>
+              <div class="font-bold text-xl" style="margin-top: 8px;" id="today-sales">₦ 120,000</div>
+            </div>
+            <div class="app-card" style="flex: 1; margin-bottom: 0;">
+               <div style="display: flex; justify-content: space-between;">
+                <span class="text-xs text-gray">Low stocks</span>
+                <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
+              </div>
+              <div class="font-bold text-xl" style="margin-top: 8px;" id="low-stocks">5</div>
+            </div>
+          </div>
+
+          <!-- Charts -->
+          <div class="app-card">
+            <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Sales Overview</h3>
+            <div class="chart-container">
+              <div class="chart-placeholder">
+                <div class="chart-bar" style="height: 60%;"></div>
+                <div class="chart-bar" style="height: 80%;"></div>
+                <div class="chart-bar" style="height: 100%;"></div>
+                <div class="chart-bar" style="height: 70%;"></div>
+                <div class="chart-bar" style="height: 40%;"></div>
+              </div>
+              <div class="chart-pie"></div>
+            </div>
+          </div>
+
+          <!-- Quick Access -->
+          <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Quick Access</h3>
+          <div class="quick-grid">
+            <div class="quick-btn" onclick="switchTab('pos')">
+              <ion-icon name="calculator-outline"></ion-icon>
+              <span class="text-xs">POS</span>
+            </div>
+            <div class="quick-btn" onclick="switchTab('inventory')">
+              <ion-icon name="clipboard-outline"></ion-icon>
+              <span class="text-xs">Inventory</span>
+            </div>
+            <div class="quick-btn" onclick="openModal('page-customers')">
+              <ion-icon name="people-outline"></ion-icon>
+              <span class="text-xs">Customers</span>
+            </div>
+             <div class="quick-btn" onclick="openModal('page-add-product')">
+              <ion-icon name="cube-outline"></ion-icon>
+              <span class="text-xs">Add Product</span>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+             <h3 class="font-bold text-sm">Recent Activity</h3>
+             <span class="text-xs text-primary font-bold">See all</span>
+          </div>
+          <div class="app-card" style="padding: 0;" id="recent-activity-list">
+             <div class="transaction-item">
+               <div style="display: flex; align-items: center; padding: 0 8px;">
+                 <div style="width: 32px; height: 32px; background: #F3F4F6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                   <ion-icon name="trending-up-outline"></ion-icon>
+                 </div>
+                 <div style="flex: 1;">
+                   <div class="font-bold text-sm">Pepsi cola</div>
+                   <div class="text-xs text-gray">Staff: Joy B.</div>
+                 </div>
+                 <div style="text-align: right; flex-shrink: 0;">
+                   <div class="font-bold text-sm">Sale</div>
+                   <div class="text-xs text-gray">Qty: 10</div>
+                 </div>
+               </div>
+             </div>
+             
+             <div class="transaction-item">
+               <div style="display: flex; align-items: center; padding: 0 8px;">
+                 <div style="width: 32px; height: 32px; background: #F3F4F6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                   <ion-icon name="download-outline"></ion-icon>
+                 </div>
+                 <div style="flex: 1;">
+                   <div class="font-bold text-sm">Nivea Roll on</div>
+                   <div class="text-xs text-gray">Admin: Modupe</div>
+                 </div>
+                 <div style="text-align: right; flex-shrink: 0;">
+                   <div class="font-bold text-sm">Restock</div>
+                   <div class="text-xs text-gray">Qty: 30</div>
+                 </div>
+               </div>
+             </div>
+          </div>
+
+          <!-- AI Advice -->
+          <div class="ai-advice-container">
+            <h3 class="font-bold text-sm" style="margin-bottom: 12px;">AI Advice</h3>
+            <div class="ai-advice-card">
+              <ion-icon name="bulb-outline" class="ai-advice-icon"></ion-icon>
+              <div class="ai-advice-text">
+                <div class="font-bold text-sm">Low Stock Alert</div>
+                <div class="text-xs">Rice (50kg) is running low. Consider restocking soon.</div>
+              </div>
+              <div class="ai-advice-action">
+                <ion-button fill="outline" size="small" color="dark" onclick="switchTab('inventory'); closeModal('page-inventory')">View</ion-button>
+              </div>
+            </div>
+            <div class="ai-advice-card">
+              <ion-icon name="trending-up-outline" class="ai-advice-icon"></ion-icon>
+              <div class="ai-advice-text">
+                <div class="font-bold text-sm">Top Seller</div>
+                <div class="text-xs">Pepsi cola is your top selling item this week.</div>
+              </div>
+              <div class="ai-advice-action">
+                <ion-button fill="outline" size="small" color="dark" onclick="switchTab('inventory'); closeModal('page-inventory')">View</ion-button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Pending Sync Badge -->
+          <div class="pending-sync-badge hidden" id="pending-sync-badge">Pending sync: <span id="sync-count">0</span> updates</div>
+          
+          <div style="height: 80px;"></div> <!-- Spacer for tab bar -->
+        </div>
+      </div>
+
+      <!-- TAB 2: POS -->
+      <div id="tab-pos" class="tab-content hidden">
+        <div class="ion-padding">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h2 class="font-bold text-lg text-primary">Point of Sale</h2>
+            <ion-icon name="cloud-offline-outline" style="font-size: 24px; color: #666;"></ion-icon>
+          </div>
+          
+          <!-- OFFLINE BADGE -->
+          <div class="offline-badge hidden" id="offline-badge-pos">You're offline. Changes will sync when you reconnect</div>
+
+          <div style="display: flex; gap: 12px; margin-bottom: 24px;">
+            <div class="custom-input" style="flex: 1; margin-bottom: 0;">
+              <ion-icon name="search-outline" style="margin-right: 8px; color: #999;"></ion-icon>
+              <input placeholder="Search item...">
+            </div>
+            <div style="width: 50px; background: var(--ion-border-color); border-radius: 12px; display: flex; align-items: center; justify-content: center;" onclick="startScanner()">
+              <ion-icon name="scan-outline" style="font-size: 24px;"></ion-icon>
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div id="pos-empty" style="text-align: center; margin-top: 80px;">
+            <ion-icon name="basket-outline" style="font-size: 64px; color: #D1D5DB;"></ion-icon>
+            <p class="text-gray" style="margin-top: 16px;">No added items</p>
+            <p class="text-xs text-gray">Start by scanning or adding an item</p>
+          </div>
+
+          <!-- Active State (Hidden) -->
+          <div id="pos-active" class="hidden">
+             <div class="app-card">
+               <div style="display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid var(--ion-border-color); padding-bottom: 8px;">
+                 <span class="text-xs font-bold text-gray">Item</span>
+                 <span class="text-xs font-bold text-gray">Price</span>
+               </div>
+               <!-- Items will be dynamically added here -->
+               <div id="pos-items-list">
+                 <div class="pos-item-row" data-id="1">
+                   <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                     <div>
+                       <div class="font-bold text-sm">Brewery Coffee x 2</div>
+                       <div class="text-xs text-gray">SKU: #001</div>
+                     </div>
+                     <div class="font-bold">₦ 1,200</div>
+                   </div>
+                 </div>
+               </div>
+                <div style="border-top: 1px dashed var(--ion-border-color); padding-top: 12px; margin-top: 12px; display: flex; justify-content: space-between;">
+                 <span class="font-bold text-lg">Total</span>
+                 <span class="font-bold text-lg" id="pos-total">₦ 1,200</span>
+               </div>
+             </div>
+             
+             <div style="margin-top: 20px;">
+               <p class="text-xs font-bold" style="margin-bottom: 8px;">Payment Method</p>
+               <div style="display: flex; gap: 8px; margin-bottom: 20px;">
+                 <div style="background: var(--ion-color-primary); color: white; padding: 6px 12px; border-radius: 16px; font-size: 12px;">Cash</div>
+                 <div style="border: 1px solid var(--ion-border-color); padding: 6px 12px; border-radius: 16px; font-size: 12px;">Card</div>
+               </div>
+               <ion-button expand="block" class="btn-main" onclick="recordSale()">Record Sales</ion-button>
+             </div>
+          </div>
+
+          <ion-fab vertical="bottom" horizontal="end" slot="fixed" style="bottom: 80px; right: 20px;">
+            <ion-fab-button onclick="togglePos()">
+              <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
+        </div>
+      </div>
+
+      <!-- TAB 3: INVENTORY -->
+      <div id="tab-inventory" class="tab-content hidden">
+        <div class="ion-padding">
+           <h2 class="font-bold text-lg text-primary" style="margin-bottom: 16px;">Inventory</h2>
+           
+           <!-- OFFLINE BADGE -->
+           <div class="offline-badge hidden" id="offline-badge-inventory">You're offline. Changes will sync when you reconnect</div>
+
+           <div class="custom-input">
+             <ion-icon name="search-outline" style="margin-right: 8px;"></ion-icon>
+             <input placeholder="Search products...">
+           </div>
+
+           <!-- Tabs -->
+           <div class="category-tabs">
+             <div class="category-tab active" onclick="filterCategory('all')">All</div>
+             <div class="category-tab" onclick="filterCategory('foodstuff')">Foodstuff</div>
+             <div class="category-tab" onclick="filterCategory('beverages')">Beverages</div>
+             <div class="category-tab" onclick="filterCategory('household')">Household</div>
+           </div>
+
+           <!-- Item List -->
+           <div id="inventory-list">
+             <!-- Items will be dynamically generated here -->
+             <div class="inventory-item" data-category="foodstuff">
+               <div class="inventory-details">
+                 <div>
+                   <span class="font-bold text-lg text-primary">Rice (50kg)</span>
+                   <div class="text-xs text-gray">SKU: RC-001</div>
+                 </div>
+                 <span class="font-bold">₦ 45,000</span>
+               </div>
+               <div style="display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 12px;">
+                 <span class="text-xs text-gray">Foodstuff</span>
+                 <span class="inventory-stock">12 Bags left</span>
+               </div>
+               <div style="display: flex; gap: 8px;">
+                 <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-inventory-rc001')">Edit</ion-button>
+                 <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);">Restock</ion-button>
+               </div>
+             </div>
+
+             <div class="inventory-item" data-category="beverages">
+               <div class="inventory-details">
+                 <div>
+                   <span class="font-bold text-lg text-primary">Milk Powder</span>
+                   <div class="text-xs text-gray">SKU: MK-022</div>
+                 </div>
+                 <span class="font-bold">₦ 500</span>
+               </div>
+               <div style="display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 12px;">
+                 <span class="text-xs text-gray">Beverages</span>
+                 <span class="inventory-stock">40 Cans left</span>
+               </div>
+               <div style="display: flex; gap: 8px;">
+                 <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-inventory-mk022')">Edit</ion-button>
+                 <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);">Restock</ion-button>
+               </div>
+             </div>
+
+             <div class="inventory-item" data-category="household">
+               <div class="inventory-details">
+                 <div>
+                   <span class="font-bold text-lg text-primary">Dishwasher</span>
+                   <div class="text-xs text-gray">SKU: DW-001</div>
+                 </div>
+                 <span class="font-bold">₦ 2,500</span>
+               </div>
+               <div style="display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 12px;">
+                 <span class="text-xs text-gray">Household</span>
+                 <span class="inventory-stock">5 Units left</span>
+               </div>
+               <div style="display: flex; gap: 8px;">
+                 <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-inventory-dw001')">Edit</ion-button>
+                 <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);">Restock</ion-button>
+               </div>
+             </div>
+           </div>
+           
+           <div style="height: 80px;"></div>
+        </div>
+        <!-- FAB for Add Product (NEW) -->
+        <ion-fab vertical="bottom" horizontal="end" slot="fixed" style="bottom: 80px; right: 20px;">
+            <ion-fab-button onclick="openModal('page-add-product')">
+              <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
+      </div>
+
+      <!-- TAB 4: SETTINGS -->
+      <div id="tab-settings" class="tab-content hidden">
+        <div class="ion-padding">
+           <h2 class="font-bold text-lg text-primary" style="margin-bottom: 20px;">Settings</h2>
+           
+           <!-- OFFLINE BADGE -->
+           <div class="offline-badge hidden" id="offline-badge-settings">You're offline. Changes will sync when you reconnect</div>
+
+           <div style="text-align: center; margin-bottom: 30px;">
+             <div style="width: 80px; height: 80px; background: var(--ion-border-color); border-radius: 50%; margin: 0 auto 12px auto; display: flex; align-items: center; justify-content: center;">
+               <ion-icon name="person" style="font-size: 40px; color: var(--ion-text-color);"></ion-icon>
+             </div>
+             <div style="background: #4B5563; color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; display: inline-block;">
+               admin@your-email.com
+             </div>
+           </div>
+
+           <div class="app-card" style="padding: 0;">
+             <div class="settings-item" onclick="openModal('page-shop-details')">
+               <ion-icon name="storefront-outline" class="settings-icon"></ion-icon>
+               <div class="settings-label">Shop Details</div>
+               <ion-icon name="chevron-forward-outline" class="text-gray"></ion-icon>
+             </div>
+             <div class="settings-item" onclick="openModal('page-device-id')">
+               <ion-icon name="hardware-chip-outline" class="settings-icon"></ion-icon>
+               <div class="settings-label">Device ID</div>
+               <ion-icon name="chevron-forward-outline" class="text-gray"></ion-icon>
+             </div>
+             <div class="settings-item">
+               <ion-icon name="color-palette-outline" class="settings-icon"></ion-icon>
+               <div class="settings-label">Theme</div>
+               <ion-toggle class="settings-toggle" id="theme-toggle" onclick="toggleTheme()"></ion-toggle>
+             </div>
+           </div>
+           
+           <ion-button expand="block" fill="outline" color="danger" onclick="navigateTo('login')">Logout</ion-button>
+        </div>
+      </div>
+
+      <!-- CUSTOM BOTTOM TAB BAR -->
+      <div class="custom-tab-bar">
+        <button class="tab-btn active" onclick="switchTab('home')" id="btn-home">
+          <ion-icon name="home-outline"></ion-icon>
+          <span>Home</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('pos')" id="btn-pos">
+          <ion-icon name="calculator-outline"></ion-icon>
+          <span>POS</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('inventory')" id="btn-inventory">
+          <ion-icon name="clipboard-outline"></ion-icon>
+          <span>Inventory</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('settings')" id="btn-settings">
+          <ion-icon name="person-circle-outline"></ion-icon>
+          <span>Settings</span>
+        </button>
+      </div>
+    </div>
+
+
+    <!-- ================== 3. ADD CUSTOMER MODAL (Full Page) ================== -->
+    <div id="page-add-customer" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
+       <div class="ion-padding">
+         <div style="display: flex; align-items: center; margin-bottom: 24px;">
+           <ion-button fill="clear" onclick="closeModal('page-add-customer')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
+             <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+           </ion-button>
+           <h2 class="font-bold text-lg">Add Customer</h2>
+         </div>
+
+         <!-- OFFLINE BADGE -->
+         <div class="offline-badge hidden" id="offline-badge-customer">You're offline. Changes will sync when you reconnect</div>
+
+         <div class="app-card" style="border: 2px dashed var(--ion-border-color); box-shadow: none;">
+            <label class="text-xs font-bold text-gray">Full Name</label>
+            <div class="custom-input" style="margin-top: 4px;">
+              <input type="text" id="customer-name" placeholder="John Doe">
+            </div>
+
+            <label class="text-xs font-bold text-gray">Phone Number</label>
+            <div class="custom-input" style="margin-top: 4px;">
+              <input type="tel" id="customer-phone" placeholder="080...">
+            </div>
+
+            <label class="text-xs font-bold text-gray">Address</label>
+            <div class="custom-input" style="margin-top: 4px;">
+              <input type="text" id="customer-address" placeholder="Lagos, Nigeria">
+            </div>
+            
+            <label class="text-xs font-bold text-gray">Opening Balance (optional)</label>
+            <div class="custom-input" style="margin-top: 4px;">
+              <input type="number" id="customer-balance" placeholder="0">
+            </div>
+         </div>
+         
+         <div style="display: flex; gap: 12px;">
+           <ion-button expand="block" fill="outline" color="medium" style="flex: 1;" onclick="closeModal('page-add-customer')">Cancel</ion-button>
+           <ion-button expand="block" class="btn-main" style="flex: 1; margin-top: 0;" onclick="saveCustomer()">Save</ion-button>
+         </div>
+       </div>
+    </div>
+    
+    <!-- ================== 4. ADD PRODUCT MODAL (Full Page) ================== -->
+    <div id="page-add-product" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
+       <div class="ion-padding">
+         <div style="display: flex; align-items: center; margin-bottom: 24px;">
+           <ion-button fill="clear" onclick="closeModal('page-add-product')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
+             <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+           </ion-button>
+           <h2 class="font-bold text-lg">Add New Product</h2>
+         </div>
+
+         <!-- OFFLINE BADGE -->
+         <div class="offline-badge hidden" id="offline-badge-product">You're offline. Changes will sync when you reconnect</div>
+
+         <div class="app-card" style="border: 2px dashed var(--ion-border-color); box-shadow: none;">
+            <label class="text-xs font-bold text-gray">Product Name</label>
+            <div class="custom-input" style="margin-top: 4px;">
+              <input type="text" id="product-name-input" placeholder="e.g., 50kg Rice Bag">
+            </div>
+
+            <label class="text-xs font-bold text-gray">Selling Price (₦)</label>
+            <div class="custom-input" style="margin-top: 4px;">
+              <input type="number" id="product-price-input" placeholder="500.00">
+            </div>
+
+            <label class="text-xs font-bold text-gray">Current Stock Quantity</label>
+            <div class="custom-input" style="margin-top: 4px;">
+              <input type="number" id="product-stock-input" placeholder="10">
+            </div>
+            
+            <label class="text-xs font-bold text-gray">Category</label>
+            <div class="custom-input" style="margin-top: 4px;">
+                <select id="product-category-input">
+                    <option value="Foodstuff">Foodstuff</option>
+                    <option value="Beverages">Beverages</option>
+                    <option value="Household">Household</option>
+                    <!-- Options will be populated dynamically -->
+                </select>
+                <ion-icon name="caret-down-outline" class="text-gray"></ion-icon>
+            </div>
+            
+            <label class="text-xs font-bold text-gray">Image/Photo (Optional)</label>
+            <div style="background: #F3F4F6; border: 1px dashed #D1D5DB; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;">
+                <ion-icon name="camera-outline" style="font-size: 32px; color: #9CA3AF;"></ion-icon>
+                <p class="text-xs text-gray" style="margin-top: 8px;">Tap to upload product photo</p>
+            </div>
+         </div>
+         
+         <div style="display: flex; gap: 12px; margin-top: 20px;">
+           <ion-button expand="block" fill="outline" color="medium" style="flex: 1;" onclick="closeModal('page-add-product')">Discard</ion-button>
+           <ion-button expand="block" class="btn-main" style="flex: 1; margin-top: 0;" onclick="saveProduct()">Add Product</ion-button>
+         </div>
+       </div>
+    </div>
+    
+    <!-- ================== 5. CUSTOMERS PAGE (Full Page) ================== -->
+    <div id="page-customers" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
+       <div class="ion-padding">
+         <div style="display: flex; align-items: center; margin-bottom: 24px;">
+           <ion-button fill="clear" onclick="closeModal('page-customers')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
+             <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+           </ion-button>
+           <h2 class="font-bold text-lg">Customers</h2>
+         </div>
+
+         <!-- OFFLINE BADGE -->
+         <div class="offline-badge hidden" id="offline-badge-customers">You're offline. Changes will sync when you reconnect</div>
+
+         <div class="custom-input">
+           <ion-icon name="search-outline" style="margin-right: 8px;"></ion-icon>
+           <input placeholder="Search by name/phone">
+         </div>
+
+         <!-- Category Tabs -->
+         <div class="category-tabs">
+           <div class="category-tab active">All Customers</div>
+           <div class="category-tab">Owing</div>
+           <div class="category-tab">No Balance</div>
+         </div>
+
+         <!-- Customer List -->
+         <div id="customer-list">
+           <!-- Customer items will be dynamically generated here -->
+           <div class="customer-item">
+             <div class="customer-info">
+               <div class="font-bold text-sm">John Adams</div>
+               <div class="text-xs text-gray">isiah@gmail.com</div>
+               <div class="text-xs text-gray">08122789967</div>
+             </div>
+             <div class="customer-balance">₦12,500 owed</div>
+             <div class="customer-actions">
+               <ion-button fill="outline" size="small" style="--color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-customer-details-johnadams')">View Details</ion-button>
+               <ion-button size="small" style="--background: var(--ion-color-primary);">Record Payment</ion-button>
+             </div>
+           </div>
+
+           <div class="customer-item">
+             <div class="customer-info">
+               <div class="font-bold text-sm">Mama Chika</div>
+               <div class="text-xs text-gray">isiah@gmail.com</div>
+               <div class="text-xs text-gray">08122789967</div>
+             </div>
+             <div class="customer-balance">₦0 balance</div>
+             <div class="customer-actions">
+               <ion-button fill="outline" size="small" style="--color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-customer-details-mamachika')">View Details</ion-button>
+               <ion-button size="small" style="--background: var(--ion-color-primary);">Record Payment</ion-button>
+             </div>
+           </div>
+
+           <div class="customer-item">
+             <div class="customer-info">
+               <div class="font-bold text-sm">Adewale Stores</div>
+               <div class="text-xs text-gray">isiah@gmail.com</div>
+               <div class="text-xs text-gray">08122789967</div>
+             </div>
+             <div class="customer-balance">₦32,500 owed</div>
+             <div class="customer-actions">
+               <ion-button fill="outline" size="small" style="--color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-customer-details-adewalestores')">View Details</ion-button>
+               <ion-button size="small" style="--background: var(--ion-color-primary);">Record Payment</ion-button>
+             </div>
+           </div>
+         </div>
+
+         <!-- Add Customer Button -->
+         <ion-fab vertical="bottom" horizontal="end" slot="fixed" style="bottom: 80px; right: 20px;">
+           <ion-fab-button onclick="openModal('page-add-customer')">
+             <ion-icon name="add"></ion-icon>
+           </ion-fab-button>
+         </ion-fab>
+       </div>
+    </div>
+    
+    <!-- ================== 6. CUSTOMER DETAILS PAGE (Full Page) ================== -->
+    <div id="page-customer-details-johnadams" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
+       <div class="ion-padding">
+         <div style="display: flex; align-items: center; margin-bottom: 24px;">
+           <ion-button fill="clear" onclick="closeModal('page-customer-details-johnadams')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
+             <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+           </ion-button>
+           <h2 class="font-bold text-lg">Customer Details</h2>
+         </div>
+
+         <!-- OFFLINE BADGE -->
+         <div class="offline-badge hidden" id="offline-badge-customer-details">You're offline. Changes will sync when you reconnect</div>
+
+         <div class="app-card">
+           <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Customer Information</h3>
+           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+             <span class="text-xs text-gray">Name</span>
+             <span class="font-bold">John James</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+             <span class="text-xs text-gray">Phone</span>
+             <span class="font-bold">08122789967</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+             <span class="text-xs text-gray">Address</span>
+             <span class="font-bold">12 Ayo Street, Ikeja</span>
+           </div>
+         </div>
+
+         <div class="app-card">
+           <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Balance</h3>
+           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+             <span class="text-xs text-gray">Outstanding Balance</span>
+             <span class="font-bold">₦12,500</span>
+           </div>
+         </div>
+
+         <div style="display: flex; gap: 8px; margin-bottom: 24px;">
+           <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-customer-johnadams')">Edit Customer</ion-button>
+           <ion-button size="small" style="flex: 1; --background: var(--ion-color-danger); --color: white;">Delete Customer</ion-button>
+         </div>
+
+         <div class="app-card">
+           <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Transaction History</h3>
+           <div class="transaction-item">
+             <div style="display: flex; justify-content: space-between;">
+               <span>Purchase - ₦4,500</span>
+               <span>19th Jan, 2025</span>
+             </div>
+           </div>
+           <div class="transaction-item">
+             <div style="display: flex; justify-content: space-between;">
+               <span>Payment - ₦2000</span>
+               <span>Cash, 17th Jan, 2025</span>
+             </div>
+           </div>
+           <div class="transaction-item">
+             <div style="display: flex; justify-content: space-between;">
+               <span>Purchase - ₦10,000</span>
+               <span>Cash, 10th Jan 2025</span>
+             </div>
+           </div>
+         </div>
+       </div>
+    </div>
+    
+    <!-- ================== 7. RECORD PAYMENT PAGE (Full Page) ================== -->
+    <div id="page-record-payment-johnadams" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
+       <div class="ion-padding">
+         <div style="display: flex; align-items: center; margin-bottom: 24px;">
+           <ion-button fill="clear" onclick="closeModal('page-record-payment-johnadams')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
+             <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+           </ion-button>
+           <h2 class="font-bold text-lg">Record Payment</h2>
+         </div>
+
+         <!-- OFFLINE BADGE -->
+         <div class="offline-badge hidden" id="offline-badge-record-payment">You're offline. Changes will sync when you reconnect</div>
+
+         <div class="app-card">
+           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+             <span class="text-xs text-gray">Customer</span>
+             <span class="font-bold">John James</span>
+           </div>
+           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+             <span class="text-xs text-gray">Outstanding</span>
+             <span class="font-bold">₦12,500</span>
+           </div>
+         </div>
+
+         <div class="app-card">
+           <label class="text-xs font-bold text-gray">Amount Paid</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <input type="number" placeholder="Input Amount here">
+           </div>
+
+           <label class="text-xs font-bold text-gray">Date</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <input type="date">
+           </div>
+
+           <label class="text-xs font-bold text-gray">Payment method</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <select>
+               <option>Select</option>
+               <option>Cash</option>
+               <option>Bank Transfer</option>
+               <option>Mobile Money</option>
+             </select>
+           </div>
+
+           <label class="text-xs font-bold text-gray">Note</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <textarea placeholder="Part Payment for goods" rows="3"></textarea>
+           </div>
+         </div>
+
+         <div style="display: flex; gap: 12px; margin-top: 20px;">
+           <ion-button expand="block" fill="outline" color="medium" style="flex: 1;" onclick="closeModal('page-record-payment-johnadams')">Cancel</ion-button>
+           <ion-button expand="block" class="btn-main" style="flex: 1; margin-top: 0;" onclick="recordPayment()">Confirm payment</ion-button>
+         </div>
+       </div>
+    </div>
+    
+    <!-- ================== 8. EDIT INVENTORY PAGE (Full Page) ================== -->
+    <div id="page-edit-inventory-rc001" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
+       <div class="ion-padding">
+         <div style="display: flex; align-items: center; margin-bottom: 24px;">
+           <ion-button fill="clear" onclick="closeModal('page-edit-inventory-rc001')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
+             <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+           </ion-button>
+           <h2 class="font-bold text-lg">Edit Inventory</h2>
+         </div>
+
+         <!-- OFFLINE BADGE -->
+         <div class="offline-badge hidden" id="offline-badge-edit-inventory">You're offline. Changes will sync when you reconnect</div>
+
+         <div class="app-card">
+           <label class="text-xs font-bold text-gray">Product name</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <input type="text" value="Rice (50kg)">
+           </div>
+
+           <label class="text-xs font-bold text-gray">Category</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <select>
+                 <option>Foodstuff</option>
+                 <option>Beverages</option>
+                 <option>Household</option>
+                 <!-- Options will be populated dynamically -->
+             </select>
+           </div>
+
+           <label class="text-xs font-bold text-gray">Stock Quantity</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <input type="number" value="24">
+           </div>
+
+           <label class="text-xs font-bold text-gray">Selling Price</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <input type="number" value="45000">
+           </div>
+
+           <label class="text-xs font-bold text-gray">Cost Price</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <input type="number" value="35000">
+           </div>
+
+           <label class="text-xs font-bold text-gray">Sku/Barcode</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <input type="text" value="RC-001">
+             <ion-icon name="scan-outline" class="text-gray"></ion-icon>
+           </div>
+         </div>
+
+         <div style="display: flex; gap: 12px; margin-top: 20px;">
+           <ion-button expand="block" fill="outline" color="medium" style="flex: 1;" onclick="closeModal('page-edit-inventory-rc001')">Cancel</ion-button>
+           <ion-button expand="block" class="btn-main" style="flex: 1; margin-top: 0;" onclick="saveInventoryEdit()">Save</ion-button>
+         </div>
+       </div>
+    </div>
+    
+    <!-- ================== 9. STOCK UPDATE PAGE (Full Page) ================== -->
+    <div id="page-stock-update-rc001" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
+       <div class="ion-padding">
+         <div style="display: flex; align-items: center; margin-bottom: 24px;">
+           <ion-button fill="clear" onclick="closeModal('page-stock-update-rc001')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
+             <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+           </ion-button>
+           <h2 class="font-bold text-lg">Stock Update</h2>
+         </div>
+
+         <!-- OFFLINE BADGE -->
+         <div class="offline-badge hidden" id="offline-badge-stock-update">You're offline. Changes will sync when you reconnect</div>
+
+         <div class="app-card">
+           <label class="text-xs font-bold text-gray">Item Name</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <input type="text" value="Rice (50kg)">
+           </div>
+
+           <label class="text-xs font-bold text-gray">Action</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <select>
+               <option>StockIn</option>
+               <option>StockOut</option>
+             </select>
+           </div>
+
+           <label class="text-xs font-bold text-gray">Quantity</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <input type="number" value="24">
+           </div>
+
+           <label class="text-xs font-bold text-gray">Note</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <textarea placeholder="Give small note on stock here" rows="3"></textarea>
+           </div>
+         </div>
+
+         <div style="display: flex; gap: 12px; margin-top: 20px;">
+           <ion-button expand="block" fill="outline" color="medium" style="flex: 1;" onclick="closeModal('page-stock-update-rc001')">Cancel</ion-button>
+           <ion-button expand="block" class="btn-main" style="flex: 1; margin-top: 0;" onclick="updateStock()">Save</ion-button>
+         </div>
+       </div>
+    </div>
+
+    <!-- ================== 10. SHOP DETAILS PAGE (Full Page) ================== -->
+    <div id="page-shop-details" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
+       <div class="ion-padding">
+         <div style="display: flex; align-items: center; margin-bottom: 24px;">
+           <ion-button fill="clear" onclick="closeModal('page-shop-details')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
+             <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+           </ion-button>
+           <h2 class="font-bold text-lg">Shop Details</h2>
+         </div>
+
+         <!-- OFFLINE BADGE -->
+         <div class="offline-badge hidden" id="offline-badge-shop-details">You're offline. Changes will sync when you reconnect</div>
+
+         <div class="app-card">
+           <label class="text-xs font-bold text-gray">Shop Name</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <input type="text" value="Oreoluwa General Store">
+           </div>
+
+           <label class="text-xs font-bold text-gray">Owner Name</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <input type="text" value="Oreoluwa Bayode">
+           </div>
+
+           <label class="text-xs font-bold text-gray">Phone Number</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <input type="tel" value="08012345678">
+           </div>
+
+           <label class="text-xs font-bold text-gray">Email</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <input type="email" value="admin@your-email.com">
+           </div>
+
+           <label class="text-xs font-bold text-gray">Address</label>
+           <div class="custom-input" style="margin-top: 4px;">
+             <textarea rows="3">123 Main Street, Lagos, Nigeria</textarea>
+           </div>
+         </div>
+
+         <ion-button expand="block" class="btn-main" onclick="saveShopDetails()">Save Changes</ion-button>
+       </div>
+    </div>
+
+    <!-- ================== 11. DEVICE ID PAGE (Full Page) ================== -->
+    <div id="page-device-id" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
+       <div class="ion-padding">
+         <div style="display: flex; align-items: center; margin-bottom: 24px;">
+           <ion-button fill="clear" onclick="closeModal('page-device-id')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
+             <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+           </ion-button>
+           <h2 class="font-bold text-lg">Device ID</h2>
+         </div>
+
+         <div class="app-card">
+           <p class="text-sm">This unique ID identifies your device for Enimara services.</p>
+           <p class="font-bold text-lg" style="margin-top: 12px; word-break: break-all;">ABC123-DEF456-GHI789-JKL012</p>
+         </div>
+
+         <ion-button expand="block" fill="outline" color="medium" onclick="closeModal('page-device-id')">Close</ion-button>
+       </div>
+    </div>
+
+    <!-- ================== 12. CREATE CATEGORY MODAL (Full Page) ================== -->
+    <div id="page-create-category" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
+       <div class="ion-padding">
+         <div style="display: flex; align-items: center; margin-bottom: 24px;">
+           <ion-button fill="clear" onclick="closeModal('page-create-category')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
+             <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+           </ion-button>
+           <h2 class="font-bold text-lg">Create New Category</h2>
+         </div>
+
+         <div class="create-category-input">
+             <input type="text" id="new-category-name" placeholder="Enter category name">
+         </div>
+
+         <div style="display: flex; gap: 12px;">
+           <ion-button expand="block" fill="outline" color="medium" style="flex: 1;" onclick="closeModal('page-create-category')">Cancel</ion-button>
+           <ion-button expand="block" class="btn-main" style="flex: 1; margin-top: 0;" onclick="createCategory()">Create</ion-button>
+         </div>
+       </div>
+    </div>
+
+    <!-- ================== 13. SIMULATED SCANNER OVERLAY ================== -->
+    <div id="scanner-overlay" class="scanner-overlay hidden">
+      <div class="scanner-frame"></div>
+      <div class="scanner-text">Scanning...</div>
+    </div>
+
+  </ion-app>
+
+  <!-- ================== LOGIC ================== -->
+  <script>
+    // Global variable to track pending syncs
+    let pendingSyncCount = 0;
+    // Global variable to track simulated online status
+    let isSimulatedOnline = true;
+    // Global variable to track current theme
+    let isDarkMode = false;
+
+    // --- New Function: Show Toast (Alert Replacement) ---
+    // Uses Ionic's built-in toast component for non-intrusive feedback
+    async function showToast(message, color = 'primary') {
+        const toast = document.createElement('ion-toast');
+        toast.message = message;
+        toast.duration = 2000;
+        toast.position = 'top';
+        toast.color = color;
+
+        document.body.appendChild(toast);
+        await toast.present();
+    }
+
+    // --- New Function: Check Online Status (Updated for simulation) ---
+    // Toggles visibility of the offline badge based on simulated status.
+    function checkOnlineStatus() {
+      // Use the simulated status instead of navigator.onLine
+      const isOnline = isSimulatedOnline;
+      // Select all elements with the class 'offline-badge'
+      const badges = document.querySelectorAll('.offline-badge');
+      
+      badges.forEach(badge => {
+        if (isOnline) {
+          // If online, hide the badge
+          badge.classList.add('hidden');
+        } else {
+          // If offline, show the badge
+          badge.classList.remove('hidden');
+        }
+      });
+
+      // Update the online/offline button text and class
+      const onlineOfflineBtn = document.getElementById('online-offline-btn');
+      if (onlineOfflineBtn) {
+          if (isOnline) {
+              onlineOfflineBtn.classList.remove('offline');
+              onlineOfflineBtn.classList.add('online');
+              onlineOfflineBtn.innerText = 'Online';
+          } else {
+              onlineOfflineBtn.classList.remove('online');
+              onlineOfflineBtn.classList.add('offline');
+              onlineOfflineBtn.innerText = 'Offline';
+          }
+      }
+
+      console.log('Simulated Online Status:', isOnline ? 'Online' : 'Offline');
+    }
+
+    // --- New Function: Toggle Online Status (Simulation) ---
+    function toggleOnlineStatus() {
+        isSimulatedOnline = !isSimulatedOnline;
+        checkOnlineStatus();
+        showToast(`Switched to ${isSimulatedOnline ? 'Online' : 'Offline'} mode.`, isSimulatedOnline ? 'success' : 'warning');
+    }
+
+    // --- New Function: Toggle Theme (Light/Dark Mode) ---
+    function toggleTheme() {
+        isDarkMode = !isDarkMode;
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            document.getElementById('theme-toggle').checked = true;
+        } else {
+            document.body.classList.remove('dark-mode');
+            document.getElementById('theme-toggle').checked = false;
+        }
+        localStorage.setItem('enimara-theme', isDarkMode ? 'dark' : 'light');
+        showToast(`Switched to ${isDarkMode ? 'Dark' : 'Light'} mode.`, 'secondary');
+    }
+
+    // --- Navigation Logic ---
+    function navigateTo(page) {
+      // Hide all main pages
+      document.getElementById('page-login').classList.add('hidden');
+      document.getElementById('page-dashboard').classList.add('hidden');
+      document.getElementById('page-add-customer').classList.add('hidden');
+      document.getElementById('page-add-product').classList.add('hidden');
+      document.getElementById('page-customers').classList.add('hidden');
+      document.getElementById('page-customer-details-johnadams').classList.add('hidden');
+      document.getElementById('page-record-payment-johnadams').classList.add('hidden');
+      document.getElementById('page-edit-inventory-rc001').classList.add('hidden');
+      document.getElementById('page-stock-update-rc001').classList.add('hidden');
+      document.getElementById('page-shop-details').classList.add('hidden');
+      document.getElementById('page-device-id').classList.add('hidden');
+      document.getElementById('page-create-category').classList.add('hidden');
+      
+      // Show requested page
+      if(page === 'login') {
+        document.getElementById('page-login').classList.remove('hidden');
+      } else if (page === 'dashboard') {
+        document.getElementById('page-dashboard').classList.remove('hidden');
+        switchTab('home'); // Reset to home tab on dashboard entry
+      }
+    }
+
+    // --- Tab Switching Logic ---
+    function switchTab(tabName) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      
+      // Show selected tab
+      document.getElementById('tab-' + tabName).classList.remove('hidden');
+
+      // Update Tab Bar Active State
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('btn-' + tabName).classList.add('active');
+    }
+
+    // --- Modal Logic ---
+    function openModal(modalId) {
+      // Ensure the modal exists before trying to show it
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('hidden');
+        // Special logic for Add Product modal to populate categories
+        if (modalId === 'page-add-product') {
+            populateCategorySelect();
+        }
+      } else {
+        console.error(`Modal with ID ${modalId} not found.`);
+      }
+    }
+    
+    function closeModal(modalId) {
+      // Ensure the modal exists before trying to hide it
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('hidden');
+      } else {
+        console.error(`Modal with ID ${modalId} not found.`);
+      }
+    }
+
+    // --- Inventory Category Filtering Logic ---
+    function filterCategory(category) {
+        // Update active tab
+        document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+        event.target.classList.add('active');
+
+        // Filter items based on data-category attribute
+        const items = document.querySelectorAll('#inventory-list .inventory-item');
+        items.forEach(item => {
+            if (category === 'all' || item.getAttribute('data-category') === category) {
+                item.classList.remove('hidden');
+            } else {
+                item.classList.add('hidden');
+            }
+        });
+    }
+
+    // --- Product Category Selection Logic ---
+    function populateCategorySelect() {
+        const selectElement = document.getElementById('product-category-input');
+        if (selectElement) {
+            // Clear existing options (except default)
+            selectElement.innerHTML = '';
+            // Add default options
+            const defaultOptions = [
+                { value: 'Foodstuff', text: 'Foodstuff' },
+                { value: 'Beverages', text: 'Beverages' },
+                { value: 'Household', text: 'Household' }
+            ];
+            defaultOptions.forEach(opt => {
+                const option = document.createElement('option');
+                option.value = opt.value;
+                option.text = opt.text;
+                selectElement.appendChild(option);
+            });
+
+            // Load user-created categories from localStorage
+            const storedCategories = JSON.parse(localStorage.getItem('enimara-categories')) || [];
+            storedCategories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat;
+                option.text = cat;
+                selectElement.appendChild(option);
+            });
+
+            // Add 'Create New...' option
+            const createOption = document.createElement('option');
+            createOption.value = 'create_new';
+            createOption.text = 'Create New Category...';
+            selectElement.appendChild(createOption);
+
+            // Set selected value from localStorage if exists
+            const selectedCategory = localStorage.getItem('enimara-selected-category');
+            if (selectedCategory && selectElement.querySelector(`option[value="${selectedCategory}"]`)) {
+                selectElement.value = selectedCategory;
+            }
+        }
+    }
+
+    // --- Create Category Logic ---
+    function createCategory() {
+        const input = document.getElementById('new-category-name');
+        const categoryName = input.value.trim();
+
+        if (categoryName) {
+            // Load existing categories
+            let categories = JSON.parse(localStorage.getItem('enimara-categories')) || [];
+            // Add new category if it doesn't exist
+            if (!categories.includes(categoryName)) {
+                categories.push(categoryName);
+                localStorage.setItem('enimara-categories', JSON.stringify(categories));
+                showToast(`Category "${categoryName}" created.`, 'success');
+                // Reset input
+                input.value = '';
+                // Close modal
+                closeModal('page-create-category');
+                // Repopulate the select in the Add Product modal
+                populateCategorySelect();
+                // Set the newly created category as the selected value in the Add Product modal
+                if (document.getElementById('page-add-product').classList.contains('hidden') === false) {
+                    document.getElementById('product-category-input').value = categoryName;
+                    localStorage.setItem('enimara-selected-category', categoryName);
+                }
+            } else {
+                showToast(`Category "${categoryName}" already exists.`, 'warning');
+            }
+        } else {
+            showToast('Please enter a category name.', 'warning');
+        }
+    }
+
+    // --- Handle Category Select Change in Add Product ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const categorySelect = document.getElementById('product-category-input');
+        if (categorySelect) {
+            categorySelect.addEventListener('change', function() {
+                if (this.value === 'create_new') {
+                    // Open the create category modal
+                    openModal('page-create-category');
+                    // Reset the select to the previous value (or a default)
+                    // For simplicity, reset to the first default option
+                    this.value = 'Foodstuff';
+                } else {
+                    // Store the selected value
+                    localStorage.setItem('enimara-selected-category', this.value);
+                }
+            });
+        }
+    });
+
+    // --- POS Toggle Logic (Updated) ---
+    function togglePos() {
+      const empty = document.getElementById('pos-empty');
+      const active = document.getElementById('pos-active');
+
+      if (empty.classList.contains('hidden')) {
+        // If active state is shown, add an item to the list
+        addPosItem();
+      } else {
+        // If empty state is shown, switch to active state and add the first item
+        empty.classList.add('hidden');
+        active.classList.remove('hidden');
+        // Clear any existing items from the list when switching from empty
+        document.getElementById('pos-items-list').innerHTML = '';
+        addPosItem(); // Add the first item
+      }
+    }
+
+    // --- New Function: Add Item to POS Cart ---
+    let posItemCounter = 1; // Counter for unique item IDs
+    function addPosItem() {
+        const list = document.getElementById('pos-items-list');
+        const newItemId = `pos-item-${++posItemCounter}`; // Increment and create unique ID
+
+        const newItem = document.createElement('div');
+        newItem.className = 'pos-item-row';
+        newItem.setAttribute('data-id', newItemId); // Store ID as data attribute
+
+        // Randomly select a product name and price for demo
+        const demoProducts = [
+            { name: 'Pepsi 350ml', price: 150 },
+            { name: 'Nivea Roll-on', price: 650 },
+            { name: 'Golden Morn', price: 800 },
+            { name: 'Bread (Honey)', price: 600 },
+            { name: 'Milo 300g', price: 1200 }
+        ];
+        const randomProduct = demoProducts[Math.floor(Math.random() * demoProducts.length)];
+        const quantity = Math.floor(Math.random() * 5) + 1; // Random quantity 1-5
+        const totalItemPrice = randomProduct.price * quantity;
+
+        newItem.innerHTML = `
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <div>
+                <div class="font-bold text-sm">${randomProduct.name} x ${quantity}</div>
+                <div class="text-xs text-gray">SKU: #${newItemId.split('-')[2]}</div>
+              </div>
+              <div class="font-bold">₦ ${totalItemPrice}</div>
+            </div>
+        `;
+
+        list.appendChild(newItem);
+
+        // Update the total
+        updatePosTotal();
+    }
+
+    // --- New Function: Update POS Total ---
+    function updatePosTotal() {
+        const items = document.querySelectorAll('#pos-items-list .pos-item-row');
+        let total = 0;
+
+        items.forEach(item => {
+            // Extract the price from the inner text (this is a simple parse, assumes format like "₦ 1200")
+            const priceText = item.querySelector('.font-bold:last-child').textContent;
+            const price = parseInt(priceText.replace(/[^\d]/g, '')) || 0; // Remove non-digits, parse as int
+            total += price;
+        });
+
+        document.getElementById('pos-total').textContent = `₦ ${total}`;
+    }
+
+    // --- POS Record Sales Logic (Updated) ---
+    function recordSale() {
+        // Increment the sync counter
+        pendingSyncCount++;
+        updateSyncBadge();
+
+        // Get the total amount from the POS screen
+        const totalAmount = document.getElementById('pos-total').textContent;
+
+        // Simulate a sale by updating the today's sales stat
+        const currentSales = parseInt(document.getElementById('today-sales').innerText.replace(/[^\d]/g, '')) || 0;
+        const newSales = currentSales + parseInt(totalAmount.replace(/[^\d]/g, '')); // Add the simulated sale amount
+        document.getElementById('today-sales').innerText = `₦ ${newSales.toLocaleString()}`;
+
+        // Simulate a low stock alert (reduce by 1 or 2 items randomly)
+        const currentLowStocks = parseInt(document.getElementById('low-stocks').innerText) || 5;
+        const reduction = Math.floor(Math.random() * 2) + 1; // Randomly 1 or 2
+        const newLowStocks = Math.max(0, currentLowStocks - reduction); // Ensure it doesn't go below 0
+        document.getElementById('low-stocks').innerText = newLowStocks;
+
+        // Add a new activity to the recent activity list
+        // Get the first item name from the cart for the activity log
+        const firstItemElement = document.querySelector('#pos-items-list .font-bold.text-sm');
+        const firstItemName = firstItemElement ? firstItemElement.textContent.split(' x ')[0] : "Item";
+        // Count total items in the cart for the activity log
+        const totalItemsInCart = document.querySelectorAll('#pos-items-list .pos-item-row').length;
+        addRecentActivityItem(firstItemName, "Sale", `Qty: ${totalItemsInCart}`, totalAmount);
+
+        // Clear the POS cart by hiding the active state and showing the empty state
+        document.getElementById('pos-active').classList.add('hidden');
+        document.getElementById('pos-empty').classList.remove('hidden');
+        // Also clear the items list
+        document.getElementById('pos-items-list').innerHTML = '';
+
+        showToast(`Sale of ${totalAmount} recorded and pending sync.`, 'success');
+    }
+
+    // --- Form Save Interactions (for demonstration) ---
+    function saveCustomer() {
+        // Increment the sync counter
+        pendingSyncCount++;
+        updateSyncBadge();
+        
+        showToast('Customer saved and pending sync.', 'success');
+        closeModal('page-add-customer');
+    }
+    
+    function saveProduct() {
+        // Increment the sync counter
+        pendingSyncCount++;
+        updateSyncBadge();
+        
+        // Get the product name from the input
+        const productName = document.getElementById('product-name-input').value || "New Product";
+        // Get the selected category
+        const selectedCategory = document.getElementById('product-category-input').value;
+        showToast(`"${productName}" added to ${selectedCategory} and pending sync.`, 'success');
+        closeModal('page-add-product');
+        
+        // Simulate adding the product to the inventory list
+        addProductToInventoryList(productName, selectedCategory);
+    }
+
+    function saveShopDetails() {
+        showToast('Shop details saved.', 'success');
+        closeModal('page-shop-details');
+    }
+    
+    function recordPayment() {
+        // Increment the sync counter
+        pendingSyncCount++;
+        updateSyncBadge();
+        
+        showToast('Payment recorded and pending sync.', 'success');
+        closeModal('page-record-payment-johnadams');
+    }
+    
+    function saveInventoryEdit() {
+        // Increment the sync counter
+        pendingSyncCount++;
+        updateSyncBadge();
+        
+        showToast('Inventory updated and pending sync.', 'success');
+        closeModal('page-edit-inventory-rc001');
+    }
+    
+    function updateStock() {
+        // Increment the sync counter
+        pendingSyncCount++;
+        updateSyncBadge();
+        
+        showToast('Stock updated and pending sync.', 'success');
+        closeModal('page-stock-update-rc001');
+    }
+
+    // --- Helper Functions ---
+    function updateSyncBadge() {
+      document.getElementById('sync-count').innerText = pendingSyncCount;
+      if (pendingSyncCount > 0) {
+        document.getElementById('pending-sync-badge').classList.remove('hidden');
+      } else {
+        document.getElementById('pending-sync-badge').classList.add('hidden');
+      }
+    }
+    
+    function addRecentActivityItem(itemName, action, qty, amount = "") {
+      const list = document.getElementById('recent-activity-list');
+      const newItem = document.createElement('div');
+      newItem.className = 'transaction-item';
+      
+      newItem.innerHTML = `
+        <div style="display: flex; align-items: center; padding: 0 8px;">
+          <div style="width: 32px; height: 32px; background: #F3F4F6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+            <ion-icon name="${action === 'Sale' ? 'trending-up-outline' : 'download-outline'}"></ion-icon>
+          </div>
+          <div style="flex: 1;">
+            <div class="font-bold text-sm">${itemName}</div>
+            <div class="text-xs text-gray">Staff: Joy B.</div>
+          </div>
+          <div style="text-align: right; flex-shrink: 0;">
+            <div class="font-bold text-sm">${action}</div>
+            <div class="text-xs text-gray">${qty} ${amount ? `<br>${amount}` : ''}</div>
+          </div>
+        </div>
+      `;
+      
+      // Insert at the top of the list
+      list.insertBefore(newItem, list.firstChild);
+    }
+    
+    function addProductToInventoryList(productName, category) {
+      const list = document.getElementById('inventory-list');
+      const newItem = document.createElement('div');
+      newItem.className = 'inventory-item';
+      newItem.setAttribute('data-category', category.toLowerCase()); // Set data-category for filtering
+      
+      newItem.innerHTML = `
+        <div class="inventory-details">
+          <div>
+            <span class="font-bold text-lg text-primary">${productName}</span>
+            <div class="text-xs text-gray">SKU: NEW-${Math.floor(Math.random()*1000)}</div>
+          </div>
+          <span class="font-bold">₦ 500</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 12px;">
+          <span class="text-xs text-gray">${category}</span>
+          <span class="inventory-stock">10 Units left</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);">Edit</ion-button>
+          <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);">Restock</ion-button>
+        </div>
+      `;
+      
+      // Insert at the top of the list
+      list.insertBefore(newItem, list.firstChild);
+    }
+    
+    function startScanner() {
+      document.getElementById('scanner-overlay').classList.remove('hidden');
+      setTimeout(() => {
+        document.getElementById('scanner-overlay').classList.add('hidden');
+        showToast('Product scanned successfully.', 'success');
+        togglePos(); // Switch to active state after scan
+      }, 2000);
+    }
+
+    // --- Initial Setup and Listeners ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Set initial online status simulation
+        checkOnlineStatus();
+
+        // 2. Load theme preference from localStorage
+        const savedTheme = localStorage.getItem('enimara-theme');
+        if (savedTheme === 'dark') {
+            isDarkMode = true;
+            document.body.classList.add('dark-mode');
+            document.getElementById('theme-toggle').checked = true;
+        } else {
+            isDarkMode = false;
+            document.body.classList.remove('dark-mode');
+            document.getElementById('theme-toggle').checked = false;
+        }
+
+        // 3. Start on login page (default)
+        navigateTo('login');
+    });
+
+  </script>
+</body>
+</html>
+
