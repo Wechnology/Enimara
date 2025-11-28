@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Enimara - The OS for the Unstructured</title>
 
+  <link rel="icon" type="image/x-icon" href="Enimara Favicon.png">
+
   <!-- Ionic Framework (Used for Mobile UI Components) -->
   <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
   <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
@@ -204,6 +206,9 @@
       margin-top: 16px;
       border: 1px solid #E5E7EB;
     }
+    .pending-sync-badge.hidden {
+        display: none; /* Ensure it's hidden when class is applied */
+    }
 
     /* CUSTOMER LIST ITEM */
     .customer-item {
@@ -393,11 +398,7 @@
       width: 45%;
       height: 120px;
       border-radius: 50%;
-      background: conic-gradient(
-          var(--ion-color-primary) 0% 40%,
-          var(--ion-color-secondary) 40% 70%,
-          #10B981 70% 100%
-      );
+      /* Colors will be set dynamically by JS based on theme */
     }
 
     /* AI ADVICE */
@@ -468,6 +469,53 @@
       background: transparent;
     }
 
+    /* SALES & ACTIVITY TABLE */
+    .activity-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+    }
+    .activity-table th, .activity-table td {
+        padding: 12px 8px;
+        text-align: left;
+        border-bottom: 1px solid var(--ion-border-color);
+    }
+    .activity-table th {
+        background-color: var(--ion-card-background);
+        font-weight: 600;
+        color: var(--ion-text-color);
+    }
+
+    /* INSTRUCTIONS MODAL */
+    .instructions-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        z-index: 10000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+    .instructions-content {
+        background: var(--ion-card-background);
+        border-radius: 16px;
+        padding: 24px;
+        max-width: 90%;
+        width: 400px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .instructions-content h3 {
+        margin-top: 0;
+    }
+    .instructions-content p {
+        margin-bottom: 16px;
+    }
+
   </style>
 </head>
 <body>
@@ -477,14 +525,7 @@
     <div id="page-login" class="page-container" style="z-index: 200; background: var(--ion-card-background); padding: 24px; display: flex; flex-direction: column; justify-content: center;">
       <div style="text-align: center; margin-bottom: 40px;">
         <!-- Logo SVG -->
-        <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin: 0 auto;">
-          <path d="M50 90C75 75 90 50 90 25C90 15 80 5 50 5C20 5 10 15 10 25C10 50 25 75 50 90Z" stroke="var(--ion-color-secondary)" stroke-width="4"/>
-          <path d="M30 40 C 30 25, 70 25, 70 40" stroke="var(--ion-color-secondary)" stroke-width="6" stroke-linecap="round"/>
-          <circle cx="50" cy="25" r="8" fill="var(--ion-color-secondary)"/>
-          <path d="M50 40 V 65" stroke="var(--ion-color-primary)" stroke-width="6" stroke-linecap="round"/>
-          <path d="M50 65 L 35 50" stroke="var(--ion-color-primary)" stroke-width="6" stroke-linecap="round"/>
-          <path d="M50 65 L 65 50" stroke="var(--ion-color-primary)" stroke-width="6" stroke-linecap="round"/>
-        </svg>
+        <img src="Enimara Favicon.png" alt="Enimara Logo" style="width: 80px; height: 80px; border-radius: 30px;">
         <h1 class="text-primary font-bold" style="margin-top: 10px;">Enimara</h1>
       </div>
 
@@ -517,7 +558,7 @@
           <!-- Header -->
           <div style="display: flex; align-items: center; margin-bottom: 24px;">
             <div style="width: 48px; height: 48px; border-radius: 50%; background: #ddd; overflow: hidden; margin-right: 12px;">
-              <img src="https://i.pravatar.cc/150?img=11" style="width: 100%; height: 100%; object-fit: cover;">
+              <img src="oluwaferanmi-caleb-Q1QRTSeZIxI-unsplash (1).jpg" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
             <div>
               <div class="text-xs text-gray">Welcome back,</div>
@@ -533,7 +574,7 @@
 
           <!-- Stats -->
           <div style="display: flex; gap: 12px; margin-bottom: 24px;">
-            <div class="app-card" style="flex: 1; margin-bottom: 0;">
+            <div class="app-card" style="flex: 1; margin-bottom: 0;" onclick="switchTab('sales-details')">
               <div style="display: flex; justify-content: space-between;">
                 <span class="text-xs text-gray">Today's sales</span>
                 <ion-icon name="scale-outline" class="text-secondary"></ion-icon>
@@ -553,14 +594,10 @@
           <div class="app-card">
             <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Sales Overview</h3>
             <div class="chart-container">
-              <div class="chart-placeholder">
-                <div class="chart-bar" style="height: 60%;"></div>
-                <div class="chart-bar" style="height: 80%;"></div>
-                <div class="chart-bar" style="height: 100%;"></div>
-                <div class="chart-bar" style="height: 70%;"></div>
-                <div class="chart-bar" style="height: 40%;"></div>
+              <div class="chart-placeholder" id="bar-chart-placeholder">
+                <!-- Bars will be added by JS -->
               </div>
-              <div class="chart-pie"></div>
+              <div class="chart-pie" id="pie-chart-placeholder"></div>
             </div>
           </div>
 
@@ -588,40 +625,10 @@
           <!-- Recent Activity -->
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
              <h3 class="font-bold text-sm">Recent Activity</h3>
-             <span class="text-xs text-primary font-bold">See all</span>
+             <span class="text-xs text-primary font-bold" onclick="switchTab('activity-details')">See all</span>
           </div>
           <div class="app-card" style="padding: 0;" id="recent-activity-list">
-             <div class="transaction-item">
-               <div style="display: flex; align-items: center; padding: 0 8px;">
-                 <div style="width: 32px; height: 32px; background: #F3F4F6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
-                   <ion-icon name="trending-up-outline"></ion-icon>
-                 </div>
-                 <div style="flex: 1;">
-                   <div class="font-bold text-sm">Pepsi cola</div>
-                   <div class="text-xs text-gray">Staff: Joy B.</div>
-                 </div>
-                 <div style="text-align: right; flex-shrink: 0;">
-                   <div class="font-bold text-sm">Sale</div>
-                   <div class="text-xs text-gray">Qty: 10</div>
-                 </div>
-               </div>
-             </div>
-             
-             <div class="transaction-item">
-               <div style="display: flex; align-items: center; padding: 0 8px;">
-                 <div style="width: 32px; height: 32px; background: #F3F4F6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
-                   <ion-icon name="download-outline"></ion-icon>
-                 </div>
-                 <div style="flex: 1;">
-                   <div class="font-bold text-sm">Nivea Roll on</div>
-                   <div class="text-xs text-gray">Admin: Modupe</div>
-                 </div>
-                 <div style="text-align: right; flex-shrink: 0;">
-                   <div class="font-bold text-sm">Restock</div>
-                   <div class="text-xs text-gray">Qty: 30</div>
-                 </div>
-               </div>
-             </div>
+             <!-- Items will be added by JS, limited to 5 -->
           </div>
 
           <!-- AI Advice -->
@@ -765,7 +772,7 @@
                </div>
                <div style="display: flex; gap: 8px;">
                  <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-inventory-rc001')">Edit</ion-button>
-                 <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);">Restock</ion-button>
+                 <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);" onclick="recordInventoryActivity('Rice (50kg)', 'Restock', 20)">Restock</ion-button>
                </div>
              </div>
 
@@ -783,7 +790,7 @@
                </div>
                <div style="display: flex; gap: 8px;">
                  <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-inventory-mk022')">Edit</ion-button>
-                 <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);">Restock</ion-button>
+                 <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);" onclick="recordInventoryActivity('Milk Powder', 'Restock', 15)">Restock</ion-button>
                </div>
              </div>
 
@@ -801,7 +808,7 @@
                </div>
                <div style="display: flex; gap: 8px;">
                  <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-inventory-dw001')">Edit</ion-button>
-                 <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);">Restock</ion-button>
+                 <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);" onclick="recordInventoryActivity('Dishwasher', 'Restock', 5)">Restock</ion-button>
                </div>
              </div>
            </div>
@@ -816,7 +823,47 @@
           </ion-fab>
       </div>
 
-      <!-- TAB 4: SETTINGS -->
+      <!-- TAB 4: SALES DETAILS -->
+      <div id="tab-sales-details" class="tab-content hidden">
+        <div class="ion-padding">
+          <div style="display: flex; align-items: center; margin-bottom: 24px;">
+            <ion-button fill="clear" onclick="switchTab('home')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
+              <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+            </ion-button>
+            <h2 class="font-bold text-lg text-primary">Sales Details</h2>
+          </div>
+          <table class="activity-table" id="sales-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Payment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 5: ACTIVITY DETAILS -->
+      <div id="tab-activity-details" class="tab-content hidden">
+        <div class="ion-padding">
+          <div style="display: flex; align-items: center; margin-bottom: 24px;">
+            <ion-button fill="clear" onclick="switchTab('home')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
+              <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+            </ion-button>
+            <h2 class="font-bold text-lg text-primary">All Activity</h2>
+          </div>
+          <div id="all-activity-list">
+            <!-- Items will be added by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 6: SETTINGS -->
       <div id="tab-settings" class="tab-content hidden">
         <div class="ion-padding">
            <h2 class="font-bold text-lg text-primary" style="margin-bottom: 20px;">Settings</h2>
@@ -1367,16 +1414,32 @@
       <div class="scanner-text">Scanning...</div>
     </div>
 
+    <!-- ================== 14. INSTRUCTIONS MODAL ================== -->
+    <div id="instructions-modal" class="instructions-modal hidden">
+        <div class="instructions-content">
+            <h3 class="font-bold text-lg text-primary">How to Use Offline Mode</h3>
+            <p class="text-sm text-gray">Click the "Online" or "Offline" button at the top of the Home screen to simulate your connection status.</p>
+            <p class="text-sm text-gray">When offline, changes are saved locally and will sync automatically when you reconnect.</p>
+            <p class="text-sm text-gray">The "Pending sync" badge appears only when you are offline and have unsaved changes.</p>
+            <ion-button expand="block" class="btn-main" onclick="closeModal('instructions-modal')">Got it!</ion-button>
+        </div>
+    </div>
+
   </ion-app>
 
   <!-- ================== LOGIC ================== -->
   <script>
     // Global variable to track pending syncs
     let pendingSyncCount = 0;
-    // Global variable to track simulated online status
-    let isSimulatedOnline = true;
+    // Global variable to track real online status (from navigator.onLine)
+    let isRealOnline = navigator.onLine;
+    // Global variable to track simulated online status (used for UI badges, etc.)
+    let isSimulatedOnline = isRealOnline; // Start with real status
     // Global variable to track current theme
     let isDarkMode = false;
+    // Global variables for stats
+    let todaySales = 120000;
+    let lowStocks = 5;
 
     // --- New Function: Show Toast (Alert Replacement) ---
     // Uses Ionic's built-in toast component for non-intrusive feedback
@@ -1391,16 +1454,19 @@
         await toast.present();
     }
 
-    // --- New Function: Check Online Status (Updated for simulation) ---
-    // Toggles visibility of the offline badge based on simulated status.
+    // --- New Function: Check Online Status (Updated for simulation & real status) ---
+    // Toggles visibility of the offline badge based on simulated status, but updates simulated status from real status.
     function checkOnlineStatus() {
-      // Use the simulated status instead of navigator.onLine
-      const isOnline = isSimulatedOnline;
+      // Update simulated status from real status
+      isRealOnline = navigator.onLine;
+      // The simulated status now reflects the real status
+      isSimulatedOnline = isRealOnline;
+
       // Select all elements with the class 'offline-badge'
       const badges = document.querySelectorAll('.offline-badge');
       
       badges.forEach(badge => {
-        if (isOnline) {
+        if (isSimulatedOnline) {
           // If online, hide the badge
           badge.classList.add('hidden');
         } else {
@@ -1412,7 +1478,7 @@
       // Update the online/offline button text and class
       const onlineOfflineBtn = document.getElementById('online-offline-btn');
       if (onlineOfflineBtn) {
-          if (isOnline) {
+          if (isSimulatedOnline) {
               onlineOfflineBtn.classList.remove('offline');
               onlineOfflineBtn.classList.add('online');
               onlineOfflineBtn.innerText = 'Online';
@@ -1423,14 +1489,21 @@
           }
       }
 
-      console.log('Simulated Online Status:', isOnline ? 'Online' : 'Offline');
+      // Update pending sync badge visibility based on simulated status
+      updateSyncBadge();
+
+      console.log('Real Online Status:', isRealOnline ? 'Online' : 'Offline');
+      console.log('Simulated Online Status:', isSimulatedOnline ? 'Online' : 'Offline');
     }
 
     // --- New Function: Toggle Online Status (Simulation) ---
+    // This function now acts as a toggle for the simulated status, which is then used by checkOnlineStatus
     function toggleOnlineStatus() {
+        // Toggle the simulated status
         isSimulatedOnline = !isSimulatedOnline;
+        // Call checkOnlineStatus to update UI elements
         checkOnlineStatus();
-        showToast(`Switched to ${isSimulatedOnline ? 'Online' : 'Offline'} mode.`, isSimulatedOnline ? 'success' : 'warning');
+        showToast(`Simulated connection set to ${isSimulatedOnline ? 'Online' : 'Offline'}.`, isSimulatedOnline ? 'success' : 'warning');
     }
 
     // --- New Function: Toggle Theme (Light/Dark Mode) ---
@@ -1444,7 +1517,23 @@
             document.getElementById('theme-toggle').checked = false;
         }
         localStorage.setItem('enimara-theme', isDarkMode ? 'dark' : 'light');
+        // Re-render charts to adapt to theme
+        renderCharts();
         showToast(`Switched to ${isDarkMode ? 'Dark' : 'Light'} mode.`, 'secondary');
+    }
+
+    // --- New Function: Update Sync Badge (Based on offline status) ---
+    function updateSyncBadge() {
+      const badge = document.getElementById('pending-sync-badge');
+      if (badge) {
+          // Show badge only if offline AND there are pending syncs
+          if (!isSimulatedOnline && pendingSyncCount > 0) {
+              badge.classList.remove('hidden');
+              document.getElementById('sync-count').innerText = pendingSyncCount;
+          } else {
+              badge.classList.add('hidden');
+          }
+      }
     }
 
     // --- Navigation Logic ---
@@ -1462,6 +1551,7 @@
       document.getElementById('page-shop-details').classList.add('hidden');
       document.getElementById('page-device-id').classList.add('hidden');
       document.getElementById('page-create-category').classList.add('hidden');
+      document.getElementById('instructions-modal').classList.add('hidden');
       
       // Show requested page
       if(page === 'login') {
@@ -1483,6 +1573,18 @@
       // Update Tab Bar Active State
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.getElementById('btn-' + tabName).classList.add('active');
+
+      // Special logic for new tabs
+      if (tabName === 'home') {
+          // Show instructions modal on home load if needed (optional)
+          // openModal('instructions-modal');
+          renderCharts();
+          renderRecentActivity();
+      } else if (tabName === 'sales-details') {
+          renderSalesDetails();
+      } else if (tabName === 'activity-details') {
+          renderAllActivity();
+      }
     }
 
     // --- Modal Logic ---
@@ -1699,25 +1801,27 @@
 
         // Get the total amount from the POS screen
         const totalAmount = document.getElementById('pos-total').textContent;
+        const totalNum = parseInt(totalAmount.replace(/[^\d]/g, ''));
 
         // Simulate a sale by updating the today's sales stat
-        const currentSales = parseInt(document.getElementById('today-sales').innerText.replace(/[^\d]/g, '')) || 0;
-        const newSales = currentSales + parseInt(totalAmount.replace(/[^\d]/g, '')); // Add the simulated sale amount
-        document.getElementById('today-sales').innerText = `₦ ${newSales.toLocaleString()}`;
+        todaySales += totalNum;
+        document.getElementById('today-sales').innerText = `₦ ${todaySales.toLocaleString()}`;
+        localStorage.setItem('enimara-today-sales', todaySales);
 
         // Simulate a low stock alert (reduce by 1 or 2 items randomly)
-        const currentLowStocks = parseInt(document.getElementById('low-stocks').innerText) || 5;
         const reduction = Math.floor(Math.random() * 2) + 1; // Randomly 1 or 2
-        const newLowStocks = Math.max(0, currentLowStocks - reduction); // Ensure it doesn't go below 0
-        document.getElementById('low-stocks').innerText = newLowStocks;
+        lowStocks = Math.max(0, lowStocks - reduction); // Ensure it doesn't go below 0
+        document.getElementById('low-stocks').innerText = lowStocks;
+        localStorage.setItem('enimara-low-stocks', lowStocks);
 
-        // Add a new activity to the recent activity list
-        // Get the first item name from the cart for the activity log
+        // Add a new activity to the recent activity list and sales details
         const firstItemElement = document.querySelector('#pos-items-list .font-bold.text-sm');
         const firstItemName = firstItemElement ? firstItemElement.textContent.split(' x ')[0] : "Item";
-        // Count total items in the cart for the activity log
         const totalItemsInCart = document.querySelectorAll('#pos-items-list .pos-item-row').length;
-        addRecentActivityItem(firstItemName, "Sale", `Qty: ${totalItemsInCart}`, totalAmount);
+        // Add to global activity log
+        addActivityToLog("Sale", firstItemName, `Qty: ${totalItemsInCart}`, totalAmount);
+        // Add to sales details log
+        addSaleToLog(totalAmount, "Cash"); // Assuming cash for demo
 
         // Clear the POS cart by hiding the active state and showing the empty state
         document.getElementById('pos-active').classList.add('hidden');
@@ -1726,6 +1830,17 @@
         document.getElementById('pos-items-list').innerHTML = '';
 
         showToast(`Sale of ${totalAmount} recorded and pending sync.`, 'success');
+    }
+
+    // --- Inventory Activity Logic ---
+    function recordInventoryActivity(itemName, action, qty) {
+        // Increment the sync counter
+        pendingSyncCount++;
+        updateSyncBadge();
+
+        // Add to global activity log
+        addActivityToLog(action, itemName, `Qty: ${qty}`, "");
+        showToast(`${action} for ${itemName} recorded and pending sync.`, 'success');
     }
 
     // --- Form Save Interactions (for demonstration) ---
@@ -1787,38 +1902,172 @@
     }
 
     // --- Helper Functions ---
-    function updateSyncBadge() {
-      document.getElementById('sync-count').innerText = pendingSyncCount;
-      if (pendingSyncCount > 0) {
-        document.getElementById('pending-sync-badge').classList.remove('hidden');
-      } else {
-        document.getElementById('pending-sync-badge').classList.add('hidden');
-      }
+    function addActivityToLog(action, item, qty, amount) {
+        const activityLog = JSON.parse(localStorage.getItem('enimara-activity-log')) || [];
+        activityLog.unshift({
+            timestamp: new Date().toISOString(),
+            action: action,
+            item: item,
+            qty: qty,
+            amount: amount
+        });
+        // Keep only the last 100 activities to prevent localStorage bloat
+        localStorage.setItem('enimara-activity-log', JSON.stringify(activityLog.slice(0, 100)));
+        // Re-render recent activity if on home screen
+        if (document.getElementById('tab-home').classList.contains('hidden') === false) {
+            renderRecentActivity();
+        }
+        // Re-render all activity if on activity details screen
+        if (document.getElementById('tab-activity-details').classList.contains('hidden') === false) {
+            renderAllActivity();
+        }
     }
-    
-    function addRecentActivityItem(itemName, action, qty, amount = "") {
-      const list = document.getElementById('recent-activity-list');
-      const newItem = document.createElement('div');
-      newItem.className = 'transaction-item';
-      
-      newItem.innerHTML = `
-        <div style="display: flex; align-items: center; padding: 0 8px;">
-          <div style="width: 32px; height: 32px; background: #F3F4F6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
-            <ion-icon name="${action === 'Sale' ? 'trending-up-outline' : 'download-outline'}"></ion-icon>
-          </div>
-          <div style="flex: 1;">
-            <div class="font-bold text-sm">${itemName}</div>
-            <div class="text-xs text-gray">Staff: Joy B.</div>
-          </div>
-          <div style="text-align: right; flex-shrink: 0;">
-            <div class="font-bold text-sm">${action}</div>
-            <div class="text-xs text-gray">${qty} ${amount ? `<br>${amount}` : ''}</div>
-          </div>
-        </div>
-      `;
-      
-      // Insert at the top of the list
-      list.insertBefore(newItem, list.firstChild);
+
+    function addSaleToLog(total, paymentMethod) {
+        const salesLog = JSON.parse(localStorage.getItem('enimara-sales-log')) || [];
+        salesLog.unshift({
+            timestamp: new Date().toISOString(),
+            total: total,
+            paymentMethod: paymentMethod
+        });
+        // Keep only the last 100 sales to prevent localStorage bloat
+        localStorage.setItem('enimara-sales-log', JSON.stringify(salesLog.slice(0, 100)));
+        // Re-render sales details if on sales details screen
+        if (document.getElementById('tab-sales-details').classList.contains('hidden') === false) {
+            renderSalesDetails();
+        }
+    }
+
+    function renderRecentActivity() {
+        const list = document.getElementById('recent-activity-list');
+        const activityLog = JSON.parse(localStorage.getItem('enimara-activity-log')) || [];
+        // Take only the first 5 items
+        const recentActivities = activityLog.slice(0, 5);
+
+        list.innerHTML = ''; // Clear existing items
+        recentActivities.forEach(activity => {
+            const date = new Date(activity.timestamp).toLocaleDateString();
+            const time = new Date(activity.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const item = document.createElement('div');
+            item.className = 'transaction-item';
+            item.innerHTML = `
+                <div style="display: flex; align-items: center; padding: 0 8px;">
+                  <div style="width: 32px; height: 32px; background: #F3F4F6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                    <ion-icon name="${activity.action === 'Sale' ? 'trending-up-outline' : 'download-outline'}"></ion-icon>
+                  </div>
+                  <div style="flex: 1;">
+                    <div class="font-bold text-sm">${activity.item}</div>
+                    <div class="text-xs text-gray">Staff: Joy B.</div>
+                  </div>
+                  <div style="text-align: right; flex-shrink: 0;">
+                    <div class="font-bold text-sm">${activity.action}</div>
+                    <div class="text-xs text-gray">${activity.qty} ${activity.amount ? `<br>${activity.amount}` : ''}</div>
+                    <div class="text-xs text-gray">${time}</div>
+                  </div>
+                </div>
+            `;
+            list.appendChild(item);
+        });
+    }
+
+    function renderAllActivity() {
+        const list = document.getElementById('all-activity-list');
+        const activityLog = JSON.parse(localStorage.getItem('enimara-activity-log')) || [];
+
+        list.innerHTML = ''; // Clear existing items
+        activityLog.forEach(activity => {
+            const date = new Date(activity.timestamp).toLocaleDateString();
+            const time = new Date(activity.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const item = document.createElement('div');
+            item.className = 'app-card';
+            item.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div class="font-bold text-sm">${activity.item}</div>
+                    <div class="text-xs text-gray">${activity.action} - ${activity.qty} ${activity.amount ? `(${activity.amount})` : ''}</div>
+                    <div class="text-xs text-gray">${date} at ${time}</div>
+                  </div>
+                </div>
+            `;
+            list.appendChild(item);
+        });
+    }
+
+    function renderSalesDetails() {
+        const tbody = document.querySelector('#sales-table tbody');
+        const salesLog = JSON.parse(localStorage.getItem('enimara-sales-log')) || [];
+
+        tbody.innerHTML = ''; // Clear existing items
+        salesLog.forEach(sale => {
+            const date = new Date(sale.timestamp).toLocaleDateString();
+            const time = new Date(sale.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${date}<br><span class="text-xs text-gray">${time}</span></td>
+                <td>Multiple Items</td> <!-- Simplified for demo -->
+                <td>${sale.total}</td>
+                <td>${sale.paymentMethod}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function renderCharts() {
+        const barChartPlaceholder = document.getElementById('bar-chart-placeholder');
+        const pieChartPlaceholder = document.getElementById('pie-chart-placeholder');
+
+        // Clear previous charts
+        barChartPlaceholder.innerHTML = '';
+        pieChartPlaceholder.style.background = '';
+
+        // Simulate data
+        const categories = ['Foodstuff', 'Beverages', 'Household', 'Electronics', 'Clothing'];
+        const salesData = [Math.floor(Math.random() * 100000) + 50000, Math.floor(Math.random() * 80000) + 40000, Math.floor(Math.random() * 60000) + 30000, Math.floor(Math.random() * 40000) + 20000, Math.floor(Math.random() * 30000) + 10000];
+        const totalSales = salesData.reduce((a, b) => a + b, 0);
+
+        // Render Bar Chart
+        salesData.forEach(sale => {
+            const barHeight = Math.max(10, (sale / totalSales) * 100); // Normalize to 100px max, min 10px
+            const bar = document.createElement('div');
+            bar.className = 'chart-bar';
+            bar.style.height = `${barHeight}%`;
+            barChartPlaceholder.appendChild(bar);
+        });
+
+        // Render Pie Chart
+        let startAngle = 0;
+        let colors = [];
+        if (isDarkMode) {
+            colors = ['#F4A42A', '#60A5FA', '#34D399']; // Gold, Light Blue, Light Green for dark mode
+        } else {
+            colors = ['#0C2340', '#F4A42A', '#10B981']; // Navy, Gold, Green for light mode
+        }
+        let gradientString = '';
+        salesData.forEach((sale, index) => {
+            const sliceAngle = (sale / totalSales) * 360;
+            const color = colors[index % colors.length];
+            gradientString += `${color} ${startAngle}deg ${(startAngle + sliceAngle)}deg, `;
+            startAngle += sliceAngle;
+        });
+        // Remove trailing comma and space, add final color
+        gradientString = gradientString.slice(0, -2) + `, ${colors[0]} 360deg`; // Loop back to first color at 360deg for full circle
+        pieChartPlaceholder.style.background = `conic-gradient(${gradientString})`;
+    }
+
+    function updateSyncBadge() {
+      const badge = document.getElementById('pending-sync-badge');
+      if (badge) {
+          // Show badge only if offline AND there are pending syncs
+          if (!isSimulatedOnline && pendingSyncCount > 0) {
+              badge.classList.remove('hidden');
+              document.getElementById('sync-count').innerText = pendingSyncCount;
+          } else {
+              badge.classList.add('hidden');
+          }
+      }
     }
     
     function addProductToInventoryList(productName, category) {
@@ -1860,10 +2109,7 @@
 
     // --- Initial Setup and Listeners ---
     document.addEventListener('DOMContentLoaded', () => {
-        // 1. Set initial online status simulation
-        checkOnlineStatus();
-
-        // 2. Load theme preference from localStorage
+        // 1. Load theme preference from localStorage
         const savedTheme = localStorage.getItem('enimara-theme');
         if (savedTheme === 'dark') {
             isDarkMode = true;
@@ -1875,7 +2121,33 @@
             document.getElementById('theme-toggle').checked = false;
         }
 
-        // 3. Start on login page (default)
+        // 2. Load stats from localStorage
+        const savedSales = localStorage.getItem('enimara-today-sales');
+        if (savedSales) {
+            todaySales = parseInt(savedSales);
+            document.getElementById('today-sales').innerText = `₦ ${todaySales.toLocaleString()}`;
+        }
+        const savedLowStocks = localStorage.getItem('enimara-low-stocks');
+        if (savedLowStocks) {
+            lowStocks = parseInt(savedLowStocks);
+            document.getElementById('low-stocks').innerText = lowStocks;
+        }
+
+        // 3. Load initial online status from localStorage (or default to navigator.onLine)
+        // Note: navigator.onLine is the source of truth, so we don't strictly need to store this in localStorage
+        // but we can use it to initialize the simulated status if needed.
+        // For this demo, we'll start with the real status from navigator.onLine
+        isRealOnline = navigator.onLine;
+        isSimulatedOnline = isRealOnline; // Start with real status
+
+        // 4. Set initial online status UI
+        checkOnlineStatus();
+
+        // 5. Listen for real-time online/offline events
+        window.addEventListener('online', checkOnlineStatus);
+        window.addEventListener('offline', checkOnlineStatus);
+
+        // 6. Start on login page (default)
         navigateTo('login');
     });
 
