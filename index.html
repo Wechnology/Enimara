@@ -393,6 +393,16 @@
       width: 15%;
       background: var(--ion-color-secondary);
       border-radius: 4px 4px 0 0;
+      position: relative;
+    }
+    .chart-bar-value {
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.7rem;
+        color: var(--ion-text-color);
+        font-weight: 600;
     }
     .chart-pie {
       width: 45%;
@@ -677,7 +687,7 @@
           <div style="display: flex; gap: 12px; margin-bottom: 24px;">
             <div class="custom-input" style="flex: 1; margin-bottom: 0;">
               <ion-icon name="search-outline" style="margin-right: 8px; color: #999;"></ion-icon>
-              <input placeholder="Search item...">
+              <input placeholder="Search item..." id="pos-search">
             </div>
             <div style="width: 50px; background: var(--ion-border-color); border-radius: 12px; display: flex; align-items: center; justify-content: center;" onclick="startScanner()">
               <ion-icon name="scan-outline" style="font-size: 24px;"></ion-icon>
@@ -700,19 +710,11 @@
                </div>
                <!-- Items will be dynamically added here -->
                <div id="pos-items-list">
-                 <div class="pos-item-row" data-id="1">
-                   <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                     <div>
-                       <div class="font-bold text-sm">Brewery Coffee x 2</div>
-                       <div class="text-xs text-gray">SKU: #001</div>
-                     </div>
-                     <div class="font-bold">₦ 1,200</div>
-                   </div>
-                 </div>
+                 <!-- Items added by JS -->
                </div>
                 <div style="border-top: 1px dashed var(--ion-border-color); padding-top: 12px; margin-top: 12px; display: flex; justify-content: space-between;">
                  <span class="font-bold text-lg">Total</span>
-                 <span class="font-bold text-lg" id="pos-total">₦ 1,200</span>
+                 <span class="font-bold text-lg" id="pos-total">₦ 0</span>
                </div>
              </div>
              
@@ -744,7 +746,7 @@
 
            <div class="custom-input">
              <ion-icon name="search-outline" style="margin-right: 8px;"></ion-icon>
-             <input placeholder="Search products...">
+             <input placeholder="Search products..." id="inventory-search">
            </div>
 
            <!-- Tabs -->
@@ -758,59 +760,7 @@
            <!-- Item List -->
            <div id="inventory-list">
              <!-- Items will be dynamically generated here -->
-             <div class="inventory-item" data-category="foodstuff">
-               <div class="inventory-details">
-                 <div>
-                   <span class="font-bold text-lg text-primary">Rice (50kg)</span>
-                   <div class="text-xs text-gray">SKU: RC-001</div>
-                 </div>
-                 <span class="font-bold">₦ 45,000</span>
-               </div>
-               <div style="display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 12px;">
-                 <span class="text-xs text-gray">Foodstuff</span>
-                 <span class="inventory-stock">12 Bags left</span>
-               </div>
-               <div style="display: flex; gap: 8px;">
-                 <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-inventory-rc001')">Edit</ion-button>
-                 <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);" onclick="recordInventoryActivity('Rice (50kg)', 'Restock', 20)">Restock</ion-button>
-               </div>
-             </div>
-
-             <div class="inventory-item" data-category="beverages">
-               <div class="inventory-details">
-                 <div>
-                   <span class="font-bold text-lg text-primary">Milk Powder</span>
-                   <div class="text-xs text-gray">SKU: MK-022</div>
-                 </div>
-                 <span class="font-bold">₦ 500</span>
-               </div>
-               <div style="display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 12px;">
-                 <span class="text-xs text-gray">Beverages</span>
-                 <span class="inventory-stock">40 Cans left</span>
-               </div>
-               <div style="display: flex; gap: 8px;">
-                 <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-inventory-mk022')">Edit</ion-button>
-                 <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);" onclick="recordInventoryActivity('Milk Powder', 'Restock', 15)">Restock</ion-button>
-               </div>
-             </div>
-
-             <div class="inventory-item" data-category="household">
-               <div class="inventory-details">
-                 <div>
-                   <span class="font-bold text-lg text-primary">Dishwasher</span>
-                   <div class="text-xs text-gray">SKU: DW-001</div>
-                 </div>
-                 <span class="font-bold">₦ 2,500</span>
-               </div>
-               <div style="display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 12px;">
-                 <span class="text-xs text-gray">Household</span>
-                 <span class="inventory-stock">5 Units left</span>
-               </div>
-               <div style="display: flex; gap: 8px;">
-                 <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-inventory-dw001')">Edit</ion-button>
-                 <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);" onclick="recordInventoryActivity('Dishwasher', 'Restock', 5)">Restock</ion-button>
-               </div>
-             </div>
+             <!-- Initial items will be populated by JS -->
            </div>
            
            <div style="height: 80px;"></div>
@@ -1237,37 +1187,32 @@
          <div class="app-card">
            <label class="text-xs font-bold text-gray">Product name</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <input type="text" value="Rice (50kg)">
+             <input type="text" id="edit-product-name" value="Rice (50kg)">
            </div>
 
            <label class="text-xs font-bold text-gray">Category</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <select>
-                 <option>Foodstuff</option>
-                 <option>Beverages</option>
-                 <option>Household</option>
-                 <!-- Options will be populated dynamically -->
-             </select>
+             <input type="text" id="edit-product-category" value="Foodstuff">
            </div>
 
            <label class="text-xs font-bold text-gray">Stock Quantity</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <input type="number" value="24">
+             <input type="number" id="edit-product-stock" value="12">
            </div>
 
            <label class="text-xs font-bold text-gray">Selling Price</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <input type="number" value="45000">
+             <input type="number" id="edit-product-price" value="45000">
            </div>
 
            <label class="text-xs font-bold text-gray">Cost Price</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <input type="number" value="35000">
+             <input type="number" id="edit-product-cost" value="35000">
            </div>
 
            <label class="text-xs font-bold text-gray">Sku/Barcode</label>
            <div class="custom-input" style="margin-top: 4px;">
-             <input type="text" value="RC-001">
+             <input type="text" id="edit-product-sku" value="RC-001">
              <ion-icon name="scan-outline" class="text-gray"></ion-icon>
            </div>
          </div>
@@ -1584,6 +1529,10 @@
           renderSalesDetails();
       } else if (tabName === 'activity-details') {
           renderAllActivity();
+      } else if (tabName === 'inventory') {
+          renderInventoryList();
+      } else if (tabName === 'pos') {
+          renderPosItemsList(); // Refresh POS items from inventory
       }
     }
 
@@ -1593,6 +1542,11 @@
       const modal = document.getElementById(modalId);
       if (modal) {
         modal.classList.remove('hidden');
+        // Special logic for Edit Inventory modal to populate fields
+        if (modalId.startsWith('page-edit-inventory-')) {
+            const sku = modalId.split('-')[3]; // Extract SKU from modal ID
+            loadInventoryItemForEdit(sku);
+        }
         // Special logic for Add Product modal to populate categories
         if (modalId === 'page-add-product') {
             populateCategorySelect();
@@ -1612,21 +1566,281 @@
       }
     }
 
+    // --- Inventory Management ---
+    function getInventory() {
+        return JSON.parse(localStorage.getItem('enimara-inventory')) || [
+            { sku: 'RC-001', name: 'Rice (50kg)', category: 'Foodstuff', price: 45000, stock: 12, cost: 35000 },
+            { sku: 'MK-022', name: 'Milk Powder', category: 'Beverages', price: 500, stock: 40, cost: 300 },
+            { sku: 'DW-001', name: 'Dishwasher', category: 'Household', price: 2500, stock: 5, cost: 2000 }
+        ];
+    }
+
+    function saveInventory(inventory) {
+        localStorage.setItem('enimara-inventory', JSON.stringify(inventory));
+    }
+
+    function renderInventoryList() {
+        const list = document.getElementById('inventory-list');
+        const inventory = getInventory();
+        const currentCategory = document.querySelector('.category-tab.active').textContent.toLowerCase();
+
+        list.innerHTML = ''; // Clear existing items
+        inventory.forEach(item => {
+            if (currentCategory === 'all' || item.category.toLowerCase() === currentCategory) {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'inventory-item';
+                itemDiv.setAttribute('data-category', item.category.toLowerCase());
+                itemDiv.setAttribute('data-sku', item.sku); // Store SKU as data attribute
+                itemDiv.innerHTML = `
+                    <div class="inventory-details">
+                      <div>
+                        <span class="font-bold text-lg text-primary">${item.name}</span>
+                        <div class="text-xs text-gray">SKU: ${item.sku}</div>
+                      </div>
+                      <span class="font-bold">₦ ${item.price}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 12px;">
+                      <span class="text-xs text-gray">${item.category}</span>
+                      <span class="inventory-stock">${item.stock} Units left</span>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                      <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-inventory-${item.sku}')">Edit</ion-button>
+                      <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);" onclick="recordInventoryActivity('${item.name}', 'Restock', 20)">Restock</ion-button>
+                    </div>
+                `;
+                list.appendChild(itemDiv);
+            }
+        });
+    }
+
+    function loadInventoryItemForEdit(sku) {
+        const inventory = getInventory();
+        const item = inventory.find(i => i.sku === sku);
+        if (item) {
+            document.getElementById('edit-product-name').value = item.name;
+            document.getElementById('edit-product-category').value = item.category;
+            document.getElementById('edit-product-stock').value = item.stock;
+            document.getElementById('edit-product-price').value = item.price;
+            document.getElementById('edit-product-cost').value = item.cost;
+            document.getElementById('edit-product-sku').value = item.sku;
+            // Store the original SKU for saving
+            document.getElementById('page-edit-inventory-rc001').setAttribute('data-original-sku', sku);
+        }
+    }
+
+    function saveInventoryEdit() {
+        const originalSku = document.getElementById('page-edit-inventory-rc001').getAttribute('data-original-sku');
+        const inventory = getInventory();
+        const index = inventory.findIndex(i => i.sku === originalSku);
+
+        if (index !== -1) {
+            // Update the item in the inventory array
+            inventory[index] = {
+                sku: document.getElementById('edit-product-sku').value,
+                name: document.getElementById('edit-product-name').value,
+                category: document.getElementById('edit-product-category').value,
+                price: parseInt(document.getElementById('edit-product-price').value) || 0,
+                stock: parseInt(document.getElementById('edit-product-stock').value) || 0,
+                cost: parseInt(document.getElementById('edit-product-cost').value) || 0
+            };
+
+            // Save the updated inventory
+            saveInventory(inventory);
+
+            // Re-render the inventory list to reflect changes
+            renderInventoryList();
+
+            // Also re-render the POS items list if needed
+            if (document.getElementById('tab-pos').classList.contains('hidden') === false) {
+                renderPosItemsList();
+            }
+
+            // Increment the sync counter
+            pendingSyncCount++;
+            updateSyncBadge();
+
+            showToast('Inventory updated and pending sync.', 'success');
+            closeModal('page-edit-inventory-rc001');
+        } else {
+            showToast('Error: Item not found for editing.', 'danger');
+        }
+    }
+
+    function recordInventoryActivity(itemName, action, qty) {
+        // Increment the sync counter
+        pendingSyncCount++;
+        updateSyncBadge();
+
+        // Add to global activity log
+        addActivityToLog(action, itemName, `Qty: ${qty}`, "");
+        showToast(`${action} for ${itemName} recorded and pending sync.`, 'success');
+    }
+
+    // --- POS Management ---
+    function renderPosItemsList() {
+        // This function populates the POS search/selection list from inventory
+        // For simplicity in this demo, we just update the search placeholder suggestion
+        const posSearch = document.getElementById('pos-search');
+        const inventory = getInventory();
+        if (inventory.length > 0) {
+            const firstItemName = inventory[0].name;
+            posSearch.placeholder = `Search item... (e.g. ${firstItemName})`;
+        }
+    }
+
+    let posCart = []; // Array to hold items in the POS cart
+
+    function togglePos() {
+      const empty = document.getElementById('pos-empty');
+      const active = document.getElementById('pos-active');
+
+      if (empty.classList.contains('hidden')) {
+        // If active state is shown, try to add a random item from inventory
+        const inventory = getInventory();
+        if (inventory.length > 0) {
+            const randomItem = inventory[Math.floor(Math.random() * inventory.length)];
+            if (randomItem.stock > 0) { // Only add if stock is available
+                addToPosCart(randomItem);
+            } else {
+                showToast('Item is out of stock!', 'warning');
+            }
+        }
+      } else {
+        // If empty state is shown, switch to active state
+        empty.classList.add('hidden');
+        active.classList.remove('hidden');
+        // Clear cart when switching from empty
+        posCart = [];
+        updatePosTotal();
+        renderPosCartItems();
+      }
+    }
+
+    function addToPosCart(item) {
+        // Check if item already exists in cart
+        const existingItemIndex = posCart.findIndex(cartItem => cartItem.sku === item.sku);
+        if (existingItemIndex !== -1) {
+            // If exists, increment quantity (if stock allows)
+            if (posCart[existingItemIndex].quantity < item.stock) {
+                posCart[existingItemIndex].quantity++;
+            } else {
+                showToast('Not enough stock for this item.', 'warning');
+                return;
+            }
+        } else {
+            // If new, add to cart with quantity 1
+            if (item.stock > 0) {
+                posCart.push({ ...item, quantity: 1 });
+            } else {
+                showToast('Item is out of stock!', 'warning');
+                return;
+            }
+        }
+        renderPosCartItems();
+        updatePosTotal();
+    }
+
+    function renderPosCartItems() {
+        const list = document.getElementById('pos-items-list');
+        list.innerHTML = ''; // Clear existing items
+
+        posCart.forEach((cartItem, index) => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'pos-item-row';
+            itemDiv.innerHTML = `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                  <div>
+                    <div class="font-bold text-sm">${cartItem.name} x ${cartItem.quantity}</div>
+                    <div class="text-xs text-gray">SKU: ${cartItem.sku}</div>
+                  </div>
+                  <div class="font-bold">₦ ${cartItem.price * cartItem.quantity}</div>
+                </div>
+            `;
+            list.appendChild(itemDiv);
+        });
+    }
+
+    function updatePosTotal() {
+        let total = 0;
+        posCart.forEach(item => {
+            total += item.price * item.quantity;
+        });
+        document.getElementById('pos-total').textContent = `₦ ${total}`;
+    }
+
+    function recordSale() {
+        if (posCart.length === 0) {
+            showToast('Cannot record a sale with an empty cart.', 'warning');
+            return;
+        }
+
+        // Increment the sync counter
+        pendingSyncCount++;
+        updateSyncBadge();
+
+        // Get the total amount from the POS screen
+        const totalAmount = document.getElementById('pos-total').textContent;
+        const totalNum = parseInt(totalAmount.replace(/[^\d]/g, ''));
+
+        // Update inventory stock based on cart items
+        const inventory = getInventory();
+        let lowStocksChanged = false;
+        posCart.forEach(cartItem => {
+            const invItemIndex = inventory.findIndex(i => i.sku === cartItem.sku);
+            if (invItemIndex !== -1) {
+                inventory[invItemIndex].stock -= cartItem.quantity;
+                if (inventory[invItemIndex].stock <= 5 && inventory[invItemIndex].stock + cartItem.quantity > 5) {
+                    // Stock just went low
+                    lowStocks++;
+                    lowStocksChanged = true;
+                } else if (inventory[invItemIndex].stock <= 0 && inventory[invItemIndex].stock + cartItem.quantity > 0) {
+                    // Stock just ran out, but was already low, so don't double count
+                    // We only care about crossing the 'low' threshold
+                }
+            }
+        });
+        saveInventory(inventory);
+
+        // Re-render inventory list to reflect stock changes
+        renderInventoryList();
+
+        // Simulate a sale by updating the today's sales stat
+        todaySales += totalNum;
+        document.getElementById('today-sales').innerText = `₦ ${todaySales.toLocaleString()}`;
+        localStorage.setItem('enimara-today-sales', todaySales);
+
+        // Update low stocks count if necessary
+        if (lowStocksChanged) {
+            document.getElementById('low-stocks').innerText = lowStocks;
+            localStorage.setItem('enimara-low-stocks', lowStocks);
+        }
+
+        // Add a new activity to the recent activity list and sales details
+        const firstItemName = posCart[0]?.name || "Item";
+        const totalItemsInCart = posCart.reduce((sum, item) => sum + item.quantity, 0);
+        // Add to global activity log
+        addActivityToLog("Sale", firstItemName, `Qty: ${totalItemsInCart}`, totalAmount);
+        // Add to sales details log
+        addSaleToLog(totalAmount, "Cash"); // Assuming cash for demo
+
+        // Clear the POS cart
+        posCart = [];
+        document.getElementById('pos-active').classList.add('hidden');
+        document.getElementById('pos-empty').classList.remove('hidden');
+        renderPosCartItems(); // Clear the visual cart
+        updatePosTotal(); // Reset total
+
+        showToast(`Sale of ${totalAmount} recorded and pending sync.`, 'success');
+    }
+
     // --- Inventory Category Filtering Logic ---
     function filterCategory(category) {
         // Update active tab
         document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
         event.target.classList.add('active');
 
-        // Filter items based on data-category attribute
-        const items = document.querySelectorAll('#inventory-list .inventory-item');
-        items.forEach(item => {
-            if (category === 'all' || item.getAttribute('data-category') === category) {
-                item.classList.remove('hidden');
-            } else {
-                item.classList.add('hidden');
-            }
-        });
+        // Re-render inventory list with new filter
+        renderInventoryList();
     }
 
     // --- Product Category Selection Logic ---
@@ -1722,126 +1936,6 @@
         }
     });
 
-    // --- POS Toggle Logic (Updated) ---
-    function togglePos() {
-      const empty = document.getElementById('pos-empty');
-      const active = document.getElementById('pos-active');
-
-      if (empty.classList.contains('hidden')) {
-        // If active state is shown, add an item to the list
-        addPosItem();
-      } else {
-        // If empty state is shown, switch to active state and add the first item
-        empty.classList.add('hidden');
-        active.classList.remove('hidden');
-        // Clear any existing items from the list when switching from empty
-        document.getElementById('pos-items-list').innerHTML = '';
-        addPosItem(); // Add the first item
-      }
-    }
-
-    // --- New Function: Add Item to POS Cart ---
-    let posItemCounter = 1; // Counter for unique item IDs
-    function addPosItem() {
-        const list = document.getElementById('pos-items-list');
-        const newItemId = `pos-item-${++posItemCounter}`; // Increment and create unique ID
-
-        const newItem = document.createElement('div');
-        newItem.className = 'pos-item-row';
-        newItem.setAttribute('data-id', newItemId); // Store ID as data attribute
-
-        // Randomly select a product name and price for demo
-        const demoProducts = [
-            { name: 'Pepsi 350ml', price: 150 },
-            { name: 'Nivea Roll-on', price: 650 },
-            { name: 'Golden Morn', price: 800 },
-            { name: 'Bread (Honey)', price: 600 },
-            { name: 'Milo 300g', price: 1200 }
-        ];
-        const randomProduct = demoProducts[Math.floor(Math.random() * demoProducts.length)];
-        const quantity = Math.floor(Math.random() * 5) + 1; // Random quantity 1-5
-        const totalItemPrice = randomProduct.price * quantity;
-
-        newItem.innerHTML = `
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-              <div>
-                <div class="font-bold text-sm">${randomProduct.name} x ${quantity}</div>
-                <div class="text-xs text-gray">SKU: #${newItemId.split('-')[2]}</div>
-              </div>
-              <div class="font-bold">₦ ${totalItemPrice}</div>
-            </div>
-        `;
-
-        list.appendChild(newItem);
-
-        // Update the total
-        updatePosTotal();
-    }
-
-    // --- New Function: Update POS Total ---
-    function updatePosTotal() {
-        const items = document.querySelectorAll('#pos-items-list .pos-item-row');
-        let total = 0;
-
-        items.forEach(item => {
-            // Extract the price from the inner text (this is a simple parse, assumes format like "₦ 1200")
-            const priceText = item.querySelector('.font-bold:last-child').textContent;
-            const price = parseInt(priceText.replace(/[^\d]/g, '')) || 0; // Remove non-digits, parse as int
-            total += price;
-        });
-
-        document.getElementById('pos-total').textContent = `₦ ${total}`;
-    }
-
-    // --- POS Record Sales Logic (Updated) ---
-    function recordSale() {
-        // Increment the sync counter
-        pendingSyncCount++;
-        updateSyncBadge();
-
-        // Get the total amount from the POS screen
-        const totalAmount = document.getElementById('pos-total').textContent;
-        const totalNum = parseInt(totalAmount.replace(/[^\d]/g, ''));
-
-        // Simulate a sale by updating the today's sales stat
-        todaySales += totalNum;
-        document.getElementById('today-sales').innerText = `₦ ${todaySales.toLocaleString()}`;
-        localStorage.setItem('enimara-today-sales', todaySales);
-
-        // Simulate a low stock alert (reduce by 1 or 2 items randomly)
-        const reduction = Math.floor(Math.random() * 2) + 1; // Randomly 1 or 2
-        lowStocks = Math.max(0, lowStocks - reduction); // Ensure it doesn't go below 0
-        document.getElementById('low-stocks').innerText = lowStocks;
-        localStorage.setItem('enimara-low-stocks', lowStocks);
-
-        // Add a new activity to the recent activity list and sales details
-        const firstItemElement = document.querySelector('#pos-items-list .font-bold.text-sm');
-        const firstItemName = firstItemElement ? firstItemElement.textContent.split(' x ')[0] : "Item";
-        const totalItemsInCart = document.querySelectorAll('#pos-items-list .pos-item-row').length;
-        // Add to global activity log
-        addActivityToLog("Sale", firstItemName, `Qty: ${totalItemsInCart}`, totalAmount);
-        // Add to sales details log
-        addSaleToLog(totalAmount, "Cash"); // Assuming cash for demo
-
-        // Clear the POS cart by hiding the active state and showing the empty state
-        document.getElementById('pos-active').classList.add('hidden');
-        document.getElementById('pos-empty').classList.remove('hidden');
-        // Also clear the items list
-        document.getElementById('pos-items-list').innerHTML = '';
-
-        showToast(`Sale of ${totalAmount} recorded and pending sync.`, 'success');
-    }
-
-    // --- Inventory Activity Logic ---
-    function recordInventoryActivity(itemName, action, qty) {
-        // Increment the sync counter
-        pendingSyncCount++;
-        updateSyncBadge();
-
-        // Add to global activity log
-        addActivityToLog(action, itemName, `Qty: ${qty}`, "");
-        showToast(`${action} for ${itemName} recorded and pending sync.`, 'success');
-    }
 
     // --- Form Save Interactions (for demonstration) ---
     function saveCustomer() {
@@ -1858,15 +1952,35 @@
         pendingSyncCount++;
         updateSyncBadge();
         
-        // Get the product name from the input
-        const productName = document.getElementById('product-name-input').value || "New Product";
-        // Get the selected category
-        const selectedCategory = document.getElementById('product-category-input').value;
-        showToast(`"${productName}" added to ${selectedCategory} and pending sync.`, 'success');
+        const name = document.getElementById('product-name-input').value;
+        const price = parseInt(document.getElementById('product-price-input').value) || 0;
+        const stock = parseInt(document.getElementById('product-stock-input').value) || 0;
+        const category = document.getElementById('product-category-input').value;
+
+        if (!name) {
+             showToast('Please enter a product name.', 'warning');
+             return;
+        }
+
+        const newSku = `NEW-${Math.floor(Math.random() * 10000)}`;
+        const newProduct = {
+            sku: newSku,
+            name: name,
+            category: category,
+            price: price,
+            stock: stock,
+            cost: price * 0.8 // Example cost calculation
+        };
+
+        const inventory = getInventory();
+        inventory.push(newProduct);
+        saveInventory(inventory);
+
+        showToast(`"${name}" added and pending sync.`, 'success');
         closeModal('page-add-product');
-        
-        // Simulate adding the product to the inventory list
-        addProductToInventoryList(productName, selectedCategory);
+
+        // Re-render inventory list
+        renderInventoryList();
     }
 
     function saveShopDetails() {
@@ -1881,15 +1995,6 @@
         
         showToast('Payment recorded and pending sync.', 'success');
         closeModal('page-record-payment-johnadams');
-    }
-    
-    function saveInventoryEdit() {
-        // Increment the sync counter
-        pendingSyncCount++;
-        updateSyncBadge();
-        
-        showToast('Inventory updated and pending sync.', 'success');
-        closeModal('page-edit-inventory-rc001');
     }
     
     function updateStock() {
@@ -2007,7 +2112,7 @@
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${date}<br><span class="text-xs text-gray">${time}</span></td>
-                <td>Multiple Items</td> <!-- Simplified for demo -->
+                <td>Sale Transaction</td> <!-- Simplified for demo -->
                 <td>${sale.total}</td>
                 <td>${sale.paymentMethod}</td>
             `;
@@ -2023,39 +2128,91 @@
         barChartPlaceholder.innerHTML = '';
         pieChartPlaceholder.style.background = '';
 
-        // Simulate data
-        const categories = ['Foodstuff', 'Beverages', 'Household', 'Electronics', 'Clothing'];
-        const salesData = [Math.floor(Math.random() * 100000) + 50000, Math.floor(Math.random() * 80000) + 40000, Math.floor(Math.random() * 60000) + 30000, Math.floor(Math.random() * 40000) + 20000, Math.floor(Math.random() * 30000) + 10000];
-        const totalSales = salesData.reduce((a, b) => a + b, 0);
+        // Get sales and inventory data for charting
+        const salesLog = JSON.parse(localStorage.getItem('enimara-sales-log')) || [];
+        const inventory = getInventory();
 
-        // Render Bar Chart
-        salesData.forEach(sale => {
-            const barHeight = Math.max(10, (sale / totalSales) * 100); // Normalize to 100px max, min 10px
-            const bar = document.createElement('div');
-            bar.className = 'chart-bar';
-            bar.style.height = `${barHeight}%`;
-            barChartPlaceholder.appendChild(bar);
+        // Simulate category-based sales data from logs (simplified)
+        const categorySales = {};
+        const categoryCounts = {};
+        salesLog.forEach(sale => {
+            // This is a simplification. In a real app, you'd link sales to specific items/categories.
+            // For demo, we'll just distribute sales across default categories.
+            const cats = ['Foodstuff', 'Beverages', 'Household', 'Electronics', 'Clothing'];
+            const randomCat = cats[Math.floor(Math.random() * cats.length)];
+            categorySales[randomCat] = (categorySales[randomCat] || 0) + (parseInt(sale.total.replace(/[^\d]/g, '')) || 0);
+            categoryCounts[randomCat] = (categoryCounts[randomCat] || 0) + 1;
         });
 
-        // Render Pie Chart
+        // Use inventory counts as another data source for the bar chart
+        const categoryInventory = {};
+        inventory.forEach(item => {
+            categoryInventory[item.category] = (categoryInventory[item.category] || 0) + item.stock;
+        });
+
+        const categories = Object.keys(categorySales).length > 0 ? Object.keys(categorySales) : ['Foodstuff', 'Beverages', 'Household'];
+        const salesData = categories.map(cat => categorySales[cat] || 0);
+        const inventoryData = categories.map(cat => categoryInventory[cat] || 0);
+
+        // Render Bar Chart (Sales vs Inventory)
+        const maxValue = Math.max(...salesData, ...inventoryData, 1); // Ensure non-zero max
+        categories.forEach((cat, index) => {
+            const salesValue = salesData[index] || 0;
+            const invValue = inventoryData[index] || 0;
+            const barHeightSales = (salesValue / maxValue) * 100;
+            const barHeightInv = (invValue / maxValue) * 100;
+
+            const barContainer = document.createElement('div');
+            barContainer.style.display = 'flex';
+            barContainer.style.flexDirection = 'column';
+            barContainer.style.alignItems = 'center';
+            barContainer.style.height = '100%';
+            barContainer.style.justifyContent = 'flex-end';
+
+            const barSales = document.createElement('div');
+            barSales.className = 'chart-bar';
+            barSales.style.height = `${barHeightSales}%`;
+            barSales.style.background = 'var(--ion-color-secondary)'; // Use secondary color for sales
+            barSales.style.position = 'relative';
+            barSales.style.marginBottom = '2px'; // Small gap between bars
+            barSales.innerHTML = `<div class="chart-bar-value">${salesValue}</div>`;
+
+            const barInv = document.createElement('div');
+            barInv.className = 'chart-bar';
+            barInv.style.height = `${barHeightInv}%`;
+            barInv.style.background = 'var(--ion-color-primary)'; // Use primary color for inventory
+            barInv.style.position = 'relative';
+            barInv.innerHTML = `<div class="chart-bar-value">${invValue}</div>`;
+
+            barContainer.appendChild(barSales);
+            barContainer.appendChild(barInv);
+            barChartPlaceholder.appendChild(barContainer);
+        });
+
+
+        // Render Pie Chart (Inventory Distribution by Category)
         let startAngle = 0;
         let colors = [];
         if (isDarkMode) {
-            colors = ['#F4A42A', '#60A5FA', '#34D399']; // Gold, Light Blue, Light Green for dark mode
+            colors = ['#F4A42A', '#60A5FA', '#34D399', '#F87171', '#A78BFA']; // Gold, Light Blue, Light Green, Light Red, Light Purple for dark mode
         } else {
-            colors = ['#0C2340', '#F4A42A', '#10B981']; // Navy, Gold, Green for light mode
+            colors = ['#0C2340', '#F4A42A', '#10B981', '#EF4444', '#8B5CF6']; // Navy, Gold, Green, Red, Purple for light mode
         }
+        let totalInventory = inventory.reduce((sum, item) => sum + item.stock, 0);
+        if (totalInventory === 0) totalInventory = 1; // Avoid division by zero
         let gradientString = '';
-        salesData.forEach((sale, index) => {
-            const sliceAngle = (sale / totalSales) * 360;
+        categories.forEach((cat, index) => {
+            const stockInCat = inventory.filter(item => item.category === cat).reduce((sum, item) => sum + item.stock, 0);
+            const sliceAngle = (stockInCat / totalInventory) * 360;
             const color = colors[index % colors.length];
             gradientString += `${color} ${startAngle}deg ${(startAngle + sliceAngle)}deg, `;
             startAngle += sliceAngle;
         });
         // Remove trailing comma and space, add final color
-        gradientString = gradientString.slice(0, -2) + `, ${colors[0]} 360deg`; // Loop back to first color at 360deg for full circle
+        gradientString = gradientString.slice(0, -2) + `, ${colors[0]} 360deg`;
         pieChartPlaceholder.style.background = `conic-gradient(${gradientString})`;
     }
+
 
     function updateSyncBadge() {
       const badge = document.getElementById('pending-sync-badge');
@@ -2068,34 +2225,6 @@
               badge.classList.add('hidden');
           }
       }
-    }
-    
-    function addProductToInventoryList(productName, category) {
-      const list = document.getElementById('inventory-list');
-      const newItem = document.createElement('div');
-      newItem.className = 'inventory-item';
-      newItem.setAttribute('data-category', category.toLowerCase()); // Set data-category for filtering
-      
-      newItem.innerHTML = `
-        <div class="inventory-details">
-          <div>
-            <span class="font-bold text-lg text-primary">${productName}</span>
-            <div class="text-xs text-gray">SKU: NEW-${Math.floor(Math.random()*1000)}</div>
-          </div>
-          <span class="font-bold">₦ 500</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 12px;">
-          <span class="text-xs text-gray">${category}</span>
-          <span class="inventory-stock">10 Units left</span>
-        </div>
-        <div style="display: flex; gap: 8px;">
-          <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);">Edit</ion-button>
-          <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);">Restock</ion-button>
-        </div>
-      `;
-      
-      // Insert at the top of the list
-      list.insertBefore(newItem, list.firstChild);
     }
     
     function startScanner() {
@@ -2147,11 +2276,27 @@
         window.addEventListener('online', checkOnlineStatus);
         window.addEventListener('offline', checkOnlineStatus);
 
-        // 6. Start on login page (default)
+        // 6. Initialize inventory list on load if needed
+        if (!localStorage.getItem('enimara-inventory')) {
+            saveInventory(getInventory()); // Save default inventory if not present
+        }
+
+        // 7. Initialize default sales log if empty
+        const salesLog = JSON.parse(localStorage.getItem('enimara-sales-log')) || [];
+        if (salesLog.length === 0) {
+            // Add an initial sale record matching the default sales amount
+            salesLog.push({
+                timestamp: new Date().toISOString(),
+                total: "₦ 120,000",
+                paymentMethod: "Cash"
+            });
+            localStorage.setItem('enimara-sales-log', JSON.stringify(salesLog));
+        }
+
+        // 8. Start on login page (default)
         navigateTo('login');
     });
 
   </script>
 </body>
 </html>
-
