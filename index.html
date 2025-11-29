@@ -456,7 +456,7 @@
     <ion-app>
         <!-- OFFLINE INDICATOR -->
         <div id="offline-banner" class="hidden">
-            <ion-icon ios="cloud-offline-outline" md="cloud-offline-solid"></ion-icon>
+            <ion-icon name="cloud-offline"></ion-icon>
             <span data-i18n="offline_msg">Network is causing go-slow. We will sync when it's back.</span>
         </div>
         <!-- ================== 1. LOGIN PAGE ================== -->
@@ -474,7 +474,7 @@
             </div>
             <div class="custom-input">
                 <input type="password" value="password" placeholder="Password" data-i18n-placeholder="password_ph">
-                <ion-icon ios="eye-outline" md="eye-solid" class="text-gray"></ion-icon>
+                <ion-icon name="eye-outline" class="text-gray"></ion-icon>
             </div>
             <ion-button expand="block" class="btn-gold" style="margin-top: 24px;" onclick="navigateTo('page-dashboard')"
                 data-i18n="sign_in">Sign In</ion-button>
@@ -500,7 +500,7 @@
                                 style="background: #D1FAE5; color: #065F46; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; transition: all 0.3s;"
                                 data-i18n="online">Online</div>
                             <div style="position: relative;" onclick="openModal('page-notifications')">
-                                <ion-icon ios="notifications-outline" md="notifications-solid"
+                                <ion-icon name="notifications-outline"
                                     style="font-size: 24px; color: var(--text-color);"></ion-icon>
                                 <span id="notif-badge"
                                     style="position: absolute; top: -2px; right: -2px; background: red; color: white; border-radius: 50%; width: 14px; height: 14px; font-size: 9px; display: flex; align-items: center; justify-content: center;">3</span>
@@ -531,7 +531,7 @@
                             <div style="display: flex; justify-content: space-between;">
                                 <span class="text-xs" style="opacity: 0.8;" data-i18n="todays_sales">Today's
                                     Sales</span>
-                                <ion-icon ios="chevron-forward-outline" md="chevron-forward-solid" style="opacity: 0.6;"></ion-icon>
+                                <ion-icon name="chevron-forward" style="opacity: 0.6;"></ion-icon>
                             </div>
                             <div class="font-bold text-xl" style="margin-top: 8px;" id="home-today-sales">₦ 0</div>
                         </div>
@@ -539,7 +539,7 @@
                             <ion-ripple-effect></ion-ripple-effect>
                             <div style="display: flex; justify-content: space-between;">
                                 <span class="text-xs text-gray" data-i18n="low_stock">Low Stock</span>
-                                <ion-icon ios="alert-circle-outline" md="alert-circle-solid" class="text-danger"></ion-icon>
+                                <ion-icon name="alert-circle" class="text-danger"></ion-icon>
                             </div>
                             <div class="font-bold text-xl" style="margin-top: 8px;">5 <span
                                     class="text-xs text-gray font-normal" data-i18n="items">items</span></div>
@@ -575,7 +575,7 @@
                     <div
                         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                         <h2 class="font-bold text-lg text-primary" data-i18n="pos_title">Point of Sale</h2>
-                        <ion-icon id="pos-status-icon" ios="cloud-done-outline" md="cloud-done-solid"
+                        <ion-icon id="pos-status-icon" name="cloud-done"
                             style="font-size: 24px; color: var(--ion-color-secondary);"></ion-icon>
                     </div>
                     <!-- Select Customer for POS -->
@@ -583,7 +583,7 @@
                         style="padding: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;"
                         onclick="openPosCustomerSelect()">
                         <div style="display: flex; align-items: center;">
-                            <ion-icon ios="person-outline" md="person-solid"
+                            <ion-icon name="person"
                                 style="margin-right: 10px; color: var(--ion-color-primary);"></ion-icon>
                             <div>
                                 <div class="text-xs text-gray" data-i18n="customer">Customer</div>
@@ -595,7 +595,7 @@
                     </div>
                     <div style="display: flex; gap: 12px; margin-bottom: 24px;">
                         <div class="custom-input" style="flex: 1; margin-bottom: 0;">
-                            <ion-icon ios="search-outline" md="search-solid" style="margin-right: 8px; color: #999;"></ion-icon>
+                            <ion-icon name="search-outline" style="margin-right: 8px; color: #999;"></ion-icon>
                             <input placeholder="Search product to add..." data-i18n-placeholder="search_prod_add"
                                 readonly onclick="openModal('page-pos-add-item')">
                             <ion-icon name="add-circle"
@@ -606,13 +606,13 @@
                     <div id="pos-empty" style="text-align: center; margin-top: 60px;">
                         <div
                             style="width: 120px; height: 120px; background: var(--card-bg); border: 1px dashed var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
-                            <ion-icon ios="basket-outline" md="basket-solid"
+                            <ion-icon name="basket-outline"
                                 style="font-size: 64px; color: var(--text-muted);"></ion-icon>
                         </div>
                         <p class="text-gray" data-i18n="cart_empty">Cart is empty.</p>
                         <p class="text-xs text-gray" data-i18n="cart_empty_sub">Click search or scan to start selling.
                         </p>
-                        <ion-button ios="outline" md="solid" class="btn-gold" style="margin-top: 20px; color: black;"
+                        <ion-button fill="outline" class="btn-gold" style="margin-top: 20px; color: black;"
                             onclick="openModal('page-pos-add-item')" data-i18n="add_products">Add Products</ion-button>
                     </div>
                     <!-- Active Cart -->
@@ -645,7 +645,7 @@
                     <h2 class="font-bold text-lg text-primary" style="margin-bottom: 16px;" data-i18n="stock_level">
                         Stock Level</h2>
                     <div class="custom-input">
-                        <ion-icon ios="search-outline" md="search-solid" style="margin-right: 8px;"></ion-icon>
+                        <ion-icon name="search-outline" style="margin-right: 8px;"></ion-icon>
                         <input placeholder="Find product..." data-i18n-placeholder="find_product" id="inventory-search"
                             oninput="renderInventoryList()">
                     </div>
@@ -659,7 +659,7 @@
                 <!-- FAB -->
                 <div style="position: fixed; bottom: 85px; right: 20px; z-index: 200;">
                     <ion-fab-button color="secondary" onclick="openModal('page-add-product')">
-                        <ion-icon ios="add-outline" md="add-solid"></ion-icon>
+                        <ion-icon name="add"></ion-icon>
                     </ion-fab-button>
                 </div>
             </div>
@@ -679,7 +679,7 @@
                             style="background: var(--ion-color-secondary); color: black; width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md);"
                             onclick="openModal('page-add-customer')">
                             <ion-ripple-effect></ion-ripple-effect>
-                            <ion-icon ios="person-add-outline" md="person-add-solid" style="font-size: 20px;"></ion-icon>
+                            <ion-icon name="person-add" style="font-size: 20px;"></ion-icon>
                         </div>
                     </div>
                     <!-- Filter Segments -->
@@ -697,7 +697,7 @@
                         id="top-customers-list"></div>
 
                     <div class="custom-input">
-                        <ion-icon ios="search-outline" md="search-solid" style="margin-right: 8px;"></ion-icon>
+                        <ion-icon name="search-outline" style="margin-right: 8px;"></ion-icon>
                         <input placeholder="Search name or phone..." data-i18n-placeholder="search_customer"
                             id="customer-search" oninput="renderCustomerList()">
                     </div>
@@ -750,7 +750,7 @@
                                 </div>
                                 <span data-i18n="staff_management">Staff Management</span>
                             </div>
-                            <ion-icon name="chevron-forward" class="text-gray" ios="chevron-forward-outline" md="chevron-forward-solid"></ion-icon>
+                            <ion-icon name="chevron-forward" class="text-gray"></ion-icon>
                         </div>
                         <!-- Help & Training -->
                         <div class="list-item ion-activatable" onclick="openModal('page-help')">
