@@ -456,7 +456,7 @@
     <ion-app>
         <!-- OFFLINE INDICATOR -->
         <div id="offline-banner" class="hidden">
-            <ion-icon name="cloud-offline"></ion-icon>
+            <ion-icon ios="cloud-offline-outline" md="cloud-offline-solid"></ion-icon>
             <span data-i18n="offline_msg">Network is causing go-slow. We will sync when it's back.</span>
         </div>
         <!-- ================== 1. LOGIN PAGE ================== -->
@@ -474,7 +474,7 @@
             </div>
             <div class="custom-input">
                 <input type="password" value="password" placeholder="Password" data-i18n-placeholder="password_ph">
-                <ion-icon name="eye-outline" class="text-gray"></ion-icon>
+                <ion-icon ios="eye-outline" md="eye-solid" class="text-gray"></ion-icon>
             </div>
             <ion-button expand="block" class="btn-gold" style="margin-top: 24px;" onclick="navigateTo('page-dashboard')"
                 data-i18n="sign_in">Sign In</ion-button>
@@ -500,7 +500,7 @@
                                 style="background: #D1FAE5; color: #065F46; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; transition: all 0.3s;"
                                 data-i18n="online">Online</div>
                             <div style="position: relative;" onclick="openModal('page-notifications')">
-                                <ion-icon name="notifications-outline"
+                                <ion-icon ios="notifications-outline" md="notifications-solid"
                                     style="font-size: 24px; color: var(--text-color);"></ion-icon>
                                 <span id="notif-badge"
                                     style="position: absolute; top: -2px; right: -2px; background: red; color: white; border-radius: 50%; width: 14px; height: 14px; font-size: 9px; display: flex; align-items: center; justify-content: center;">3</span>
@@ -575,7 +575,7 @@
                     <div
                         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                         <h2 class="font-bold text-lg text-primary" data-i18n="pos_title">Point of Sale</h2>
-                        <ion-icon id="pos-status-icon" name="cloud-done"
+                        <ion-icon id="pos-status-icon" ios="cloud-done-outline" md="cloud-done-solid"
                             style="font-size: 24px; color: var(--ion-color-secondary);"></ion-icon>
                     </div>
                     <!-- Select Customer for POS -->
