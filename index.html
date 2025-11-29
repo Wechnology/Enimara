@@ -310,7 +310,7 @@
                  <ion-icon name="person" style="margin-right: 10px; color: var(--ion-color-primary);"></ion-icon>
                  <div>
                      <div class="text-xs text-gray">Customer</div>
-                     <div class="font-bold text-sm" id="pos-customer-name">Walk-in Customer</div>
+                     <div class="font-bold text-sm" id="pos-customer-name">Select Customer</div>
                  </div>
              </div>
              <ion-icon name="chevron-down" class="text-gray"></ion-icon>
@@ -353,7 +353,7 @@
         <div class="ion-padding">
            <!-- Dynamic Insight -->
            <div class="ai-card" style="margin-bottom: 16px; padding: 12px;">
-             <div class="text-xs" style="color: var(--smart-insight-text);">💡 <b>Insight:</b> <b>Malta Guinness</b> stock is low. Consider restocking for the weekend rush.</div>
+             <div class="text-xs" style="color: var(--smart-insight-text);" id="inventory-insight">Loading stock insights...</div>
            </div>
            <h2 class="font-bold text-lg text-primary" style="margin-bottom: 16px;">Stock Level</h2>
            <div class="custom-input">
@@ -791,6 +791,8 @@
                 <div class="custom-input"><input type="tel" id="prof-phone" value="08012345678"></div>
                 <label class="text-xs font-bold text-gray">Address</label>
                 <div class="custom-input"><input type="text" id="prof-addr" value="12 Market Road, Lagos"></div>
+                <label class="text-xs font-bold text-gray">Low Stock Threshold</label>
+                <div class="custom-input"><input type="number" id="prof-low-stock-threshold" value="10"></div>
             </div>
             <ion-button expand="block" class="btn-gold" onclick="saveProfile()">Update Profile</ion-button>
         </div>
@@ -894,7 +896,8 @@
         shopProfile: {
             name: 'Oreoluwa Store',
             phone: '08012345678',
-            address: '12 Market Road, Lagos'
+            address: '12 Market Road, Lagos',
+            lowStockThreshold: 10 // New: Default threshold
         },
         cart: [],
         activityLog: [
@@ -951,6 +954,7 @@
         if(tabName === 'inventory') {
             renderInventoryList();
             renderCategories(); // Ensure filter tabs are up to date
+            updateInventoryInsight(); // Update inventory insight when switching to inventory
         }
         if(tabName === 'customers') { renderCustomerList(); renderTopCustomers(); }
         updateInsight(tabName);
@@ -959,13 +963,29 @@
         const textEl = document.getElementById('home-insight-text');
         const btnEl = document.getElementById('home-insight-btn');
         if(tab === 'home') {
-            // Logic: Check lowest stock item
-            const lowItem = state.inventory.sort((a,b) => a.stock - b.stock)[0];
-            if(lowItem) {
+            // Logic: Check lowest stock item against threshold
+            const threshold = state.shopProfile.lowStockThreshold;
+            const lowItem = state.inventory.reduce((min, item) => item.stock < min.stock ? item : min, state.inventory[0]);
+            if(lowItem && lowItem.stock < threshold) {
                 textEl.innerText = `"${lowItem.name}" is running low (${lowItem.stock} left). Customers might ask for it soon.`;
                 btnEl.innerText = "Restock Now";
                 btnEl.onclick = () => switchTab('inventory');
+            } else {
+                textEl.innerText = "All stock levels look healthy!";
+                btnEl.innerText = "Check Stock";
+                btnEl.onclick = () => switchTab('inventory');
             }
+        }
+    }
+    // New: Update Inventory Insight
+    function updateInventoryInsight() {
+        const threshold = state.shopProfile.lowStockThreshold;
+        const lowItem = state.inventory.reduce((min, item) => item.stock < min.stock ? item : min, state.inventory[0]);
+        const insightEl = document.getElementById('inventory-insight');
+        if(lowItem && lowItem.stock < threshold) {
+            insightEl.innerHTML = `💡 <b>Insight:</b> <b>${lowItem.name}</b> is running low (${lowItem.stock} left). Consider restocking soon.`;
+        } else {
+            insightEl.innerHTML = "✅ All stock levels look healthy!";
         }
     }
     function openModal(id) { 
@@ -977,6 +997,10 @@
         if(id === 'page-generate-reminder') updateReminderPreview();
         // Populate Datalist for Debt
         if(id === 'page-add-debt') populateDebtDatalist();
+        // Load current threshold into profile modal
+        if(id === 'page-profile') {
+            document.getElementById('prof-low-stock-threshold').value = state.shopProfile.lowStockThreshold;
+        }
     }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
     // --- THEME TOGGLE (FIXED) ---
@@ -1368,7 +1392,7 @@
         container.innerHTML += `
             <div class="list-item ion-activatable" onclick="selectPosCustomer(null)">
                 <ion-ripple-effect></ion-ripple-effect>
-                <div class="font-bold">Walk-in Customer</div>
+                <div class="font-bold">Select Customer</div>
             </div>
         `;
         state.customers.forEach(c => {
@@ -1389,7 +1413,7 @@
         state.posSelectedCustomer = id;
         const label = document.getElementById('pos-customer-name');
         if(id === null) {
-            label.innerText = "Walk-in Customer";
+            label.innerText = "Select Customer";
         } else {
             const cust = state.customers.find(c => c.id === id);
             if(cust) label.innerText = cust.name;
@@ -1418,6 +1442,10 @@
     function initiateAddToCart(sku) {
         const item = state.inventory.find(i => i.sku === sku);
         if(!item) return;
+        if(item.stock <= 0) {
+            showToast("Out of stock!");
+            return;
+        }
         state.tempQtySku = sku;
         document.getElementById('qty-item-name').innerText = item.name;
         document.getElementById('qty-stock-display').innerText = `Available: ${item.stock}`;
@@ -1427,22 +1455,35 @@
     }
     function adjustQty(amount) {
         const input = document.getElementById('qty-input');
+        const item = state.inventory.find(i => i.sku === state.tempQtySku);
+        const maxQty = item ? item.stock : 1;
         let val = parseInt(input.value) + amount;
         if(val < 1) val = 1;
+        if(val > maxQty) val = maxQty; // Enforce max
         input.value = val;
     }
     function confirmAddToCart() {
         const sku = state.tempQtySku;
         const qty = parseInt(document.getElementById('qty-input').value);
         const item = state.inventory.find(i => i.sku === sku);
-        if(item) {
-            const existing = state.cart.find(c => c.sku === sku);
-            if(existing) existing.qty += qty;
-            else state.cart.push({...item, qty: qty});
-            updateCartUI();
-            closeModal('page-pos-qty');
-            showToast('Item Added');
+        if(!item) return;
+        if(qty > item.stock) {
+            showToast(`Only ${item.stock} available in stock!`);
+            return;
         }
+        const existing = state.cart.find(c => c.sku === sku);
+        if(existing) {
+            if(existing.qty + qty > item.stock) {
+                showToast(`Cannot exceed ${item.stock} total for this item.`);
+                return;
+            }
+            existing.qty += qty;
+        } else {
+            state.cart.push({...item, qty: qty});
+        }
+        updateCartUI();
+        closeModal('page-pos-qty');
+        showToast('Item Added');
     }
     function updateCartUI() {
         const container = document.getElementById('pos-items-list');
@@ -1532,7 +1573,7 @@
         // Reset Cart & Customer
         state.cart = [];
         state.posSelectedCustomer = null;
-        document.getElementById('pos-customer-name').innerText = "Walk-in Customer";
+        document.getElementById('pos-customer-name').innerText = "Select Customer";
         document.getElementById('pos-items-list').innerHTML = '';
         document.getElementById('pos-active').classList.add('hidden');
         document.getElementById('pos-empty').classList.remove('hidden');
@@ -1642,6 +1683,7 @@
         state.shopProfile.name = document.getElementById('prof-name').value;
         state.shopProfile.phone = document.getElementById('prof-phone').value;
         state.shopProfile.address = document.getElementById('prof-addr').value;
+        state.shopProfile.lowStockThreshold = parseInt(document.getElementById('prof-low-stock-threshold').value) || 10; // New: Update threshold
 
         // Update shop name in Home tab
         const homeNameEl = document.getElementById('home-shop-name');
@@ -1651,12 +1693,17 @@
         const invNameEl = document.getElementById('inv-shop-name');
         if (invNameEl) invNameEl.innerText = state.shopProfile.name;
 
-        // ✅ Update shop name in Profile modal itself
+        // Update shop name in Profile modal itself
         const profileNameEl = document.getElementById('profile-shop-name');
         if (profileNameEl) profileNameEl.innerText = state.shopProfile.name;
 
         showToast("Profile Updated");
-        // closeModal('page-profile'); // Optional: leave modal open to show change
+        closeModal('page-profile');
+        // Update insights after saving
+        updateInsight('home');
+        if(document.getElementById('tab-inventory').classList.contains('hidden') === false) {
+            updateInventoryInsight();
+        }
     }
     function updateDashboardTotals() {
         const els = document.querySelectorAll('#home-today-sales');
