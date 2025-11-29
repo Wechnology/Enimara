@@ -4,21 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Enimara - The OS for the Unstructured</title>
-
   <link rel="icon" type="image/x-icon" href="Enimara Favicon.png">
-    
   <!-- Ionic Framework -->
   <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
   <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
-
   <!-- Ionicons -->
   <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.js"></script>
-
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
   <style>
     /* --- ENIMARA BRAND THEME --- */
     :root {
@@ -27,7 +22,6 @@
       --ion-color-primary-rgb: 12, 35, 64;
       --ion-color-secondary: #F4A42A; /* Warm Gold */
       --ion-color-secondary-rgb: 244, 164, 42;
-      
       --app-bg: #F9FAFB;
       --card-bg: #FFFFFF;
       --text-color: #1F2937;
@@ -35,12 +29,10 @@
       --border-color: #E5E7EB;
       --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
       --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      
       --smart-insight-bg: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
       --smart-insight-border: #FCD34D;
       --smart-insight-text: #92400E;
     }
-
     /* DARK MODE */
     body.dark {
       --ion-color-primary: #476C9B; 
@@ -55,7 +47,6 @@
       --smart-insight-border: #4B5563;
       --smart-insight-text: #F3F4F6;
     }
-
     body { 
       font-family: 'Noto Sans', sans-serif; 
       background-color: var(--app-bg);
@@ -63,7 +54,6 @@
       margin: 0; overflow: hidden;
       transition: background-color 0.3s;
     }
-
     /* UTILITIES */
     .text-primary { color: var(--ion-color-primary); }
     .text-secondary { color: var(--ion-color-secondary); }
@@ -75,20 +65,17 @@
     .text-xs { font-size: 0.75rem; }
     .hidden { display: none !important; }
     .ion-activatable { position: relative; overflow: hidden; cursor: pointer; }
-
     /* LAYOUT */
     .page-container {
       width: 100%; height: 100%; position: absolute; top: 0; left: 0;
       background: var(--app-bg); overflow-y: auto; z-index: 10;
       padding-bottom: 90px;
     }
-
     .app-card {
       background: var(--card-bg); border-radius: 16px; padding: 16px;
       box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);
       margin-bottom: 16px; position: relative;
     }
-
     .custom-input {
       background: var(--card-bg); border: 1px solid var(--border-color);
       border-radius: 12px; padding: 12px 16px; margin-bottom: 16px;
@@ -98,7 +85,6 @@
       border: none; outline: none; width: 100%; background: transparent;
       color: var(--text-color); font-family: inherit; font-size: 16px;
     }
-
     /* OFFLINE BANNER */
     #offline-banner {
       background: #374151; color: white; text-align: center;
@@ -106,7 +92,6 @@
       position: sticky; top: 0; z-index: 1000;
       display: flex; align-items: center; justify-content: center; gap: 8px;
     }
-
     /* TAB BAR */
     .custom-tab-bar {
       position: fixed; bottom: 0; left: 0; right: 0;
@@ -123,14 +108,12 @@
     }
     .tab-btn.active { color: var(--ion-color-secondary); font-weight: 600; }
     .tab-btn ion-icon { font-size: 24px; margin-bottom: 4px; }
-
     /* CHARTS */
     .chart-container { margin: 20px 0; overflow: hidden; }
     .svg-chart { width: 100%; height: 180px; overflow: visible; }
     .chart-grid-line { stroke: var(--border-color); stroke-width: 1; stroke-dasharray: 4 4; opacity: 0.5; }
     .chart-axis-text { font-size: 10px; fill: var(--text-muted); }
     .chart-bar { fill: var(--ion-color-secondary); rx: 4; transition: height 0.3s ease; }
-
     /* STOCK TABS */
     .stock-tab {
         padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
@@ -141,7 +124,6 @@
     .stock-tab.active {
         background: var(--ion-color-primary); color: white; border-color: var(--ion-color-primary);
     }
-
     /* CUSTOMER CARDS */
     .customer-card {
         background: var(--card-bg); border: 1px solid var(--border-color);
@@ -158,7 +140,6 @@
         border: 1px solid var(--border-color);
         position: relative; overflow: hidden;
     }
-
     /* AI SUGGESTIONS */
     .ai-card {
         background: var(--smart-insight-bg);
@@ -169,7 +150,6 @@
         background: var(--ion-color-secondary); color: black; font-size: 11px; padding: 6px 12px;
         border-radius: 12px; font-weight: 600; display: inline-block; margin-top: 8px;
     }
-
     /* LIST ITEMS & RIPPLES */
     .list-item {
         padding: 16px; border-bottom: 1px solid var(--border-color);
@@ -177,7 +157,6 @@
         position: relative; overflow: hidden;
     }
     .list-item:last-child { border-bottom: none; }
-
     /* BUTTONS */
     .btn-gold {
         --background: var(--ion-color-secondary);
@@ -192,7 +171,6 @@
         display: flex; align-items: center; justify-content: center;
         box-shadow: var(--shadow-md);
     }
-
     /* MODALS */
     .fullscreen-modal {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -211,7 +189,6 @@
         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         max-height: 80vh; overflow-y: auto;
     }
-
     /* INVOICE */
     .invoice-paper {
         background: #fff; color: #000; padding: 20px;
@@ -225,13 +202,11 @@
 </head>
 <body id="app-body">
   <ion-app>
-
     <!-- OFFLINE INDICATOR -->
     <div id="offline-banner" class="hidden">
       <ion-icon name="cloud-offline"></ion-icon>
       <span>Network is causing go-slow. Don't worry, keep selling! We will sync when it's back.</span>
     </div>
-    
     <!-- ================== 1. LOGIN PAGE ================== -->
     <div id="page-login" class="page-container" style="z-index: 500; display: flex; flex-direction: column; justify-content: center; padding: 24px;">
       <div style="text-align: center; margin-bottom: 40px;">
@@ -239,7 +214,6 @@
         <h1 class="text-primary font-bold" style="margin-top: 16px; font-size: 28px;">Enimara</h1>
         <p class="text-gray">Manage your business like a Boss</p>
       </div>
-
       <div class="custom-input">
         <input type="email" value="oreoluwa@store.com" placeholder="Email Address">
       </div>
@@ -247,14 +221,10 @@
         <input type="password" value="password" placeholder="Password">
         <ion-icon name="eye-outline" class="text-gray"></ion-icon>
       </div>
-
       <ion-button expand="block" class="btn-gold" style="margin-top: 24px;" onclick="navigateTo('page-dashboard')">Sign In</ion-button>
     </div>
-
-
     <!-- ================== 2. DASHBOARD ================== -->
     <div id="page-dashboard" class="page-container hidden">
-      
       <!-- TAB 1: HOME -->
       <div id="tab-home" class="tab-content">
         <div class="ion-padding">
@@ -265,17 +235,16 @@
             </div>
             <div>
               <div class="text-xs text-gray">Welcome back,</div>
-              <div class="font-bold text-lg text-primary">Oreoluwa Store</div>
+              <div class="font-bold text-lg text-primary" id="home-shop-name">Oreoluwa Store</div>
             </div>
             <div style="display: flex; align-items: center; gap: 8px; margin-left: auto;">
                <div id="status-badge" style="background: #D1FAE5; color: #065F46; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; transition: all 0.3s;">Online</div>
-               <div style="position: relative;">
+               <div style="position: relative;" onclick="openModal('page-notifications')">
                  <ion-icon name="notifications-outline" style="font-size: 24px; color: var(--text-color);"></ion-icon>
-                 <span style="position: absolute; top: -2px; right: -2px; background: red; color: white; border-radius: 50%; width: 14px; height: 14px; font-size: 9px; display: flex; align-items: center; justify-content: center;">3</span>
+                 <span id="notif-badge" style="position: absolute; top: -2px; right: -2px; background: red; color: white; border-radius: 50%; width: 14px; height: 14px; font-size: 9px; display: flex; align-items: center; justify-content: center;">3</span>
                </div>
             </div>
           </div>
-
           <!-- Dynamic Smart Insights -->
           <div class="ai-card">
               <div style="display: flex; gap: 10px; align-items: flex-start;">
@@ -287,7 +256,6 @@
                   </div>
               </div>
           </div>
-
           <!-- Key Metrics -->
           <div style="display: flex; gap: 12px; margin-bottom: 24px;">
             <div class="app-card ion-activatable" style="flex: 1; margin-bottom: 0; background: var(--ion-color-primary); color: white; border: none;" onclick="openModal('page-todays-sales')">
@@ -307,20 +275,16 @@
               <div class="font-bold text-xl" style="margin-top: 8px;">5 <span class="text-xs text-gray font-normal">items</span></div>
             </div>
           </div>
-
           <!-- Detailed Charts (Nigerian Context) -->
           <div class="app-card">
             <h3 class="font-bold text-sm" style="margin-bottom: 4px;">Market Reach (Last 5 Months)</h3>
             <p class="text-xs text-gray" style="margin-bottom: 12px;">How your shop is growing</p>
             <div id="bar-chart-container" class="chart-container"></div>
-            
             <div style="height: 1px; background: var(--border-color); margin: 24px 0;"></div>
-            
             <h3 class="font-bold text-sm" style="margin-bottom: 4px;">Customer Retention</h3>
             <p class="text-xs text-gray" style="margin-bottom: 12px;">Returning Customers vs New Faces</p>
             <div id="line-chart-container" class="chart-container"></div>
           </div>
-
           <!-- Recent Activity -->
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
              <h3 class="font-bold text-sm">Recent Activity</h3>
@@ -329,7 +293,6 @@
           <div class="app-card" style="padding: 0;" id="recent-activity-list"></div>
         </div>
       </div>
-
       <!-- TAB 2: POS -->
       <div id="tab-pos" class="tab-content hidden">
         <div class="ion-padding">
@@ -337,12 +300,21 @@
           <div class="ai-card" style="margin-bottom: 16px; padding: 12px;">
              <div class="text-xs" style="color: var(--smart-insight-text);">💡 <b>Tip:</b> Most customers ask for receipts around 4PM. Be ready!</div>
           </div>
-
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
             <h2 class="font-bold text-lg text-primary">Point of Sale</h2>
             <ion-icon id="pos-status-icon" name="cloud-done" style="font-size: 24px; color: var(--ion-color-secondary);"></ion-icon>
           </div>
-          
+          <!-- Select Customer for POS -->
+          <div class="app-card" style="padding: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;" onclick="openPosCustomerSelect()">
+             <div style="display: flex; align-items: center;">
+                 <ion-icon name="person" style="margin-right: 10px; color: var(--ion-color-primary);"></ion-icon>
+                 <div>
+                     <div class="text-xs text-gray">Customer</div>
+                     <div class="font-bold text-sm" id="pos-customer-name">Walk-in Customer</div>
+                 </div>
+             </div>
+             <ion-icon name="chevron-down" class="text-gray"></ion-icon>
+          </div>
           <div style="display: flex; gap: 12px; margin-bottom: 24px;">
             <div class="custom-input" style="flex: 1; margin-bottom: 0;">
               <ion-icon name="search-outline" style="margin-right: 8px; color: #999;"></ion-icon>
@@ -350,7 +322,6 @@
               <ion-icon name="add-circle" style="margin-left: 8px; font-size: 24px; color: var(--ion-color-secondary);"></ion-icon>
             </div>
           </div>
-
           <!-- Empty State -->
           <div id="pos-empty" style="text-align: center; margin-top: 60px;">
             <div style="width: 120px; height: 120px; background: var(--card-bg); border: 1px dashed var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
@@ -360,7 +331,6 @@
             <p class="text-xs text-gray">Click search or scan to start selling.</p>
             <ion-button fill="outline" class="btn-gold" style="margin-top: 20px; color: black;" onclick="openModal('page-pos-add-item')">Add Products</ion-button>
           </div>
-
           <!-- Active Cart -->
           <div id="pos-active" class="hidden" style="padding-bottom: 100px;">
              <div class="app-card">
@@ -378,7 +348,6 @@
           </div>
         </div>
       </div>
-
       <!-- TAB 3: INVENTORY -->
       <div id="tab-inventory" class="tab-content hidden">
         <div class="ion-padding">
@@ -386,21 +355,17 @@
            <div class="ai-card" style="margin-bottom: 16px; padding: 12px;">
              <div class="text-xs" style="color: var(--smart-insight-text);">💡 <b>Insight:</b> <b>Malta Guinness</b> stock is low. Consider restocking for the weekend rush.</div>
            </div>
-
            <h2 class="font-bold text-lg text-primary" style="margin-bottom: 16px;">Stock Level</h2>
            <div class="custom-input">
              <ion-icon name="search-outline" style="margin-right: 8px;"></ion-icon>
              <input placeholder="Find product..." id="inventory-search" oninput="renderInventoryList()">
            </div>
-           
            <!-- Dynamic Categories -->
            <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; scrollbar-width: none;" id="inventory-category-tabs">
              <!-- Populated by JS -->
            </div>
-
            <div id="inventory-list" style="padding-bottom: 80px;"></div>
         </div>
-        
         <!-- FAB -->
         <div style="position: fixed; bottom: 85px; right: 20px; z-index: 200;">
           <ion-fab-button color="secondary" onclick="openModal('page-add-product')">
@@ -408,7 +373,6 @@
           </ion-fab-button>
         </div>
       </div>
-
       <!-- TAB 4: CUSTOMERS -->
       <div id="tab-customers" class="tab-content hidden">
         <div class="ion-padding">
@@ -416,7 +380,6 @@
            <div class="ai-card" style="margin-bottom: 16px; padding: 12px;">
              <div class="text-xs" style="color: var(--smart-insight-text);">💡 <b>Tip:</b> Call your top debtors on Fridays. Recovery rate is higher.</div>
            </div>
-
            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
              <h2 class="font-bold text-lg text-primary">Customers</h2>
              <div class="ion-activatable" style="background: var(--ion-color-secondary); color: black; width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md);" onclick="openModal('page-add-customer')">
@@ -424,34 +387,27 @@
                  <ion-icon name="person-add" style="font-size: 20px;"></ion-icon>
              </div>
            </div>
-
            <!-- Top Customers Section -->
            <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Top Customers (All Time)</h3>
            <div style="display: flex; overflow-x: auto; padding-bottom: 16px; margin-bottom: 8px; scrollbar-width: none;" id="top-customers-list"></div>
-
            <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Top Customers (This Month)</h3>
            <div style="display: flex; overflow-x: auto; padding-bottom: 16px; margin-bottom: 8px; scrollbar-width: none;" id="top-customers-month-list"></div>
-
            <!-- Filter Segments -->
            <div style="display: flex; background: var(--border-color); padding: 4px; border-radius: 12px; margin-bottom: 16px;">
                <div id="seg-all" class="text-xs font-bold" style="flex: 1; text-align: center; padding: 10px; background: var(--card-bg); border-radius: 10px; box-shadow: var(--shadow-sm); transition: all 0.2s;" onclick="filterCustomers('all')">All Customers</div>
                <div id="seg-owing" class="text-xs font-bold text-gray" style="flex: 1; text-align: center; padding: 10px; transition: all 0.2s;" onclick="filterCustomers('owing')">Debtors List</div>
            </div>
-
            <div class="custom-input">
              <ion-icon name="search-outline" style="margin-right: 8px;"></ion-icon>
              <input placeholder="Search name or phone..." id="customer-search" oninput="renderCustomerList()">
            </div>
-
            <div id="customer-list-container"></div>
         </div>
       </div>
-
       <!-- TAB 5: SETTINGS -->
       <div id="tab-settings" class="tab-content hidden">
         <div class="ion-padding">
            <h2 class="font-bold text-lg text-primary" style="margin-bottom: 20px;">Settings</h2>
-           
            <div class="app-card" style="padding: 0;">
              <div class="list-item ion-activatable" onclick="openModal('page-profile')">
                <ion-ripple-effect></ion-ripple-effect>
@@ -463,7 +419,6 @@
                </div>
                <ion-icon name="chevron-forward" class="text-gray"></ion-icon>
              </div>
-             
              <div class="list-item ion-activatable" onclick="openModal('page-staff')">
                <ion-ripple-effect></ion-ripple-effect>
                <div style="display: flex; align-items: center;">
@@ -474,7 +429,6 @@
                </div>
                <ion-icon name="chevron-forward" class="text-gray"></ion-icon>
              </div>
-
              <div class="list-item">
                <div style="display: flex; align-items: center;">
                  <div style="background: var(--app-bg); padding: 8px; border-radius: 8px; margin-right: 12px;">
@@ -482,21 +436,17 @@
                  </div>
                  <span>Dark Mode</span>
                </div>
-               <ion-toggle id="theme-toggle" onionchange="toggleTheme()"></ion-toggle>
+               <ion-toggle id="theme-toggle"></ion-toggle>
              </div>
            </div>
-
            <ion-button expand="block" fill="outline" color="danger" style="margin-top: 30px;" onclick="navigateTo('page-login')">
              Log Out
            </ion-button>
-           
            <div style="text-align: center; margin-top: 20px;">
                <p class="text-xs text-gray">Enimara v1.3.0 (Demo Edition)</p>
            </div>
         </div>
       </div>
-
-
       <!-- CUSTOM BOTTOM TAB BAR -->
       <div class="custom-tab-bar">
         <button class="tab-btn active" onclick="switchTab('home')" id="btn-home">
@@ -520,11 +470,32 @@
           Settings
         </button>
       </div>
-
     </div>
-
     <!-- ================== MODALS ================== -->
-
+    <!-- NOTIFICATIONS MODAL -->
+    <div id="page-notifications" class="fullscreen-modal hidden">
+        <div class="ion-padding">
+            <div style="display: flex; align-items: center; margin-bottom: 24px;">
+               <ion-icon name="arrow-back" style="font-size: 24px; margin-right: 10px;" onclick="closeModal('page-notifications')"></ion-icon>
+               <h2 class="font-bold text-lg">Notifications</h2>
+            </div>
+            <div id="notification-list">
+                 <!-- Populated by JS -->
+                 <div class="app-card" style="padding: 12px;">
+                     <div class="font-bold text-sm">Low Stock Alert</div>
+                     <div class="text-xs text-gray">Malta Guinness is running low.</div>
+                 </div>
+                 <div class="app-card" style="padding: 12px;">
+                     <div class="font-bold text-sm">Debt Due</div>
+                     <div class="text-xs text-gray">Mama Chika promised to pay today.</div>
+                 </div>
+                 <div class="app-card" style="padding: 12px;">
+                     <div class="font-bold text-sm">System Update</div>
+                     <div class="text-xs text-gray">Enimara v1.3.0 is live!</div>
+                 </div>
+            </div>
+        </div>
+    </div>
     <!-- INVOICE PREVIEW MODAL -->
     <div id="page-invoice-preview" class="fullscreen-modal hidden" style="z-index: 2000;">
         <div class="ion-padding">
@@ -532,7 +503,6 @@
                <ion-icon name="arrow-back" style="font-size: 24px; margin-right: 10px;" onclick="closeModal('page-invoice-preview')"></ion-icon>
                <h2 class="font-bold text-lg">Invoice Preview</h2>
             </div>
-            
             <div class="invoice-paper" id="invoice-content">
                 <div style="text-align: center; margin-bottom: 10px;">
                     <div style="font-weight: bold; font-size: 16px;" id="inv-shop-name">OREOLUWA STORE</div>
@@ -543,6 +513,10 @@
                 <div class="invoice-row">
                     <span>Date: <span id="inv-date"></span></span>
                     <span>Time: <span id="inv-time"></span></span>
+                </div>
+                <div class="invoice-row" style="margin-top: 4px;">
+                    <span>Customer:</span>
+                    <span id="inv-cust-name" style="font-weight: bold;">Walk-in</span>
                 </div>
                 <div class="invoice-divider"></div>
                 <div id="inv-items"></div>
@@ -556,11 +530,9 @@
                     Thanks for your patronage!<br>No Refund after payment.
                 </div>
             </div>
-
             <ion-button expand="block" class="btn-gold" onclick="finalizeSale()">Confirm & Print</ion-button>
         </div>
     </div>
-
     <!-- ADD PRODUCT MODAL -->
     <div id="page-add-product" class="fullscreen-modal hidden">
        <div class="ion-padding">
@@ -571,29 +543,34 @@
          <div class="app-card">
             <label class="text-xs font-bold text-gray">Product Name</label>
             <div class="custom-input"><input type="text" id="add-prod-name" placeholder="e.g., Malta Guinness"></div>
-            
             <label class="text-xs font-bold text-gray">Category</label>
             <div class="custom-input" style="gap: 8px;">
                 <select id="add-prod-category" style="flex: 1;">
                     <!-- Filled by JS -->
                 </select>
                 <!-- Loud Add Category Button -->
-                <div class="add-cat-btn ion-activatable" onclick="promptAddCategory()">
+                <div class="add-cat-btn ion-activatable" onclick="openAddCategoryModal()">
                     <ion-ripple-effect></ion-ripple-effect>
                     <ion-icon name="add" style="font-size: 24px; font-weight: bold;"></ion-icon>
                 </div>
             </div>
-
             <label class="text-xs font-bold text-gray">Selling Price (₦)</label>
             <div class="custom-input"><input type="number" id="add-prod-price" placeholder="0.00"></div>
-            
             <label class="text-xs font-bold text-gray">Initial Stock</label>
             <div class="custom-input"><input type="number" id="add-prod-stock" placeholder="0"></div>
          </div>
          <ion-button expand="block" class="btn-gold" onclick="saveNewProduct()">Save Product</ion-button>
        </div>
     </div>
-
+    <!-- ADD CATEGORY MODAL (New) -->
+    <div id="page-add-category-input" class="popup-modal hidden">
+        <div class="popup-content">
+             <h3 class="font-bold text-lg" style="margin-bottom: 16px;">New Category</h3>
+             <div class="custom-input"><input type="text" id="new-cat-input" placeholder="e.g., Snacks"></div>
+             <ion-button expand="block" class="btn-gold" onclick="confirmAddCategory()">Create Category</ion-button>
+             <ion-button expand="block" fill="clear" color="medium" onclick="closeModal('page-add-category-input')">Cancel</ion-button>
+        </div>
+    </div>
     <!-- PRODUCT DETAILS / EDIT / RESTOCK MODAL -->
     <div id="page-product-details" class="fullscreen-modal hidden">
        <div class="ion-padding">
@@ -601,33 +578,38 @@
            <ion-icon name="arrow-back" style="font-size: 24px; margin-right: 10px;" onclick="closeModal('page-product-details')"></ion-icon>
            <h2 class="font-bold text-lg">Product Details</h2>
          </div>
-         
          <div class="app-card" style="text-align: center; margin-bottom: 20px;">
             <div style="font-size: 40px; color: var(--ion-color-primary);"><ion-icon name="cube"></ion-icon></div>
             <h2 class="font-bold text-xl" id="edit-prod-title">Product Name</h2>
             <p class="text-sm text-gray" id="edit-prod-sku">SKU: 123</p>
          </div>
-
          <div class="app-card">
             <label class="text-xs font-bold text-gray">Current Stock</label>
             <div style="display: flex; gap: 10px; margin-bottom: 16px;">
                 <div class="custom-input" style="flex: 1; margin-bottom: 0;">
                     <input type="number" id="edit-prod-stock" readonly>
                 </div>
-                <ion-button color="success" style="margin: 0; width: 100px;" onclick="restockProduct()">
+                <!-- Fixed Restock Button: Opens Panel -->
+                <ion-button color="success" style="margin: 0; width: 100px;" onclick="toggleRestockPanel()">
                     + Restock
                 </ion-button>
             </div>
-            
+            <!-- Restock Panel (Hidden by default) -->
+            <div id="restock-panel" class="hidden" style="background: #f0fdf4; border: 1px dashed #16a34a; padding: 12px; border-radius: 12px; margin-bottom: 16px;">
+                <label class="text-xs font-bold text-success">Add Stock</label>
+                <div style="display: flex; gap: 8px; margin-top: 4px;">
+                    <div class="custom-input" style="flex: 1; margin-bottom: 0; background: white;"><input type="number" id="restock-qty-input" placeholder="Qty"></div>
+                    <ion-button color="success" size="small" style="margin: 0;" onclick="confirmRestock()">Confirm</ion-button>
+                </div>
+            </div>
             <label class="text-xs font-bold text-gray">Selling Price (₦)</label>
             <div class="custom-input"><input type="number" id="edit-prod-price"></div>
          </div>
-         
          <ion-button expand="block" class="btn-gold" style="margin-bottom: 12px;" onclick="saveProductEdits()">Save Changes</ion-button>
+         <!-- Fixed Delete Button -->
          <ion-button expand="block" fill="outline" color="danger" onclick="deleteProduct()">Delete Product</ion-button>
        </div>
     </div>
-
     <!-- CUSTOMER DETAILS MODAL (Enhanced) -->
     <div id="page-customer-details" class="fullscreen-modal hidden">
         <div class="ion-padding">
@@ -636,14 +618,12 @@
                 <div class="text-primary font-bold">Customer Details</div>
                 <ion-icon name="create-outline" style="font-size: 24px;" onclick="showToast('Edit feature coming soon')"></ion-icon>
             </div>
-            
             <div class="app-card" style="text-align: center; padding: 30px 16px; background: linear-gradient(135deg, var(--ion-color-primary) 0%, #1a3c66 100%); color: white;">
                 <div style="width: 70px; height: 70px; background: rgba(255,255,255,0.2); border-radius: 50%; margin: 0 auto 12px auto; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: bold;">
                     <span id="detail-cust-initial">J</span>
                 </div>
                 <div style="font-size: 22px; font-weight: 700;" id="detail-cust-name">John Doe</div>
                 <div style="opacity: 0.8;" id="detail-cust-phone">08012345678</div>
-                
                 <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
                     <div style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 12px;">
                         <div style="font-size: 10px; opacity: 0.8;">TOTAL SPENT</div>
@@ -655,67 +635,92 @@
                     </div>
                 </div>
             </div>
-
             <div style="display: flex; gap: 12px; margin: 16px 0;">
                 <ion-button expand="block" style="flex: 1;" color="success" onclick="showToast('Call feature simulated')">
                     <ion-icon slot="start" name="call"></ion-icon> Call
                 </ion-button>
-                <!-- Changed SMS color from danger to medium/tertiary per request -->
                 <ion-button expand="block" style="flex: 1;" color="medium" onclick="showToast('SMS feature simulated')">
                     <ion-icon slot="start" name="chatbubble"></ion-icon> SMS
                 </ion-button>
             </div>
-
             <h3 class="font-bold text-sm" style="margin-top: 12px;">Transaction History</h3>
             <div class="app-card" id="detail-cust-history" style="min-height: 100px;">
                 <!-- Populated by JS -->
             </div>
-            
             <div style="display: flex; gap: 10px; margin-top: 10px;">
-                 <ion-button expand="block" fill="outline" color="primary" style="flex: 1;" onclick="openModal('page-record-payment')">Record Payment</ion-button>
-                 <ion-button expand="block" fill="outline" color="warning" style="flex: 1;" onclick="openModal('page-generate-reminder')">Remind</ion-button>
+                 <ion-button expand="block" fill="outline" color="primary" style="flex: 1;" onclick="openModal('page-debt-payment')">Debt Payment</ion-button>
+                 <!-- Add Debt Button -->
+                 <ion-button expand="block" fill="outline" color="danger" style="flex: 1;" onclick="openModal('page-add-debt')">Add Debt</ion-button>
             </div>
-
+            <!-- Logic applied here for hiding if no debt -->
+            <ion-button id="btn-debt-reminder" expand="block" fill="outline" color="warning" style="margin-top: 10px;" onclick="openModal('page-generate-reminder')">Send Debt Reminder</ion-button>
             <!-- DELETE CUSTOMER BUTTON -->
             <ion-button expand="block" fill="clear" color="danger" style="margin-top: 20px;" onclick="deleteCustomer()">
                 <ion-icon slot="start" name="trash"></ion-icon> Delete Customer
             </ion-button>
         </div>
     </div>
-
-    <!-- RECORD DEBT PAYMENT MODAL -->
-    <div id="page-record-payment" class="popup-modal hidden">
+    <!-- DEBT PAYMENT MODAL -->
+    <div id="page-debt-payment" class="popup-modal hidden">
         <div class="popup-content">
-            <h3 class="font-bold text-lg" style="margin-bottom: 16px;">Record Payment</h3>
+            <h3 class="font-bold text-lg" style="margin-bottom: 16px;">Debt Payment</h3>
             <p class="text-sm text-gray" style="margin-bottom: 12px;">How much did the customer pay?</p>
             <div class="custom-input">
                 <span style="font-weight: bold; margin-right: 5px;">₦</span>
                 <input type="number" id="debt-payment-amount" placeholder="0.00">
             </div>
             <ion-button expand="block" class="btn-gold" onclick="confirmDebtPayment()">Confirm Payment</ion-button>
-            <ion-button expand="block" fill="clear" color="medium" onclick="closeModal('page-record-payment')">Cancel</ion-button>
+            <ion-button expand="block" fill="clear" color="medium" onclick="closeModal('page-debt-payment')">Cancel</ion-button>
         </div>
     </div>
-
+    <!-- ADD DEBT MODAL (New - Smart Select) -->
+    <div id="page-add-debt" class="popup-modal hidden">
+        <div class="popup-content">
+            <h3 class="font-bold text-lg" style="margin-bottom: 16px;">Add Debt</h3>
+            <p class="text-sm text-gray" style="margin-bottom: 12px;">Items taken on credit?</p>
+             <div class="custom-input">
+                <input id="debt-add-desc" list="debt-products-list" placeholder="Select Product or Type..." onchange="autoFillDebtPrice()">
+                <datalist id="debt-products-list">
+                    <!-- Populated by JS -->
+                </datalist>
+            </div>
+            <div class="custom-input">
+                <span style="font-weight: bold; margin-right: 5px;">₦</span>
+                <input type="number" id="debt-add-amount" placeholder="Amount">
+            </div>
+            <ion-button expand="block" class="btn-gold" onclick="confirmAddDebt()">Add Debt</ion-button>
+            <ion-button expand="block" fill="clear" color="medium" onclick="closeModal('page-add-debt')">Cancel</ion-button>
+        </div>
+    </div>
     <!-- GENERATE REMINDER MODAL -->
     <div id="page-generate-reminder" class="popup-modal hidden">
         <div class="popup-content">
              <h3 class="font-bold text-lg" style="margin-bottom: 16px;">Send Reminder</h3>
              <label class="text-xs font-bold text-gray">Expected Payment Date</label>
-             <div class="custom-input"><input type="date" id="reminder-date"></div>
-             
+             <div class="custom-input"><input type="date" id="reminder-date" onchange="updateReminderPreview()"></div>
              <label class="text-xs font-bold text-gray">Preview Message</label>
-             <div class="app-card" style="background: #e5e7eb; padding: 10px; font-size: 12px; margin-bottom: 16px;" id="reminder-preview">
-                 Hello, kindly pay your debt of N5,000 to Oreoluwa Store by [Date]. Thanks.
+             <!-- Style Fixed: color: #1f2937 to ensure black text in dark mode -->
+             <div class="app-card" style="background: #e5e7eb; padding: 10px; font-size: 12px; margin-bottom: 16px; color: #1f2937;" id="reminder-preview">
+                 Loading preview...
              </div>
-             
              <ion-button expand="block" color="success" onclick="shareReminder()">
                  <ion-icon slot="start" name="logo-whatsapp"></ion-icon> Send via WhatsApp
              </ion-button>
              <ion-button expand="block" fill="clear" color="medium" onclick="closeModal('page-generate-reminder')">Cancel</ion-button>
         </div>
     </div>
-
+    <!-- POS CUSTOMER SELECT MODAL (New) -->
+    <div id="page-pos-select-customer" class="popup-modal hidden">
+        <div class="popup-content" style="max-height: 80vh; display: flex; flex-direction: column;">
+            <h3 class="font-bold text-lg" style="margin-bottom: 16px;">Select Customer</h3>
+            <div class="custom-input"><input type="text" id="pos-cust-search" placeholder="Search name..." oninput="renderPosCustomerSelect()"></div>
+            <div id="pos-cust-list" style="overflow-y: auto; flex: 1;"></div>
+            <div style="border-top: 1px solid var(--border-color); margin-top: 10px; padding-top: 10px;">
+                <ion-button expand="block" fill="outline" onclick="openModal('page-add-customer')">New Customer</ion-button>
+                <ion-button expand="block" fill="clear" color="medium" onclick="closeModal('page-pos-select-customer')">Cancel</ion-button>
+            </div>
+        </div>
+    </div>
     <!-- POS ITEM MODAL (Fixed) -->
     <div id="page-pos-add-item" class="popup-modal hidden">
         <div class="popup-content">
@@ -728,23 +733,19 @@
             <ion-button expand="block" fill="clear" color="medium" onclick="closeModal('page-pos-add-item')">Cancel</ion-button>
         </div>
     </div>
-
     <!-- QUANTITY MODAL -->
     <div id="page-pos-qty" class="popup-modal hidden">
         <div class="popup-content" style="text-align: center;">
             <h3 class="font-bold text-lg" id="qty-item-name">Item Name</h3>
             <p class="text-xs text-gray" id="qty-stock-display">Stock: 0</p>
-            
             <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin: 24px 0;">
                 <div onclick="adjustQty(-1)" style="width: 40px; height: 40px; background: var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px;">-</div>
                 <input type="number" id="qty-input" value="1" style="width: 60px; text-align: center; font-size: 24px; border: none; background: transparent; font-weight: bold;">
                 <div onclick="adjustQty(1)" style="width: 40px; height: 40px; background: var(--ion-color-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px;">+</div>
             </div>
-            
             <ion-button expand="block" class="btn-gold" onclick="confirmAddToCart()">Add to Cart</ion-button>
         </div>
     </div>
-
     <!-- Other Modals (Retained) -->
     <div id="page-todays-sales" class="fullscreen-modal hidden">
         <div class="ion-padding">
@@ -760,7 +761,6 @@
             <div id="todays-sales-list"></div>
         </div>
     </div>
-
     <div id="page-activity-all" class="fullscreen-modal hidden">
         <div class="ion-padding">
             <div style="display: flex; align-items: center; margin-bottom: 24px;">
@@ -770,7 +770,6 @@
             <div id="all-activity-list-content"></div>
         </div>
     </div>
-
     <!-- PROFILE PAGE -->
     <div id="page-profile" class="fullscreen-modal hidden">
         <div class="ion-padding">
@@ -782,7 +781,7 @@
                 <div style="width: 80px; height: 80px; background: #ddd; border-radius: 50%; margin: 0 auto; overflow: hidden; border: 3px solid white; box-shadow: var(--shadow-md);">
                     <img src="oluwaferanmi-caleb-Q1QRTSeZIxI-unsplash (1).jpg" style="width:100%; height:100%; object-fit:cover;">
                 </div>
-                <div class="text-primary font-bold" style="margin-top: 8px;">Oreoluwa Store</div>
+                <div class="text-primary font-bold" id="profile-shop-name" style="margin-top: 8px;">Oreoluwa Store</div>
                 <div class="text-gray text-xs">ID: SHOP-8821</div>
             </div>
             <div class="app-card">
@@ -796,7 +795,6 @@
             <ion-button expand="block" class="btn-gold" onclick="saveProfile()">Update Profile</ion-button>
         </div>
     </div>
-
     <!-- ADD CUSTOMER MODAL -->
     <div id="page-add-customer" class="fullscreen-modal hidden">
        <div class="ion-padding">
@@ -807,19 +805,15 @@
          <div class="app-card">
             <label class="text-xs font-bold text-gray">Full Name</label>
             <div class="custom-input"><input type="text" id="cust-name" placeholder="John Doe"></div>
-            
             <label class="text-xs font-bold text-gray">Phone Number</label>
             <div class="custom-input"><input type="tel" id="cust-phone" placeholder="080..."></div>
-            
             <div style="height: 1px; background: var(--border-color); margin: 16px 0;"></div>
-            
             <label class="text-xs font-bold text-danger">Amount Owing (Optional)</label>
             <div class="custom-input"><input type="number" id="cust-debt" placeholder="0.00"></div>
          </div>
          <ion-button expand="block" class="btn-gold" onclick="saveCustomer()">Save Customer</ion-button>
        </div>
     </div>
-    
     <!-- STAFF MANAGEMENT PAGE -->
     <div id="page-staff" class="fullscreen-modal hidden">
         <div class="ion-padding">
@@ -838,7 +832,6 @@
             </div>
         </div>
     </div>
-
     <!-- ADD STAFF MODAL -->
     <div id="page-add-staff" class="popup-modal hidden">
         <div class="popup-content">
@@ -857,21 +850,25 @@
              <ion-button expand="block" fill="clear" color="medium" onclick="closeModal('page-add-staff')">Cancel</ion-button>
         </div>
     </div>
-    
     <!-- STAFF DETAILS MODAL -->
     <div id="page-staff-details" class="popup-modal hidden">
         <div class="popup-content" style="text-align:center;">
              <div style="width: 60px; height: 60px; background: #e5e7eb; border-radius: 50%; margin: 0 auto 10px auto; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:20px;" id="staff-detail-initial">?</div>
              <h3 class="font-bold text-lg" id="staff-detail-name">Staff Name</h3>
-             <p class="text-gray text-sm" id="staff-detail-role" style="margin-bottom: 20px;">Role</p>
-             
-             <ion-button expand="block" color="danger" fill="outline" onclick="deleteStaff()">Remove Staff</ion-button>
+             <!-- Role Selector Added -->
+             <div class="custom-input" style="margin-top: 10px;">
+                 <select id="staff-detail-role-select">
+                     <option value="Sales Rep">Sales Rep</option>
+                     <option value="Manager">Manager</option>
+                     <option value="Stock Keeper">Stock Keeper</option>
+                 </select>
+             </div>
+             <ion-button expand="block" color="secondary" onclick="updateStaffRole()">Save Role</ion-button>
+             <ion-button expand="block" color="danger" fill="outline" style="margin-top: 8px;" onclick="deleteStaff()">Remove Staff</ion-button>
              <ion-button expand="block" fill="clear" color="medium" onclick="closeModal('page-staff-details')">Close</ion-button>
         </div>
     </div>
-
   </ion-app>
-
   <!-- ================== LOGIC ================== -->
   <script>
     // --- STATE ---
@@ -915,9 +912,9 @@
         tempQtySku: null,
         tempStaffId: null,
         tempProdSku: null,
-        tempCustId: null
+        tempCustId: null,
+        posSelectedCustomer: null // For Customer selection in POS
     };
-
     // --- INIT ---
     document.addEventListener('DOMContentLoaded', () => {
         setupNetworkListeners();
@@ -929,45 +926,38 @@
         renderTopCustomers();
         updateDashboardTotals();
         renderStaffList();
-        
         // Theme Listener
         const toggle = document.getElementById('theme-toggle');
         if(toggle) {
             toggle.addEventListener('ionChange', toggleTheme);
         }
-        
         // Home Insight
         updateInsight('home');
+        // Init Date for Reminder
+        document.getElementById('reminder-date').valueAsDate = new Date();
     });
-
     // --- NAVIGATION ---
     function navigateTo(pageId) {
         document.querySelectorAll('.page-container').forEach(el => el.classList.add('hidden'));
         document.getElementById(pageId).classList.remove('hidden');
         if(pageId === 'page-dashboard') switchTab('home');
     }
-
     function switchTab(tabName) {
         document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
         document.getElementById('tab-' + tabName).classList.remove('hidden');
-        
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById('btn-' + tabName).classList.add('active');
-
         // Logic refresh per tab
         if(tabName === 'inventory') {
             renderInventoryList();
             renderCategories(); // Ensure filter tabs are up to date
         }
         if(tabName === 'customers') { renderCustomerList(); renderTopCustomers(); }
-        
         updateInsight(tabName);
     }
-    
     function updateInsight(tab) {
         const textEl = document.getElementById('home-insight-text');
         const btnEl = document.getElementById('home-insight-btn');
-        
         if(tab === 'home') {
             // Logic: Check lowest stock item
             const lowItem = state.inventory.sort((a,b) => a.stock - b.stock)[0];
@@ -978,28 +968,27 @@
             }
         }
     }
-
     function openModal(id) { 
         document.getElementById(id).classList.remove('hidden'); 
         if(id === 'page-todays-sales') renderTodaysSales();
         if(id === 'page-activity-all') renderAllActivity();
         if(id === 'page-pos-add-item') renderPosAddList();
         if(id === 'page-add-product') populateCategorySelect();
+        if(id === 'page-generate-reminder') updateReminderPreview();
+        // Populate Datalist for Debt
+        if(id === 'page-add-debt') populateDebtDatalist();
     }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-
     // --- THEME TOGGLE (FIXED) ---
     function toggleTheme() {
         document.body.classList.toggle('dark');
     }
-
     // --- CHARTS ---
     function renderCharts() {
         // MARKET REACH
         const labels = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov'];
         const data = [704500, 850000, 920000, 1100000, 1275960];
         const maxVal = 1400000;
-        
         let barSvg = `<svg class="svg-chart" viewBox="0 0 320 180">`;
         [0, 0.25, 0.5, 0.75, 1].forEach((pct, i) => {
             const y = 160 - (160 * pct);
@@ -1007,7 +996,6 @@
             barSvg += `<line x1="30" y1="${y}" x2="320" y2="${y}" class="chart-grid-line" />`;
             barSvg += `<text x="25" y="${y+3}" text-anchor="end" class="chart-axis-text">${labelVal}</text>`;
         });
-
         const barW = 30;
         const gap = (290 - (data.length * barW)) / (data.length + 1);
         data.forEach((val, i) => {
@@ -1022,15 +1010,13 @@
         });
         barSvg += `</svg>`;
         document.getElementById('bar-chart-container').innerHTML = barSvg;
-
         // CUSTOMER RETENTION
         const retention = [60, 65, 70, 72, 80]; // Returning
         const newCust = [20, 40, 35, 50, 65];   // New
-        
         let lineSvg = `<svg class="svg-chart" viewBox="0 0 320 150">`;
+        // FIXED SPACING HERE
         lineSvg += `<circle cx="40" cy="10" r="4" fill="#10B981" /><text x="50" y="13" font-size="10" fill="var(--text-muted)">Loyal Customer</text>`;
-        lineSvg += `<circle cx="120" cy="10" r="4" fill="var(--ion-color-primary)" /><text x="130" y="13" font-size="10" fill="var(--text-muted)">New Customer</text>`;
-
+        lineSvg += `<circle cx="160" cy="10" r="4" fill="var(--ion-color-primary)" /><text x="170" y="13" font-size="10" fill="var(--text-muted)">New Customer</text>`;
         const drawLine = (dataset, color) => {
             let d = "";
             dataset.forEach((val, i) => {
@@ -1041,28 +1027,22 @@
             });
             return `<path d="${d}" stroke="${color}" stroke-width="2" fill="none" />`;
         };
-
         lineSvg += drawLine(retention, '#10B981');
         lineSvg += drawLine(newCust, 'var(--ion-color-primary)');
-        
         labels.forEach((l, i) => {
              lineSvg += `<text x="${30 + (i*70)}" y="150" text-anchor="middle" class="chart-axis-text">${l}</text>`;
         });
-
         lineSvg += `</svg>`;
         document.getElementById('line-chart-container').innerHTML = lineSvg;
     }
-
     // --- CUSTOMERS ---
     function renderCustomerList() {
         const container = document.getElementById('customer-list-container');
         const filterText = document.getElementById('customer-search').value.toLowerCase();
         container.innerHTML = '';
-
         state.customers.forEach(cust => {
             const matchesSearch = cust.name.toLowerCase().includes(filterText) || cust.phone.includes(filterText);
             const matchesFilter = state.currentCustFilter === 'all' || (state.currentCustFilter === 'owing' && cust.balance > 0);
-
             if(matchesSearch && matchesFilter) {
                 container.innerHTML += `
                     <div class="customer-card ion-activatable" onclick="openCustomerDetail(${cust.id})">
@@ -1083,13 +1063,10 @@
             }
         });
     }
-
     function renderTopCustomers() {
         const list = document.getElementById('top-customers-list');
         const listMonth = document.getElementById('top-customers-month-list');
-        
         const top = [...state.customers].sort((a,b) => b.totalSpent - a.totalSpent).slice(0, 5);
-        
         const renderItem = (c) => `
             <div class="top-customer-item ion-activatable" onclick="openCustomerDetail(${c.id})">
                 <ion-ripple-effect></ion-ripple-effect>
@@ -1097,27 +1074,21 @@
                 <div class="text-xs text-gray" style="margin-top:4px;">${formatCurrency(c.totalSpent)}</div>
             </div>
         `;
-        
         list.innerHTML = top.map(renderItem).join('');
         listMonth.innerHTML = top.slice(0,3).map(renderItem).join(''); // Mocking month same as all time for now
     }
-
     function filterCustomers(type) {
         state.currentCustFilter = type;
         document.getElementById('seg-all').style.background = type === 'all' ? 'var(--card-bg)' : 'transparent';
         document.getElementById('seg-all').style.boxShadow = type === 'all' ? 'var(--shadow-sm)' : 'none';
-        
         document.getElementById('seg-owing').style.background = type === 'owing' ? 'var(--card-bg)' : 'transparent';
         document.getElementById('seg-owing').style.boxShadow = type === 'owing' ? 'var(--shadow-sm)' : 'none';
-        
         renderCustomerList();
     }
-
     function saveCustomer() {
         const name = document.getElementById('cust-name').value;
         const phone = document.getElementById('cust-phone').value;
         const debt = parseFloat(document.getElementById('cust-debt').value) || 0;
-        
         if(name) {
             state.customers.push({ 
                 id: Date.now(), 
@@ -1133,7 +1104,6 @@
             showToast('Customer Added!');
         }
     }
-
     function openCustomerDetail(id) {
         state.tempCustId = id;
         const cust = state.customers.find(c => c.id === id);
@@ -1143,16 +1113,23 @@
             document.getElementById('detail-cust-phone').innerText = cust.phone;
             document.getElementById('detail-cust-balance').innerText = formatCurrency(cust.balance);
             document.getElementById('detail-cust-spent').innerText = formatCurrency(cust.totalSpent);
-            
+            // Debt Reminder Logic
+            const reminderBtn = document.getElementById('btn-debt-reminder');
+            if(cust.balance <= 0) {
+                reminderBtn.classList.add('hidden');
+            } else {
+                reminderBtn.classList.remove('hidden');
+            }
             const histContainer = document.getElementById('detail-cust-history');
             histContainer.innerHTML = '';
-            
             if(cust.history && cust.history.length > 0) {
                  cust.history.forEach(h => {
+                     // Add color for debt added items
+                     const colorClass = h.desc === 'Debt Increase' ? 'text-danger' : '';
                      histContainer.innerHTML += `
                         <div class="list-item">
                             <div>
-                                <div class="font-bold">${h.desc}</div>
+                                <div class="font-bold ${colorClass}">${h.desc}</div>
                                 <div class="text-xs text-gray">${h.date}</div>
                             </div>
                             <div class="font-bold">₦${h.amount.toLocaleString()}</div>
@@ -1165,7 +1142,6 @@
             openModal('page-customer-details');
         }
     }
-    
     function deleteCustomer() {
         if(confirm("Are you sure you want to delete this customer? This cannot be undone.")) {
             state.customers = state.customers.filter(c => c.id !== state.tempCustId);
@@ -1175,41 +1151,77 @@
             showToast("Customer Deleted");
         }
     }
-    
     function confirmDebtPayment() {
         const amt = parseFloat(document.getElementById('debt-payment-amount').value);
         const cust = state.customers.find(c => c.id === state.tempCustId);
-        
         if(cust && amt > 0) {
             cust.balance -= amt;
             if(cust.balance < 0) cust.balance = 0;
-            
             cust.history.unshift({
                 desc: 'Debt Payment',
                 date: new Date().toLocaleDateString(),
                 amount: amt
             });
-            
             showToast(`Payment Recorded. New Balance: ${formatCurrency(cust.balance)}`);
-            closeModal('page-record-payment');
+            closeModal('page-debt-payment');
             openCustomerDetail(state.tempCustId); // Refresh details
             renderCustomerList();
         }
     }
-    
-    function shareReminder() {
-        const cust = state.customers.find(c => c.id === state.tempCustId);
-        const date = document.getElementById('reminder-date').value;
-        if(cust && date) {
-            const msg = `Hello ${cust.name}, kindly pay your debt of ${formatCurrency(cust.balance)} to ${state.shopProfile.name} by ${date}. Thanks.`;
-            const url = `https://wa.me/${cust.phone}?text=${encodeURIComponent(msg)}`;
-            window.open(url, '_blank');
-            closeModal('page-generate-reminder');
-        } else {
-            showToast('Please select a date');
+    // --- DEBT ADD LOGIC ---
+    function populateDebtDatalist() {
+        const list = document.getElementById('debt-products-list');
+        list.innerHTML = '';
+        state.inventory.forEach(item => {
+            list.innerHTML += `<option value="${item.name}">${formatCurrency(item.price)}</option>`;
+        });
+    }
+    function autoFillDebtPrice() {
+        const val = document.getElementById('debt-add-desc').value;
+        const item = state.inventory.find(i => i.name === val);
+        if(item) {
+            document.getElementById('debt-add-amount').value = item.price;
         }
     }
-
+    function confirmAddDebt() {
+        const amt = parseFloat(document.getElementById('debt-add-amount').value);
+        const desc = document.getElementById('debt-add-desc').value || "Debt Increase";
+        const cust = state.customers.find(c => c.id === state.tempCustId);
+        if(cust && amt > 0) {
+            cust.balance += amt;
+            cust.history.unshift({
+                desc: desc,
+                date: new Date().toLocaleDateString(),
+                amount: amt
+            });
+            showToast(`Debt Added. New Balance: ${formatCurrency(cust.balance)}`);
+            closeModal('page-add-debt');
+            openCustomerDetail(state.tempCustId);
+            renderCustomerList();
+            // Clean up
+            document.getElementById('debt-add-amount').value = '';
+            document.getElementById('debt-add-desc').value = '';
+        }
+    }
+    function updateReminderPreview() {
+        const cust = state.customers.find(c => c.id === state.tempCustId);
+        const dateInput = document.getElementById('reminder-date').value;
+        const previewEl = document.getElementById('reminder-preview');
+        if(cust) {
+            const dateStr = dateInput ? new Date(dateInput).toLocaleDateString() : "[Date]";
+            const debtStr = formatCurrency(cust.balance);
+            previewEl.innerText = `Hello ${cust.name}, kindly pay your debt of ${debtStr} to ${state.shopProfile.name} by ${dateStr}. Thanks.`;
+        }
+    }
+    function shareReminder() {
+        const previewText = document.getElementById('reminder-preview').innerText;
+        const cust = state.customers.find(c => c.id === state.tempCustId);
+        if(cust) {
+            const url = `https://wa.me/${cust.phone}?text=${encodeURIComponent(previewText)}`;
+            window.open(url, '_blank');
+            closeModal('page-generate-reminder');
+        }
+    }
     // --- STOCK & CATEGORIES ---
     function renderCategories() {
         const container = document.getElementById('inventory-category-tabs');
@@ -1218,7 +1230,6 @@
             container.innerHTML += `<div class="stock-tab ${state.currentCatFilter === cat ? 'active' : ''}" onclick="filterStock('${cat}', this)">${cat}</div>`;
         });
     }
-
     function filterStock(cat, element) {
         state.currentCatFilter = cat;
         // Visual updates
@@ -1226,16 +1237,13 @@
         element.classList.add('active');
         renderInventoryList();
     }
-
     function renderInventoryList() {
         const container = document.getElementById('inventory-list');
         const filter = document.getElementById('inventory-search').value.toLowerCase();
         container.innerHTML = '';
-
         state.inventory.forEach(item => {
             const matchesCat = state.currentCatFilter === 'All' || item.cat === state.currentCatFilter;
             const matchesSearch = item.name.toLowerCase().includes(filter);
-
             if(matchesCat && matchesSearch) {
                 container.innerHTML += `
                     <div class="app-card ion-activatable" style="display: flex; justify-content: space-between; align-items: center;" onclick="openProductDetail('${item.sku}')">
@@ -1252,10 +1260,12 @@
             }
         });
     }
-    
     function openProductDetail(sku) {
         state.tempProdSku = sku;
         const item = state.inventory.find(i => i.sku === sku);
+        // Reset restock panel state
+        document.getElementById('restock-panel').classList.add('hidden');
+        document.getElementById('restock-qty-input').value = '';
         if(item) {
             document.getElementById('edit-prod-title').innerText = item.name;
             document.getElementById('edit-prod-sku').innerText = `SKU: ${item.sku}`;
@@ -1264,20 +1274,23 @@
             openModal('page-product-details');
         }
     }
-    
-    function restockProduct() {
-        const amt = prompt("How many items are you adding?");
+    function toggleRestockPanel() {
+        document.getElementById('restock-panel').classList.remove('hidden');
+        document.getElementById('restock-qty-input').focus();
+    }
+    function confirmRestock() {
+        const amt = document.getElementById('restock-qty-input').value;
         if(amt && parseInt(amt) > 0) {
             const item = state.inventory.find(i => i.sku === state.tempProdSku);
             if(item) {
                 item.stock += parseInt(amt);
                 document.getElementById('edit-prod-stock').value = item.stock;
-                showToast("Stock Updated");
+                showToast("Stock Updated: " + item.stock);
                 renderInventoryList();
+                document.getElementById('restock-panel').classList.add('hidden');
             }
         }
     }
-    
     function saveProductEdits() {
         const newPrice = document.getElementById('edit-prod-price').value;
         const item = state.inventory.find(i => i.sku === state.tempProdSku);
@@ -1288,7 +1301,6 @@
             closeModal('page-product-details');
         }
     }
-    
     function deleteProduct() {
         if(confirm("Delete this product?")) {
             state.inventory = state.inventory.filter(i => i.sku !== state.tempProdSku);
@@ -1297,7 +1309,6 @@
             showToast("Product Deleted");
         }
     }
-    
     function populateCategorySelect() {
         const sel = document.getElementById('add-prod-category');
         sel.innerHTML = '';
@@ -1305,28 +1316,29 @@
             sel.innerHTML += `<option value="${c}">${c}</option>`;
         });
     }
-    
-    function promptAddCategory() {
-        const newCat = prompt("Enter New Category Name:");
+    function openAddCategoryModal() {
+        openModal('page-add-category-input');
+        // Clear input
+        document.getElementById('new-cat-input').value = '';
+    }
+    function confirmAddCategory() {
+        const newCat = document.getElementById('new-cat-input').value;
         if(newCat) {
              state.categories.push(newCat);
              populateCategorySelect(); // Update modal select
              // Select the new one immediately
              document.getElementById('add-prod-category').value = newCat;
-             
              // Update tabs immediately too
              renderCategories();
-             
+             closeModal('page-add-category-input');
              showToast(`Category "${newCat}" created!`);
         }
     }
-    
     function saveNewProduct() {
         const name = document.getElementById('add-prod-name').value;
         const price = parseInt(document.getElementById('add-prod-price').value);
         const stock = parseInt(document.getElementById('add-prod-stock').value);
         const cat = document.getElementById('add-prod-category').value;
-        
         if(name && price) {
             state.inventory.push({
                 sku: 'GEN' + Math.floor(Math.random()*1000),
@@ -1343,13 +1355,52 @@
             document.getElementById('add-prod-price').value = '';
         }
     }
-
+    // --- POS CUSTOMER LOGIC ---
+    function openPosCustomerSelect() {
+        openModal('page-pos-select-customer');
+        renderPosCustomerSelect();
+    }
+    function renderPosCustomerSelect() {
+        const container = document.getElementById('pos-cust-list');
+        const search = document.getElementById('pos-cust-search').value.toLowerCase();
+        container.innerHTML = '';
+        // Always add option for "Walk-in"
+        container.innerHTML += `
+            <div class="list-item ion-activatable" onclick="selectPosCustomer(null)">
+                <ion-ripple-effect></ion-ripple-effect>
+                <div class="font-bold">Walk-in Customer</div>
+            </div>
+        `;
+        state.customers.forEach(c => {
+            if(c.name.toLowerCase().includes(search) || c.phone.includes(search)) {
+                container.innerHTML += `
+                    <div class="list-item ion-activatable" onclick="selectPosCustomer(${c.id})">
+                        <ion-ripple-effect></ion-ripple-effect>
+                        <div>
+                            <div class="font-bold">${c.name}</div>
+                            <div class="text-xs text-gray">${c.phone}</div>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+    }
+    function selectPosCustomer(id) {
+        state.posSelectedCustomer = id;
+        const label = document.getElementById('pos-customer-name');
+        if(id === null) {
+            label.innerText = "Walk-in Customer";
+        } else {
+            const cust = state.customers.find(c => c.id === id);
+            if(cust) label.innerText = cust.name;
+        }
+        closeModal('page-pos-select-customer');
+    }
     // --- POS ADD ITEM LOGIC (Fixed) ---
     function renderPosAddList() {
         const container = document.getElementById('pos-add-list');
         const filter = document.getElementById('pos-filter-input') ? document.getElementById('pos-filter-input').value.toLowerCase() : "";
         container.innerHTML = '';
-        
         state.inventory.forEach(item => {
             if(item.name.toLowerCase().includes(filter)) {
                 container.innerHTML += `
@@ -1364,52 +1415,42 @@
             }
         });
     }
-
     function initiateAddToCart(sku) {
         const item = state.inventory.find(i => i.sku === sku);
         if(!item) return;
-        
         state.tempQtySku = sku;
         document.getElementById('qty-item-name').innerText = item.name;
         document.getElementById('qty-stock-display').innerText = `Available: ${item.stock}`;
         document.getElementById('qty-input').value = 1;
-        
         closeModal('page-pos-add-item');
         openModal('page-pos-qty');
     }
-    
     function adjustQty(amount) {
         const input = document.getElementById('qty-input');
         let val = parseInt(input.value) + amount;
         if(val < 1) val = 1;
         input.value = val;
     }
-
     function confirmAddToCart() {
         const sku = state.tempQtySku;
         const qty = parseInt(document.getElementById('qty-input').value);
         const item = state.inventory.find(i => i.sku === sku);
-        
         if(item) {
             const existing = state.cart.find(c => c.sku === sku);
             if(existing) existing.qty += qty;
             else state.cart.push({...item, qty: qty});
-            
             updateCartUI();
             closeModal('page-pos-qty');
             showToast('Item Added');
         }
     }
-
     function updateCartUI() {
         const container = document.getElementById('pos-items-list');
         let total = 0;
         container.innerHTML = '';
-        
         if(state.cart.length > 0) {
             document.getElementById('pos-empty').classList.add('hidden');
             document.getElementById('pos-active').classList.remove('hidden');
-            
             state.cart.forEach(item => {
                 total += item.price * item.qty;
                 container.innerHTML += `
@@ -1421,22 +1462,25 @@
             document.getElementById('pos-total').innerText = formatCurrency(total);
         }
     }
-    
     function openInvoicePreview() {
         if(state.cart.length === 0) return;
-        
         // Populate Invoice Data from Shop Profile
         document.getElementById('inv-shop-name').innerText = state.shopProfile.name;
         document.getElementById('inv-shop-address').innerText = state.shopProfile.address;
         document.getElementById('inv-shop-phone').innerText = state.shopProfile.phone;
-        
         document.getElementById('inv-date').innerText = new Date().toLocaleDateString();
         document.getElementById('inv-time').innerText = new Date().toLocaleTimeString();
-        
+        // Update customer on invoice
+        const invCustName = document.getElementById('inv-cust-name');
+        if(state.posSelectedCustomer) {
+            const cust = state.customers.find(c => c.id === state.posSelectedCustomer);
+            invCustName.innerText = cust ? cust.name : "Walk-in";
+        } else {
+            invCustName.innerText = "Walk-in";
+        }
         const cont = document.getElementById('inv-items');
         cont.innerHTML = '';
         let total = 0;
-        
         state.cart.forEach(item => {
             total += item.price * item.qty;
             cont.innerHTML += `
@@ -1447,14 +1491,11 @@
             `;
         });
         document.getElementById('inv-total').innerText = formatCurrency(total);
-        
         openModal('page-invoice-preview');
     }
-
     function finalizeSale() {
         let saleTotal = 0;
         let desc = "";
-        
         state.cart.forEach((c, i) => {
             saleTotal += c.price * c.qty;
             if(i===0) desc = `${c.name} (${c.qty})`;
@@ -1462,9 +1503,7 @@
             const invItem = state.inventory.find(inv => inv.sku === c.sku);
             if(invItem) invItem.stock -= c.qty;
         });
-        
         if(state.cart.length > 1) desc += ` + ${state.cart.length -1} others`;
-
         // Update State
         state.todayTotal += saleTotal;
         state.salesHistory.unshift({
@@ -1472,26 +1511,35 @@
             desc: desc,
             amount: saleTotal
         });
-        
         state.activityLog.unshift({
             title: 'Sale', desc: desc, time: 'Just Now', icon: 'wallet'
         });
-
+        // Link to Customer Logic
+        if(state.posSelectedCustomer) {
+            const cust = state.customers.find(c => c.id === state.posSelectedCustomer);
+            if(cust) {
+                cust.totalSpent += saleTotal;
+                cust.history.unshift({
+                    desc: "Purchase: " + desc,
+                    date: new Date().toLocaleDateString(),
+                    amount: saleTotal
+                });
+            }
+        }
         updateDashboardTotals();
         renderRecentActivity();
         renderInventoryList(); // Refresh stock counts
-        
-        // Reset Cart
+        // Reset Cart & Customer
         state.cart = [];
+        state.posSelectedCustomer = null;
+        document.getElementById('pos-customer-name').innerText = "Walk-in Customer";
         document.getElementById('pos-items-list').innerHTML = '';
         document.getElementById('pos-active').classList.add('hidden');
         document.getElementById('pos-empty').classList.remove('hidden');
-        
         closeModal('page-invoice-preview');
         showToast('Sale Confirmed!');
         switchTab('home');
     }
-
     // --- ACTIVITY ---
     function renderRecentActivity() {
         const container = document.getElementById('recent-activity-list');
@@ -1500,7 +1548,6 @@
             container.innerHTML += createActivityHTML(act);
         });
     }
-    
     function renderAllActivity() {
         const container = document.getElementById('all-activity-list-content');
         container.innerHTML = '';
@@ -1508,7 +1555,6 @@
             container.innerHTML += `<div class="app-card" style="padding: 12px; margin-bottom: 8px;">${createActivityHTML(act)}</div>`;
         });
     }
-    
     function renderTodaysSales() {
         const container = document.getElementById('todays-sales-list');
         container.innerHTML = '';
@@ -1525,7 +1571,6 @@
         });
         document.getElementById('modal-sales-total').innerText = formatCurrency(state.todayTotal);
     }
-
     function createActivityHTML(act) {
         return `
             <div style="padding: 12px 16px; display: flex; align-items: center; border-bottom: 1px solid var(--border-color);">
@@ -1539,7 +1584,6 @@
                 <div class="text-xs text-gray">${act.time}</div>
             </div>`;
     }
-
     // --- STAFF ---
     function renderStaffList() {
         const container = document.getElementById('staff-list');
@@ -1557,18 +1601,26 @@
             `;
         });
     }
-    
     function openStaffDetail(id) {
         state.tempStaffId = id;
         const staff = state.staff.find(s => s.id === id);
         if(staff) {
             document.getElementById('staff-detail-name').innerText = staff.name;
             document.getElementById('staff-detail-initial').innerText = staff.name.charAt(0);
-            document.getElementById('staff-detail-role').innerText = staff.role;
+            document.getElementById('staff-detail-role-select').value = staff.role;
             openModal('page-staff-details');
         }
     }
-    
+    function updateStaffRole() {
+        const newRole = document.getElementById('staff-detail-role-select').value;
+        const staff = state.staff.find(s => s.id === state.tempStaffId);
+        if(staff) {
+            staff.role = newRole;
+            renderStaffList();
+            showToast("Role Updated");
+            closeModal('page-staff-details');
+        }
+    }
     function saveNewStaff() {
         const name = document.getElementById('staff-name-input').value;
         const role = document.getElementById('staff-role-input').value;
@@ -1579,33 +1631,41 @@
             closeModal('page-add-staff');
         }
     }
-    
     function deleteStaff() {
         state.staff = state.staff.filter(s => s.id !== state.tempStaffId);
         renderStaffList();
         closeModal('page-staff-details');
         showToast('Staff Removed');
     }
-
     // --- SETTINGS / PROFILE ---
     function saveProfile() {
         state.shopProfile.name = document.getElementById('prof-name').value;
         state.shopProfile.phone = document.getElementById('prof-phone').value;
         state.shopProfile.address = document.getElementById('prof-addr').value;
-        showToast("Profile Updated");
-        closeModal('page-profile');
-    }
 
+        // Update shop name in Home tab
+        const homeNameEl = document.getElementById('home-shop-name');
+        if (homeNameEl) homeNameEl.innerText = state.shopProfile.name;
+
+        // Update shop name in Invoice preview
+        const invNameEl = document.getElementById('inv-shop-name');
+        if (invNameEl) invNameEl.innerText = state.shopProfile.name;
+
+        // ✅ Update shop name in Profile modal itself
+        const profileNameEl = document.getElementById('profile-shop-name');
+        if (profileNameEl) profileNameEl.innerText = state.shopProfile.name;
+
+        showToast("Profile Updated");
+        // closeModal('page-profile'); // Optional: leave modal open to show change
+    }
     function updateDashboardTotals() {
         const els = document.querySelectorAll('#home-today-sales');
         els.forEach(el => el.innerText = formatCurrency(state.todayTotal));
     }
-
     // --- UTILS ---
     function formatCurrency(num) {
         return '₦' + num.toLocaleString();
     }
-
     async function showToast(msg) {
         const toast = document.createElement('ion-toast');
         toast.message = msg;
@@ -1614,14 +1674,12 @@
         document.body.appendChild(toast);
         return toast.present();
     }
-
     function setupNetworkListeners() {
         const updateStatus = () => {
             const isOnline = navigator.onLine;
             const badge = document.getElementById('status-badge');
             const posIcon = document.getElementById('pos-status-icon');
             const banner = document.getElementById('offline-banner');
-            
             if(badge) {
                 badge.innerText = isOnline ? "Online" : "Offline";
                 badge.style.background = isOnline ? "#D1FAE5" : "#FEE2E2";
