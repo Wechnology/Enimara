@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Enimara - The OS for the Unstructured</title>
 
-    <link rel="icon" type="image/x-icon" href="Enimara Favicon.png">
+  <link rel="icon" type="image/x-icon" href="Enimara Favicon.png">
     
-  <!-- Ionic Framework (Used for Mobile UI Components) -->
+  <!-- Ionic Framework -->
   <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
   <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
 
-  <!-- Ionicons for Icons -->
+  <!-- Ionicons -->
   <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.js"></script>
 
@@ -20,1558 +20,853 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* --- ENIMARA BRAND THEME & DARK MODE --- */
+    /* --- ENIMARA BRAND THEME --- */
     :root {
       --ion-font-family: 'Noto Sans', sans-serif;
       --ion-color-primary: #0C2340; /* Deep Navy */
       --ion-color-primary-rgb: 12, 35, 64;
       --ion-color-secondary: #F4A42A; /* Warm Gold */
       --ion-color-secondary-rgb: 244, 164, 42;
-      --ion-background-color: #F9FAFB;
-      --ion-text-color: #1F2937;
-      --ion-card-background: white;
-      --ion-border-color: #E5E7EB;
-      --ion-success: #10B981;
-      --ion-warning: #F59E0B;
-      --ion-danger: #EF4444;
+      
+      --app-bg: #F9FAFB;
+      --card-bg: #FFFFFF;
+      --text-color: #1F2937;
+      --text-muted: #6B7280;
+      --border-color: #E5E7EB;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      
+      --smart-insight-bg: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+      --smart-insight-border: #FCD34D;
+      --smart-insight-text: #92400E;
     }
 
-    .dark-mode {
-      --ion-color-primary: #F4A42A; /* Warm Gold */
-      --ion-color-primary-rgb: 244, 164, 42;
-      --ion-color-secondary: #0C2340; /* Deep Navy */
-      --ion-color-secondary-rgb: 12, 35, 64;
-      --ion-background-color: #111827;
-      --ion-text-color: #F3F4F6;
-      --ion-card-background: #1F2937;
-      --ion-border-color: #374151;
+    /* DARK MODE */
+    body.dark {
+      --ion-color-primary: #476C9B; 
+      --ion-color-primary-rgb: 71, 108, 155;
+      --ion-color-secondary: #C28E38; 
+      --app-bg: #111827;
+      --card-bg: #1F2937;
+      --text-color: #F3F4F6;
+      --text-muted: #9CA3AF;
+      --border-color: #374151;
+      --smart-insight-bg: linear-gradient(135deg, #374151 0%, #1F2937 100%);
+      --smart-insight-border: #4B5563;
+      --smart-insight-text: #F3F4F6;
     }
 
     body { 
       font-family: 'Noto Sans', sans-serif; 
-      background-color: var(--ion-background-color);
-      color: var(--ion-text-color);
-      transition: background-color 0.3s, color 0.3s;
+      background-color: var(--app-bg);
+      color: var(--text-color);
+      margin: 0; overflow: hidden;
+      transition: background-color 0.3s;
     }
 
     /* UTILITIES */
     .text-primary { color: var(--ion-color-primary); }
     .text-secondary { color: var(--ion-color-secondary); }
-    .text-success { color: var(--ion-success); }
-    .text-warning { color: var(--ion-warning); }
-    .text-danger { color: var(--ion-danger); }
+    .text-success { color: #10B981; }
+    .text-danger { color: #EF4444; }
+    .text-gray { color: var(--text-muted); }
     .font-bold { font-weight: 700; }
     .text-sm { font-size: 0.875rem; }
     .text-xs { font-size: 0.75rem; }
-    .text-gray { color: #9CA3AF; }
-    
     .hidden { display: none !important; }
+    .ion-activatable { position: relative; overflow: hidden; cursor: pointer; }
 
-    /* CUSTOM INPUTS */
+    /* LAYOUT */
+    .page-container {
+      width: 100%; height: 100%; position: absolute; top: 0; left: 0;
+      background: var(--app-bg); overflow-y: auto; z-index: 10;
+      padding-bottom: 90px;
+    }
+
+    .app-card {
+      background: var(--card-bg); border-radius: 16px; padding: 16px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);
+      margin-bottom: 16px; position: relative;
+    }
+
     .custom-input {
-      background: var(--ion-card-background);
-      border: 1px solid var(--ion-border-color);
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
+      background: var(--card-bg); border: 1px solid var(--border-color);
+      border-radius: 12px; padding: 12px 16px; margin-bottom: 16px;
+      display: flex; align-items: center;
     }
     .custom-input input, .custom-input select, .custom-input textarea {
-      border: none;
-      outline: none;
-      width: 100%;
-      font-size: 16px;
-      color: var(--ion-text-color);
-      background: transparent;
+      border: none; outline: none; width: 100%; background: transparent;
+      color: var(--text-color); font-family: inherit; font-size: 16px;
     }
 
-    /* CARDS */
-    .app-card {
-      background: var(--ion-card-background);
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      border: 1px solid var(--ion-border-color);
-      margin-bottom: 16px;
+    /* OFFLINE BANNER */
+    #offline-banner {
+      background: #374151; color: white; text-align: center;
+      padding: 10px; font-size: 12px; font-weight: 600;
+      position: sticky; top: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
     }
 
-    /* OFFLINE BADGE - Dynamically shown by JS */
-    .offline-badge {
-      background: #FEF3C7; /* Light Gold background */
-      color: #92400E; /* Dark Gold text */
-      font-size: 11px;
-      font-weight: 600;
-      text-align: center;
-      padding: 6px 12px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-      border: 1px solid #FCD34D;
-    }
-
-    /* QUICK ACTIONS */
-    .quick-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-    .quick-btn {
-      background: var(--ion-card-background);
-      padding: 12px 4px;
-      border-radius: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-      border: 1px solid var(--ion-border-color);
-    }
-    .quick-btn ion-icon {
-      font-size: 24px;
-      margin-bottom: 4px;
-      color: var(--ion-text-color);
-    }
-
-    /* BUTTONS */
-    .btn-main {
-      --background: var(--ion-color-primary);
-      --border-radius: 24px;
-      height: 50px;
-      font-weight: 600;
-      margin-top: 20px;
-    }
-    .btn-secondary {
-      --background: var(--ion-color-secondary);
-      --border-radius: 24px;
-      height: 50px;
-      font-weight: 600;
-      margin-top: 20px;
-    }
-
-    /* PAGE TRANSITIONS */
-    .page-container {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      background: var(--ion-background-color);
-      overflow-y: auto;
-      z-index: 10;
-      padding-bottom: 60px; /* Account for tab bar */
-    }
-    
     /* TAB BAR */
     .custom-tab-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--ion-card-background);
-      border-top: 1px solid var(--ion-border-color);
-      height: 60px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      z-index: 100;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--card-bg); border-top: 1px solid var(--border-color);
+      height: 70px; display: flex; justify-content: space-between;
+      align-items: center; padding: 0 10px; z-index: 100;
       padding-bottom: env(safe-area-inset-bottom);
+      box-shadow: 0 -4px 6px -1px rgba(0,0,0,0.05);
     }
     .tab-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #9CA3AF;
-      font-size: 10px;
-      background: none;
-      border: none;
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      color: var(--text-muted); font-size: 10px; background: none;
+      border: none; padding: 8px 0; transition: color 0.2s;
     }
-    .tab-btn.active {
-      color: var(--ion-color-primary);
-    }
-    .tab-btn ion-icon {
-      font-size: 24px;
-      margin-bottom: 2px;
-    }
-
-    /* PENDING SYNC BADGE */
-    .pending-sync-badge {
-      background: #F3F4F6;
-      color: #6B7280;
-      font-size: 12px;
-      font-weight: 600;
-      text-align: center;
-      padding: 8px 16px;
-      border-radius: 20px;
-      margin-top: 16px;
-      border: 1px solid #E5E7EB;
-    }
-    .pending-sync-badge.hidden {
-        display: none; /* Ensure it's hidden when class is applied */
-    }
-
-    /* CUSTOMER LIST ITEM */
-    .customer-item {
-      background: var(--ion-card-background);
-      border-radius: 12px;
-      padding: 12px;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap; /* Allow wrapping for buttons on small screens */
-      gap: 8px; /* Add space between elements */
-      border: 1px solid var(--ion-border-color);
-    }
-    .customer-info {
-      flex: 1;
-      min-width: 150px; /* Ensure info takes some space */
-    }
-    .customer-balance {
-      background: #E5E7EB;
-      color: #374151;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: 600;
-      align-self: flex-start; /* Align to top */
-    }
-    .customer-actions {
-      display: flex;
-      gap: 8px;
-      width: 100%; /* Full width on wrap */
-      justify-content: flex-end; /* Align buttons to the right */
-    }
-
-    /* TRANSACTION HISTORY ITEM */
-    .transaction-item {
-      padding: 12px 0;
-      border-bottom: 1px solid var(--ion-border-color);
-    }
-    .transaction-item:last-child {
-      border-bottom: none;
-    }
-
-    /* INVENTORY LIST ITEM */
-    .inventory-item {
-      background: var(--ion-card-background);
-      border-radius: 12px;
-      padding: 12px;
-      margin-bottom: 12px;
-      border: 1px solid var(--ion-border-color);
-    }
-    .inventory-details {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-    .inventory-stock {
-      background: #E5E7EB;
-      color: #374151;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    /* CATEGORY TABS */
-    .category-tabs {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      margin-bottom: 16px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--ion-border-color);
-    }
-    .category-tab {
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-      white-space: nowrap;
-      cursor: pointer;
-      background: #F3F4F6;
-      color: #6B7280;
-    }
-    .category-tab.active {
-      background: var(--ion-color-primary);
-      color: white;
-    }
-    .category-tab:not(.active):hover {
-      background: #E5E7EB;
-    }
-
-    /* SIMULATED SCANNER */
-    .scanner-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.8);
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-    .scanner-frame {
-      width: 80%;
-      max-width: 300px;
-      height: 200px;
-      border: 4px solid var(--ion-color-secondary);
-      position: relative;
-    }
-    .scanner-frame::before,
-    .scanner-frame::after {
-      content: '';
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      border: 4px solid var(--ion-color-secondary);
-    }
-    .scanner-frame::before {
-      top: -4px;
-      left: -4px;
-      border-right: none;
-      border-bottom: none;
-    }
-    .scanner-frame::after {
-      bottom: -4px;
-      right: -4px;
-      border-left: none;
-      border-top: none;
-    }
-    .scanner-text {
-      margin-top: 20px;
-      color: white;
-      font-size: 16px;
-      text-align: center;
-    }
-
-    /* ONLINE/OFFLINE BUTTON */
-    .online-offline-btn {
-      background: #E5E7EB;
-      color: #374151;
-      border-radius: 20px;
-      padding: 4px 12px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .online-offline-btn.online {
-      background: #D1FAE5; /* Light green */
-      color: #065F46; /* Dark green */
-    }
-    .online-offline-btn.offline {
-      background: #FEF3C7; /* Light gold */
-      color: #92400E; /* Dark gold */
-    }
+    .tab-btn.active { color: var(--ion-color-secondary); font-weight: 600; }
+    .tab-btn ion-icon { font-size: 24px; margin-bottom: 4px; }
 
     /* CHARTS */
-    .chart-container {
-      display: flex;
-      flex-direction: column; /* Stack charts vertically */
-      align-items: center;
-      margin: 20px 0;
-      padding: 10px;
-      border-radius: 12px;
-      background: var(--ion-card-background);
-      border: 1px solid var(--ion-border-color);
+    .chart-container { margin: 20px 0; overflow: hidden; }
+    .svg-chart { width: 100%; height: 180px; overflow: visible; }
+    .chart-grid-line { stroke: var(--border-color); stroke-width: 1; stroke-dasharray: 4 4; opacity: 0.5; }
+    .chart-axis-text { font-size: 10px; fill: var(--text-muted); }
+    .chart-bar { fill: var(--ion-color-secondary); rx: 4; transition: height 0.3s ease; }
+
+    /* STOCK TABS */
+    .stock-tab {
+        padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
+        background: var(--card-bg); color: var(--text-muted);
+        border: 1px solid var(--border-color); cursor: pointer; white-space: nowrap;
+        transition: all 0.2s;
     }
-    .chart-placeholder {
-      width: 90%;
-      height: 120px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-around;
-      gap: 4px;
-      margin-bottom: 20px;
-    }
-    .chart-bar {
-      width: 15%;
-      background: var(--ion-color-secondary);
-      border-radius: 4px 4px 0 0;
-      position: relative;
-    }
-    .chart-bar-value {
-        position: absolute;
-        top: -20px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.7rem;
-        color: var(--ion-text-color);
-        font-weight: 600;
-        white-space: nowrap;
-    }
-    .chart-line {
-        width: 90%;
-        height: 120px;
-        position: relative;
-        margin-top: 10px;
-    }
-    .chart-line-grid {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-    .chart-line-grid-line {
-        width: 100%;
-        height: 1px;
-        background: var(--ion-border-color);
-        opacity: 0.3;
-    }
-    .chart-line-graph {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-around;
-    }
-    .chart-line-point {
-        width: 8px;
-        height: 8px;
-        background: #EF4444; /* Red for line chart point */
-        border-radius: 50%;
-        position: relative;
-    }
-    .chart-line-point-value {
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.6rem;
-        color: var(--ion-text-color);
-        font-weight: 600;
-        white-space: nowrap;
-    }
-    .chart-line-line {
-        position: absolute;
-        background: #EF4444; /* Red for line chart line */
-        height: 2px;
-        /* Calculated dynamically */
+    .stock-tab.active {
+        background: var(--ion-color-primary); color: white; border-color: var(--ion-color-primary);
     }
 
-    /* AI ADVICE */
-    .ai-advice-container {
-      margin-top: 20px;
+    /* CUSTOMER CARDS */
+    .customer-card {
+        background: var(--card-bg); border: 1px solid var(--border-color);
+        border-radius: 12px; padding: 12px; margin-bottom: 10px;
+        display: flex; justify-content: space-between; align-items: center;
     }
-    .ai-advice-card {
-      background: #FDE68A; /* Light gold */
-      color: #92400E; /* Dark gold */
-      border-radius: 12px;
-      padding: 12px;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      border: 1px solid #FCD34D;
+    .debt-badge {
+        background: #FEE2E2; color: #B91C1C; font-size: 11px;
+        padding: 4px 8px; border-radius: 12px; font-weight: 700;
     }
-    .ai-advice-icon {
-      font-size: 24px;
-      margin-right: 12px;
-      flex-shrink: 0;
-    }
-    .ai-advice-text {
-      flex: 1;
-    }
-    .ai-advice-action {
-      margin-left: 12px;
-      flex-shrink: 0;
+    .top-customer-item {
+        min-width: 110px; text-align: center; margin-right: 12px;
+        background: var(--card-bg); padding: 12px; border-radius: 12px;
+        border: 1px solid var(--border-color);
+        position: relative; overflow: hidden;
     }
 
-    /* SETTINGS LIST ITEM */
-    .settings-item {
-      display: flex;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--ion-border-color);
+    /* AI SUGGESTIONS */
+    .ai-card {
+        background: var(--smart-insight-bg);
+        border: 1px solid var(--smart-insight-border);
+        border-radius: 16px; padding: 16px; margin-bottom: 20px;
     }
-    .settings-item:last-child {
-      border-bottom: none;
-    }
-    .settings-icon {
-      font-size: 24px;
-      margin-right: 12px;
-      color: var(--ion-color-primary);
-    }
-    .settings-label {
-      flex: 1;
-    }
-    .settings-toggle {
-      margin-left: auto;
+    .ai-action-btn {
+        background: var(--ion-color-secondary); color: black; font-size: 11px; padding: 6px 12px;
+        border-radius: 12px; font-weight: 600; display: inline-block; margin-top: 8px;
     }
 
-    /* CREATE CATEGORY MODAL */
-    .create-category-input {
-      background: var(--ion-card-background);
-      border: 1px solid var(--ion-border-color);
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
+    /* LIST ITEMS & RIPPLES */
+    .list-item {
+        padding: 16px; border-bottom: 1px solid var(--border-color);
+        display: flex; align-items: center; justify-content: space-between;
+        position: relative; overflow: hidden;
     }
-    .create-category-input input {
-      border: none;
-      outline: none;
-      width: 100%;
-      font-size: 16px;
-      color: var(--ion-text-color);
-      background: transparent;
+    .list-item:last-child { border-bottom: none; }
+
+    /* BUTTONS */
+    .btn-gold {
+        --background: var(--ion-color-secondary);
+        --color: #000;
+        font-weight: 700;
+        --border-radius: 12px;
+        margin: 0;
+    }
+    .add-cat-btn {
+        background: var(--ion-color-primary); color: white;
+        width: 44px; height: 44px; border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: var(--shadow-md);
     }
 
-    /* SALES & ACTIVITY TABLE */
-    .activity-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 16px;
+    /* MODALS */
+    .fullscreen-modal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--app-bg); z-index: 300; overflow-y: auto;
+      display: flex; flex-direction: column;
     }
-    .activity-table th, .activity-table td {
-        padding: 12px 8px;
-        text-align: left;
-        border-bottom: 1px solid var(--ion-border-color);
+    .popup-modal {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.6); z-index: 10000;
+        display: flex; justify-content: center; align-items: center; padding: 20px;
     }
-    .activity-table th {
-        background-color: var(--ion-card-background);
-        font-weight: 600;
-        color: var(--ion-text-color);
+    .popup-content {
+        background: var(--card-bg);
+        border-radius: 20px; padding: 24px;
+        width: 100%; max-width: 340px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        max-height: 80vh; overflow-y: auto;
     }
 
-    /* INSTRUCTIONS MODAL */
-    .instructions-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.7);
-        z-index: 10000;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-    }
-    .instructions-content {
-        background: var(--ion-card-background);
-        border-radius: 16px;
-        padding: 24px;
-        max-width: 90%;
-        width: 400px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-    .instructions-content h3 {
-        margin-top: 0;
-    }
-    .instructions-content p {
+    /* INVOICE */
+    .invoice-paper {
+        background: #fff; color: #000; padding: 20px;
+        font-family: 'Courier New', monospace;
+        border-radius: 4px; border: 1px solid #ddd;
         margin-bottom: 16px;
     }
-
-    /* POS ADD ITEM MODAL */
-    .pos-add-item-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.7);
-        z-index: 10000;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-    }
-    .pos-add-item-content {
-        background: var(--ion-card-background);
-        border-radius: 16px;
-        padding: 24px;
-        max-width: 90%;
-        width: 400px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-    .pos-add-item-content h3 {
-        margin-top: 0;
-    }
-    .pos-add-item-content p {
-        margin-bottom: 16px;
-    }
-
-    /* POS ITEM QUANTITY MODAL */
-    .pos-item-quantity-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.7);
-        z-index: 10001; /* Higher z-index than add item modal */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-    }
-    .pos-item-quantity-content {
-        background: var(--ion-card-background);
-        border-radius: 16px;
-        padding: 24px;
-        max-width: 90%;
-        width: 300px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        text-align: center;
-    }
-    .quantity-controls {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 16px;
-        margin: 20px 0;
-    }
-    .quantity-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        font-weight: bold;
-        background: var(--ion-color-primary);
-        color: white;
-        cursor: pointer;
-    }
-    .quantity-input {
-        width: 60px;
-        height: 40px;
-        text-align: center;
-        font-size: 1.2rem;
-        border: 1px solid var(--ion-border-color);
-        border-radius: 8px;
-    }
-
+    .invoice-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 13px; }
+    .invoice-divider { border-bottom: 1px dashed #000; margin: 10px 0; }
   </style>
 </head>
-<body>
+<body id="app-body">
   <ion-app>
+
+    <!-- OFFLINE INDICATOR -->
+    <div id="offline-banner" class="hidden">
+      <ion-icon name="cloud-offline"></ion-icon>
+      <span>Network is causing go-slow. Don't worry, keep selling! We will sync when it's back.</span>
+    </div>
     
     <!-- ================== 1. LOGIN PAGE ================== -->
-    <div id="page-login" class="page-container" style="z-index: 200; background: var(--ion-card-background); padding: 24px; display: flex; flex-direction: column; justify-content: center;">
+    <div id="page-login" class="page-container" style="z-index: 500; display: flex; flex-direction: column; justify-content: center; padding: 24px;">
       <div style="text-align: center; margin-bottom: 40px;">
-        <!-- Logo SVG -->
-        <img src="Enimara Favicon.png" alt="Enimara Logo" style="width: 80px; height: 80px; border-radius: 30px;">
-        <h1 class="text-primary font-bold" style="margin-top: 10px;">Enimara</h1>
+        <img src="Enimara Favicon.png" alt="Logo" style="width: 80px; height: 80px; border-radius: 20px; box-shadow: var(--shadow-md);">
+        <h1 class="text-primary font-bold" style="margin-top: 16px; font-size: 28px;">Enimara</h1>
+        <p class="text-gray">Manage your business like a Boss</p>
       </div>
 
-      <h2 class="font-bold text-xl" style="margin-bottom: 20px;">Sign In</h2>
-      
-      <label class="text-xs font-bold text-gray">Email Address</label>
       <div class="custom-input">
-        <input type="email" value="admin@your-email.com">
+        <input type="email" value="oreoluwa@store.com" placeholder="Email Address">
       </div>
-
-      <label class="text-xs font-bold text-gray">Password</label>
       <div class="custom-input">
-        <input type="password" value="password123">
-        <ion-icon ios="eye-outline" md="eye-sharp" class="text-gray"></ion-icon>
+        <input type="password" value="password" placeholder="Password">
+        <ion-icon name="eye-outline" class="text-gray"></ion-icon>
       </div>
 
-      <ion-button expand="block" class="btn-main" onclick="navigateTo('dashboard')">Sign In</ion-button>
+      <ion-button expand="block" class="btn-gold" style="margin-top: 24px;" onclick="navigateTo('page-dashboard')">Sign In</ion-button>
     </div>
 
 
-    <!-- ================== 2. DASHBOARD CONTAINER ================== -->
+    <!-- ================== 2. DASHBOARD ================== -->
     <div id="page-dashboard" class="page-container hidden">
       
       <!-- TAB 1: HOME -->
       <div id="tab-home" class="tab-content">
         <div class="ion-padding">
-          <!-- OFFLINE BADGE: Toggled by JS based on navigator.onLine status -->
-          <div class="offline-badge hidden" id="offline-badge-home">You're offline. Changes will sync when you reconnect</div>
-          
           <!-- Header -->
           <div style="display: flex; align-items: center; margin-bottom: 24px;">
-            <div style="width: 48px; height: 48px; border-radius: 50%; background: #ddd; overflow: hidden; margin-right: 12px;">
+            <div style="width: 50px; height: 50px; border-radius: 50%; background: #f0f0f0; overflow: hidden; margin-right: 12px; border: 2px solid var(--ion-color-secondary);">
               <img src="oluwaferanmi-caleb-Q1QRTSeZIxI-unsplash (1).jpg" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
             <div>
               <div class="text-xs text-gray">Welcome back,</div>
               <div class="font-bold text-lg text-primary">Oreoluwa Store</div>
             </div>
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <div class="online-offline-btn online" id="online-offline-btn" onclick="toggleOnlineStatus()">
-                  Online
-              </div>
-              <ion-icon ios="notifications-outline" md="notifications-sharp" style="font-size: 24px;"></ion-icon>
+            <div style="display: flex; align-items: center; gap: 8px; margin-left: auto;">
+               <div id="status-badge" style="background: #D1FAE5; color: #065F46; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; transition: all 0.3s;">Online</div>
+               <div style="position: relative;">
+                 <ion-icon name="notifications-outline" style="font-size: 24px; color: var(--text-color);"></ion-icon>
+                 <span style="position: absolute; top: -2px; right: -2px; background: red; color: white; border-radius: 50%; width: 14px; height: 14px; font-size: 9px; display: flex; align-items: center; justify-content: center;">3</span>
+               </div>
             </div>
           </div>
 
-          <!-- Stats -->
+          <!-- Dynamic Smart Insights -->
+          <div class="ai-card">
+              <div style="display: flex; gap: 10px; align-items: flex-start;">
+                  <ion-icon name="bulb" style="color: var(--ion-color-secondary); font-size: 24px;"></ion-icon>
+                  <div>
+                      <div class="font-bold text-sm" style="color: var(--smart-insight-text);">Smart Insight</div>
+                      <div class="text-xs" style="color: var(--smart-insight-text); margin-top: 4px;" id="home-insight-text">Loading insights...</div>
+                      <div class="ai-action-btn" id="home-insight-btn" onclick="switchTab('inventory')">Check Stock</div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Key Metrics -->
           <div style="display: flex; gap: 12px; margin-bottom: 24px;">
-            <div class="app-card" style="flex: 1; margin-bottom: 0;" onclick="switchTab('sales-details')">
+            <div class="app-card ion-activatable" style="flex: 1; margin-bottom: 0; background: var(--ion-color-primary); color: white; border: none;" onclick="openModal('page-todays-sales')">
+              <ion-ripple-effect></ion-ripple-effect>
               <div style="display: flex; justify-content: space-between;">
-                <span class="text-xs text-gray">Today's sales</span>
-                <ion-icon ios="scale-outline" md="scale-sharp" class="text-secondary"></ion-icon>
+                <span class="text-xs" style="opacity: 0.8;">Today's Sales</span>
+                <ion-icon name="chevron-forward" style="opacity: 0.6;"></ion-icon>
               </div>
-              <div class="font-bold text-xl" style="margin-top: 8px;" id="today-sales">₦ 120,000</div>
+              <div class="font-bold text-xl" style="margin-top: 8px;" id="home-today-sales">₦ 0</div>
             </div>
-            <div class="app-card" style="flex: 1; margin-bottom: 0;">
+            <div class="app-card ion-activatable" style="flex: 1; margin-bottom: 0;">
+               <ion-ripple-effect></ion-ripple-effect>
                <div style="display: flex; justify-content: space-between;">
-                <span class="text-xs text-gray">Low stocks</span>
-                <ion-icon ios="alert-circle-outline" md="alert-circle-sharp" color="danger"></ion-icon>
+                <span class="text-xs text-gray">Low Stock</span>
+                <ion-icon name="alert-circle" class="text-danger"></ion-icon>
               </div>
-              <div class="font-bold text-xl" style="margin-top: 8px;" id="low-stocks">5</div>
+              <div class="font-bold text-xl" style="margin-top: 8px;">5 <span class="text-xs text-gray font-normal">items</span></div>
             </div>
           </div>
 
-          <!-- Charts -->
+          <!-- Detailed Charts (Nigerian Context) -->
           <div class="app-card">
-            <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Sales Overview</h3>
-            <div class="chart-container">
-              <div class="chart-placeholder" id="bar-chart-placeholder">
-                <!-- Bars will be added by JS -->
-              </div>
-              <div class="chart-line" id="line-chart-placeholder">
-                  <div class="chart-line-grid">
-                      <div class="chart-line-grid-line"></div>
-                      <div class="chart-line-grid-line"></div>
-                      <div class="chart-line-grid-line"></div>
-                      <div class="chart-line-grid-line"></div>
-                      <div class="chart-line-grid-line"></div>
-                  </div>
-                  <div class="chart-line-graph" id="line-chart-graph">
-                      <!-- Points and lines will be added by JS -->
-                  </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Quick Access -->
-          <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Quick Access</h3>
-          <div class="quick-grid">
-            <div class="quick-btn" onclick="switchTab('pos')">
-              <ion-icon ios="calculator-outline" md="calculator-sharp"></ion-icon>
-              <span class="text-xs">POS</span>
-            </div>
-            <div class="quick-btn" onclick="switchTab('inventory')">
-              <ion-icon ios="clipboard-outline" md="clipboard-sharp"></ion-icon>
-              <span class="text-xs">Inventory</span>
-            </div>
-            <div class="quick-btn" onclick="openModal('page-customers')">
-              <ion-icon ios="people-outline" md="people-sharp"></ion-icon>
-              <span class="text-xs">Customers</span>
-            </div>
-             <div class="quick-btn" onclick="openModal('page-add-product')">
-              <ion-icon ios="cube-outline" md="cube-sharp"></ion-icon>
-              <span class="text-xs">Add Product</span>
-            </div>
+            <h3 class="font-bold text-sm" style="margin-bottom: 4px;">Market Reach (Last 5 Months)</h3>
+            <p class="text-xs text-gray" style="margin-bottom: 12px;">How your shop is growing</p>
+            <div id="bar-chart-container" class="chart-container"></div>
+            
+            <div style="height: 1px; background: var(--border-color); margin: 24px 0;"></div>
+            
+            <h3 class="font-bold text-sm" style="margin-bottom: 4px;">Customer Retention</h3>
+            <p class="text-xs text-gray" style="margin-bottom: 12px;">Returning Customers vs New Faces</p>
+            <div id="line-chart-container" class="chart-container"></div>
           </div>
 
           <!-- Recent Activity -->
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
              <h3 class="font-bold text-sm">Recent Activity</h3>
-             <span class="text-xs text-primary font-bold" onclick="switchTab('activity-details')">See all</span>
+             <span class="text-xs text-secondary font-bold" onclick="openModal('page-activity-all')" style="cursor: pointer;">See all</span>
           </div>
-          <div class="app-card" style="padding: 0;" id="recent-activity-list">
-             <div class="transaction-item">
-               <div style="display: flex; align-items: center; padding: 0 8px;">
-                 <div style="width: 32px; height: 32px; background: #F3F4F6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
-                   <ion-icon ios="trending-up-outline" md="trending-up-sharp"></ion-icon>
-                 </div>
-                 <div style="flex: 1;">
-                   <div class="font-bold text-sm">Pepsi cola</div>
-                   <div class="text-xs text-gray">Staff: Joy B.</div>
-                 </div>
-                 <div style="text-align: right; flex-shrink: 0;">
-                   <div class="font-bold text-sm">Sale</div>
-                   <div class="text-xs text-gray">Qty: 10</div>
-                 </div>
-               </div>
-             </div>
-             
-             <div class="transaction-item">
-               <div style="display: flex; align-items: center; padding: 0 8px;">
-                 <div style="width: 32px; height: 32px; background: #F3F4F6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
-                   <ion-icon ios="download-outline" md="download-sharp"></ion-icon>
-                 </div>
-                 <div style="flex: 1;">
-                   <div class="font-bold text-sm">Nivea Roll on</div>
-                   <div class="text-xs text-gray">Admin: Modupe</div>
-                 </div>
-                 <div style="text-align: right; flex-shrink: 0;">
-                   <div class="font-bold text-sm">Restock</div>
-                   <div class="text-xs text-gray">Qty: 30</div>
-                 </div>
-               </div>
-             </div>
-          </div>
-
-          <!-- AI Advice -->
-          <div class="ai-advice-container">
-            <h3 class="font-bold text-sm" style="margin-bottom: 12px;">AI Advice</h3>
-            <div class="ai-advice-card">
-              <ion-icon ios="bulb-outline" md="bulb-sharp" class="ai-advice-icon"></ion-icon>
-              <div class="ai-advice-text">
-                <div class="font-bold text-sm">Low Stock Alert</div>
-                <div class="text-xs">Rice (50kg) is running low. Consider restocking soon.</div>
-              </div>
-              <div class="ai-advice-action">
-                <ion-button fill="outline" size="small" color="dark" onclick="switchTab('inventory'); closeModal('page-inventory')">View</ion-button>
-              </div>
-            </div>
-            <div class="ai-advice-card">
-              <ion-icon ios="trending-up-outline" md="trending-up-sharp" class="ai-advice-icon"></ion-icon>
-              <div class="ai-advice-text">
-                <div class="font-bold text-sm">Top Seller</div>
-                <div class="text-xs">Pepsi cola is your top selling item this week.</div>
-              </div>
-              <div class="ai-advice-action">
-                <ion-button fill="outline" size="small" color="dark" onclick="switchTab('inventory'); closeModal('page-inventory')">View</ion-button>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Pending Sync Badge -->
-          <div class="pending-sync-badge hidden" id="pending-sync-badge">Pending sync: <span id="sync-count">0</span> updates</div>
-          
-          <div style="height: 80px;"></div> <!-- Spacer for tab bar -->
+          <div class="app-card" style="padding: 0;" id="recent-activity-list"></div>
         </div>
       </div>
 
       <!-- TAB 2: POS -->
       <div id="tab-pos" class="tab-content hidden">
         <div class="ion-padding">
+          <!-- Dynamic Insight -->
+          <div class="ai-card" style="margin-bottom: 16px; padding: 12px;">
+             <div class="text-xs" style="color: var(--smart-insight-text);">💡 <b>Tip:</b> Most customers ask for receipts around 4PM. Be ready!</div>
+          </div>
+
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
             <h2 class="font-bold text-lg text-primary">Point of Sale</h2>
-            <ion-icon ios="cloud-offline-outline" md="cloud-offline-sharp" style="font-size: 24px; color: #666;"></ion-icon>
+            <ion-icon id="pos-status-icon" name="cloud-done" style="font-size: 24px; color: var(--ion-color-secondary);"></ion-icon>
           </div>
           
-          <!-- OFFLINE BADGE -->
-          <div class="offline-badge hidden" id="offline-badge-pos">You're offline. Changes will sync when you reconnect</div>
-
           <div style="display: flex; gap: 12px; margin-bottom: 24px;">
             <div class="custom-input" style="flex: 1; margin-bottom: 0;">
-              <ion-icon ios="search-outline" md="search-sharp" style="margin-right: 8px; color: #999;"></ion-icon>
-              <input placeholder="Search item..." id="pos-search">
-            </div>
-            <div style="width: 50px; background: var(--ion-border-color); border-radius: 12px; display: flex; align-items: center; justify-content: center;" onclick="startScanner()">
-              <ion-icon ios="scan-outline" md="scan-sharp" style="font-size: 24px;"></ion-icon>
+              <ion-icon name="search-outline" style="margin-right: 8px; color: #999;"></ion-icon>
+              <input placeholder="Search product to add..." readonly onclick="openModal('page-pos-add-item')">
+              <ion-icon name="add-circle" style="margin-left: 8px; font-size: 24px; color: var(--ion-color-secondary);"></ion-icon>
             </div>
           </div>
 
           <!-- Empty State -->
-          <div id="pos-empty" style="text-align: center; margin-top: 80px;">
-            <ion-icon ios="basket-outline" md="basket-sharp" style="font-size: 64px; color: #D1D5DB;"></ion-icon>
-            <p class="text-gray" style="margin-top: 16px;">No added items</p>
-            <p class="text-xs text-gray">Start by scanning or adding an item</p>
+          <div id="pos-empty" style="text-align: center; margin-top: 60px;">
+            <div style="width: 120px; height: 120px; background: var(--card-bg); border: 1px dashed var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
+                <ion-icon name="basket-outline" style="font-size: 64px; color: var(--text-muted);"></ion-icon>
+            </div>
+            <p class="text-gray">Cart is empty.</p>
+            <p class="text-xs text-gray">Click search or scan to start selling.</p>
+            <ion-button fill="outline" class="btn-gold" style="margin-top: 20px; color: black;" onclick="openModal('page-pos-add-item')">Add Products</ion-button>
           </div>
 
-          <!-- Active State (Hidden) -->
-          <div id="pos-active" class="hidden">
+          <!-- Active Cart -->
+          <div id="pos-active" class="hidden" style="padding-bottom: 100px;">
              <div class="app-card">
-               <div style="display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid var(--ion-border-color); padding-bottom: 8px;">
-                 <span class="text-xs font-bold text-gray">Item</span>
-                 <span class="text-xs font-bold text-gray">Price</span>
-               </div>
-               <!-- Items will be dynamically added here -->
-               <div id="pos-items-list">
-                 <!-- Items added by JS -->
-               </div>
-                <div style="border-top: 1px dashed var(--ion-border-color); padding-top: 12px; margin-top: 12px; display: flex; justify-content: space-between;">
-                 <span class="font-bold text-lg">Total</span>
-                 <span class="font-bold text-lg" id="pos-total">₦ 0</span>
+               <div id="pos-items-list"></div>
+               <div style="border-top: 1px dashed var(--border-color); padding-top: 16px; margin-top: 16px;">
+                 <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="font-bold text-lg">Total</span>
+                    <span class="font-bold text-2xl text-primary" id="pos-total">₦ 0</span>
+                 </div>
                </div>
              </div>
-             
-             <div style="margin-top: 20px;">
-               <p class="text-xs font-bold" style="margin-bottom: 8px;">Payment Method</p>
-               <div style="display: flex; gap: 8px; margin-bottom: 20px;">
-                 <div style="background: var(--ion-color-primary); color: white; padding: 6px 12px; border-radius: 16px; font-size: 12px;">Cash</div>
-                 <div style="border: 1px solid var(--ion-border-color); padding: 6px 12px; border-radius: 16px; font-size: 12px;">Card</div>
-               </div>
-               <ion-button expand="block" class="btn-main" onclick="recordSale()">Record Sales</ion-button>
-             </div>
+             <ion-button expand="block" class="btn-gold" onclick="openInvoicePreview()">
+                Generate Invoice <ion-icon slot="end" name="receipt-outline"></ion-icon>
+             </ion-button>
           </div>
-
-          <ion-fab vertical="bottom" horizontal="end" slot="fixed" style="bottom: 80px; right: 20px;">
-            <ion-fab-button onclick="openModal('page-pos-add-item')">
-              <ion-icon ios="add-outline" md="add-sharp"></ion-icon>
-            </ion-fab-button>
-          </ion-fab>
         </div>
       </div>
 
       <!-- TAB 3: INVENTORY -->
       <div id="tab-inventory" class="tab-content hidden">
         <div class="ion-padding">
-           <h2 class="font-bold text-lg text-primary" style="margin-bottom: 16px;">Inventory</h2>
+           <!-- Dynamic Insight -->
+           <div class="ai-card" style="margin-bottom: 16px; padding: 12px;">
+             <div class="text-xs" style="color: var(--smart-insight-text);">💡 <b>Insight:</b> <b>Malta Guinness</b> stock is low. Consider restocking for the weekend rush.</div>
+           </div>
+
+           <h2 class="font-bold text-lg text-primary" style="margin-bottom: 16px;">Stock Level</h2>
+           <div class="custom-input">
+             <ion-icon name="search-outline" style="margin-right: 8px;"></ion-icon>
+             <input placeholder="Find product..." id="inventory-search" oninput="renderInventoryList()">
+           </div>
            
-           <!-- OFFLINE BADGE -->
-           <div class="offline-badge hidden" id="offline-badge-inventory">You're offline. Changes will sync when you reconnect</div>
+           <!-- Dynamic Categories -->
+           <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; scrollbar-width: none;" id="inventory-category-tabs">
+             <!-- Populated by JS -->
+           </div>
+
+           <div id="inventory-list" style="padding-bottom: 80px;"></div>
+        </div>
+        
+        <!-- FAB -->
+        <div style="position: fixed; bottom: 85px; right: 20px; z-index: 200;">
+          <ion-fab-button color="secondary" onclick="openModal('page-add-product')">
+            <ion-icon name="add"></ion-icon>
+          </ion-fab-button>
+        </div>
+      </div>
+
+      <!-- TAB 4: CUSTOMERS -->
+      <div id="tab-customers" class="tab-content hidden">
+        <div class="ion-padding">
+           <!-- Dynamic Insight -->
+           <div class="ai-card" style="margin-bottom: 16px; padding: 12px;">
+             <div class="text-xs" style="color: var(--smart-insight-text);">💡 <b>Tip:</b> Call your top debtors on Fridays. Recovery rate is higher.</div>
+           </div>
+
+           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+             <h2 class="font-bold text-lg text-primary">Customers</h2>
+             <div class="ion-activatable" style="background: var(--ion-color-secondary); color: black; width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md);" onclick="openModal('page-add-customer')">
+                 <ion-ripple-effect></ion-ripple-effect>
+                 <ion-icon name="person-add" style="font-size: 20px;"></ion-icon>
+             </div>
+           </div>
+
+           <!-- Top Customers Section -->
+           <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Top Customers (All Time)</h3>
+           <div style="display: flex; overflow-x: auto; padding-bottom: 16px; margin-bottom: 8px; scrollbar-width: none;" id="top-customers-list"></div>
+
+           <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Top Customers (This Month)</h3>
+           <div style="display: flex; overflow-x: auto; padding-bottom: 16px; margin-bottom: 8px; scrollbar-width: none;" id="top-customers-month-list"></div>
+
+           <!-- Filter Segments -->
+           <div style="display: flex; background: var(--border-color); padding: 4px; border-radius: 12px; margin-bottom: 16px;">
+               <div id="seg-all" class="text-xs font-bold" style="flex: 1; text-align: center; padding: 10px; background: var(--card-bg); border-radius: 10px; box-shadow: var(--shadow-sm); transition: all 0.2s;" onclick="filterCustomers('all')">All Customers</div>
+               <div id="seg-owing" class="text-xs font-bold text-gray" style="flex: 1; text-align: center; padding: 10px; transition: all 0.2s;" onclick="filterCustomers('owing')">Debtors List</div>
+           </div>
 
            <div class="custom-input">
-             <ion-icon ios="search-outline" md="search-sharp" style="margin-right: 8px;"></ion-icon>
-             <input placeholder="Search products..." id="inventory-search">
+             <ion-icon name="search-outline" style="margin-right: 8px;"></ion-icon>
+             <input placeholder="Search name or phone..." id="customer-search" oninput="renderCustomerList()">
            </div>
 
-           <!-- Tabs -->
-           <div class="category-tabs">
-             <div class="category-tab active" onclick="filterCategory('all')">All</div>
-             <div class="category-tab" onclick="filterCategory('foodstuff')">Foodstuff</div>
-             <div class="category-tab" onclick="filterCategory('beverages')">Beverages</div>
-             <div class="category-tab" onclick="filterCategory('household')">Household</div>
-           </div>
-
-           <!-- Item List -->
-           <div id="inventory-list">
-             <!-- Items will be dynamically generated here -->
-             <!-- Initial items will be populated by JS -->
-           </div>
-           
-           <div style="height: 80px;"></div>
-        </div>
-        <!-- FAB for Add Product (NEW) -->
-        <ion-fab  slot="fixed" vertical="bottom" horizontal="end">
-          <ion-fab-button onclick="openModal('page-add-product')">
-            <ion-icon ios="add-outline" md="add-sharp"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-      </div>
-
-      <!-- TAB 4: SALES DETAILS -->
-      <div id="tab-sales-details" class="tab-content hidden">
-        <div class="ion-padding">
-          <div style="display: flex; align-items: center; margin-bottom: 24px;">
-            <ion-button fill="clear" onclick="switchTab('home')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
-              <ion-icon slot="icon-only" ios="arrow-back-outline" md="arrow-back-sharp"></ion-icon>
-            </ion-button>
-            <h2 class="font-bold text-lg text-primary">Sales Details</h2>
-          </div>
-          <table class="activity-table" id="sales-table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Items</th>
-                    <th>Total</th>
-                    <th>Payment</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Rows will be added by JS -->
-            </tbody>
-          </table>
+           <div id="customer-list-container"></div>
         </div>
       </div>
 
-      <!-- TAB 5: ACTIVITY DETAILS -->
-      <div id="tab-activity-details" class="tab-content hidden">
-        <div class="ion-padding">
-          <div style="display: flex; align-items: center; margin-bottom: 24px;">
-            <ion-button fill="clear" onclick="switchTab('home')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
-              <ion-icon slot="icon-only" ios="arrow-back-outline" md="arrow-back-sharp"></ion-icon>
-            </ion-button>
-            <h2 class="font-bold text-lg text-primary">All Activity</h2>
-          </div>
-          <div id="all-activity-list">
-            <!-- Items will be added by JS -->
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 6: SETTINGS -->
+      <!-- TAB 5: SETTINGS -->
       <div id="tab-settings" class="tab-content hidden">
         <div class="ion-padding">
            <h2 class="font-bold text-lg text-primary" style="margin-bottom: 20px;">Settings</h2>
            
-           <!-- OFFLINE BADGE -->
-           <div class="offline-badge hidden" id="offline-badge-settings">You're offline. Changes will sync when you reconnect</div>
-
-           <div style="text-align: center; margin-bottom: 30px;">
-             <div style="width: 80px; height: 80px; background: var(--ion-border-color); border-radius: 50%; margin: 0 auto 12px auto; display: flex; align-items: center; justify-content: center;">
-               <ion-icon ios="person-circle-outline" md="person-circle-sharp" style="font-size: 40px; color: var(--ion-text-color);"></ion-icon>
-             </div>
-             <div style="background: #4B5563; color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; display: inline-block;">
-               admin@your-email.com
-             </div>
-           </div>
-
            <div class="app-card" style="padding: 0;">
-             <div class="settings-item" onclick="openModal('page-shop-details')">
-               <ion-icon ios="storefront-outline" md="storefront-sharp" class="settings-icon"></ion-icon>
-               <div class="settings-label">Shop Details</div>
-               <ion-icon ios="chevron-forward-outline" md="chevron-forward-sharp" class="text-gray"></ion-icon>
+             <div class="list-item ion-activatable" onclick="openModal('page-profile')">
+               <ion-ripple-effect></ion-ripple-effect>
+               <div style="display: flex; align-items: center;">
+                 <div style="background: var(--app-bg); padding: 8px; border-radius: 8px; margin-right: 12px;">
+                    <ion-icon name="storefront" style="font-size: 20px; color: var(--ion-color-primary);"></ion-icon>
+                 </div>
+                 <span>Shop Profile</span>
+               </div>
+               <ion-icon name="chevron-forward" class="text-gray"></ion-icon>
              </div>
-             <div class="settings-item" onclick="openModal('page-device-id')">
-               <ion-icon ios="hardware-chip-outline" md="hardware-chip-sharp" class="settings-icon"></ion-icon>
-               <div class="settings-label">Device ID</div>
-               <ion-icon ios="chevron-forward-outline" md="chevron-forward-sharp" class="text-gray"></ion-icon>
+             
+             <div class="list-item ion-activatable" onclick="openModal('page-staff')">
+               <ion-ripple-effect></ion-ripple-effect>
+               <div style="display: flex; align-items: center;">
+                 <div style="background: var(--app-bg); padding: 8px; border-radius: 8px; margin-right: 12px;">
+                    <ion-icon name="people" style="font-size: 20px; color: var(--ion-color-primary);"></ion-icon>
+                 </div>
+                 <span>Staff Management</span>
+               </div>
+               <ion-icon name="chevron-forward" class="text-gray"></ion-icon>
              </div>
-             <div class="settings-item">
-               <ion-icon ios="color-palette-outline" md="color-palette-sharp" class="settings-icon"></ion-icon>
-               <div class="settings-label">Theme</div>
-               <ion-toggle class="settings-toggle" id="theme-toggle" onclick="toggleTheme()"></ion-toggle>
+
+             <div class="list-item">
+               <div style="display: flex; align-items: center;">
+                 <div style="background: var(--app-bg); padding: 8px; border-radius: 8px; margin-right: 12px;">
+                    <ion-icon name="moon" style="font-size: 20px; color: var(--ion-color-primary);"></ion-icon>
+                 </div>
+                 <span>Dark Mode</span>
+               </div>
+               <ion-toggle id="theme-toggle" onionchange="toggleTheme()"></ion-toggle>
              </div>
            </div>
+
+           <ion-button expand="block" fill="outline" color="danger" style="margin-top: 30px;" onclick="navigateTo('page-login')">
+             Log Out
+           </ion-button>
            
-           <ion-button expand="block" fill="outline" color="danger" onclick="navigateTo('login')">Logout</ion-button>
+           <div style="text-align: center; margin-top: 20px;">
+               <p class="text-xs text-gray">Enimara v1.3.0 (Demo Edition)</p>
+           </div>
         </div>
       </div>
+
 
       <!-- CUSTOM BOTTOM TAB BAR -->
       <div class="custom-tab-bar">
         <button class="tab-btn active" onclick="switchTab('home')" id="btn-home">
-          <ion-icon ios="home-outline" md="home-sharp"></ion-icon>
-          <span>Home</span>
+          <ion-icon name="home-outline"></ion-icon>
+          Home
         </button>
         <button class="tab-btn" onclick="switchTab('pos')" id="btn-pos">
-          <ion-icon ios="calculator-outline" md="calculator-sharp"></ion-icon>
-          <span>POS</span>
+          <ion-icon name="calculator-outline"></ion-icon>
+          POS
         </button>
         <button class="tab-btn" onclick="switchTab('inventory')" id="btn-inventory">
-          <ion-icon ios="clipboard-outline" md="clipboard-sharp"></ion-icon>
-          <span>Inventory</span>
+          <ion-icon name="cube-outline"></ion-icon>
+          Stock
+        </button>
+        <button class="tab-btn" onclick="switchTab('customers')" id="btn-customers">
+          <ion-icon name="people-outline"></ion-icon>
+          Customers
         </button>
         <button class="tab-btn" onclick="switchTab('settings')" id="btn-settings">
-          <ion-icon ios="person-circle-outline" md="person-circle-sharp"></ion-icon>
-          <span>Settings</span>
+          <ion-icon name="settings-outline"></ion-icon>
+          Settings
         </button>
       </div>
+
     </div>
 
+    <!-- ================== MODALS ================== -->
 
-    <!-- ================== 3. ADD CUSTOMER MODAL (Full Page) ================== -->
-    <div id="page-add-customer" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
-       <div class="ion-padding">
-         <div style="display: flex; align-items: center; margin-bottom: 24px;">
-           <ion-button fill="clear" onclick="closeModal('page-add-customer')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
-             <ion-icon slot="icon-only" ios="arrow-back-outline" md="arrow-back-sharp"></ion-icon>
-           </ion-button>
-           <h2 class="font-bold text-lg">Add Customer</h2>
-         </div>
-
-         <!-- OFFLINE BADGE -->
-         <div class="offline-badge hidden" id="offline-badge-customer">You're offline. Changes will sync when you reconnect</div>
-
-         <div class="app-card" style="border: 2px dashed var(--ion-border-color); box-shadow: none;">
-            <label class="text-xs font-bold text-gray">Full Name</label>
-            <div class="custom-input" style="margin-top: 4px;">
-              <input type="text" id="customer-name" placeholder="John Doe">
-            </div>
-
-            <label class="text-xs font-bold text-gray">Phone Number</label>
-            <div class="custom-input" style="margin-top: 4px;">
-              <input type="tel" id="customer-phone" placeholder="080...">
-            </div>
-
-            <label class="text-xs font-bold text-gray">Address</label>
-            <div class="custom-input" style="margin-top: 4px;">
-              <input type="text" id="customer-address" placeholder="Lagos, Nigeria">
+    <!-- INVOICE PREVIEW MODAL -->
+    <div id="page-invoice-preview" class="fullscreen-modal hidden" style="z-index: 2000;">
+        <div class="ion-padding">
+            <div style="display: flex; align-items: center; margin-bottom: 16px;">
+               <ion-icon name="arrow-back" style="font-size: 24px; margin-right: 10px;" onclick="closeModal('page-invoice-preview')"></ion-icon>
+               <h2 class="font-bold text-lg">Invoice Preview</h2>
             </div>
             
-            <label class="text-xs font-bold text-gray">Opening Balance (optional)</label>
-            <div class="custom-input" style="margin-top: 4px;">
-              <input type="number" id="customer-balance" placeholder="0">
+            <div class="invoice-paper" id="invoice-content">
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <div style="font-weight: bold; font-size: 16px;" id="inv-shop-name">OREOLUWA STORE</div>
+                    <div style="font-size: 11px;" id="inv-shop-address">12 Market Road, Lagos</div>
+                    <div style="font-size: 11px;">Tel: <span id="inv-shop-phone">08012345678</span></div>
+                </div>
+                <div class="invoice-divider"></div>
+                <div class="invoice-row">
+                    <span>Date: <span id="inv-date"></span></span>
+                    <span>Time: <span id="inv-time"></span></span>
+                </div>
+                <div class="invoice-divider"></div>
+                <div id="inv-items"></div>
+                <div class="invoice-divider"></div>
+                <div class="invoice-row" style="font-weight: bold; font-size: 16px;">
+                    <span>TOTAL</span>
+                    <span id="inv-total">₦0.00</span>
+                </div>
+                <div class="invoice-divider"></div>
+                <div style="text-align: center; font-size: 11px; margin-top: 10px;">
+                    Thanks for your patronage!<br>No Refund after payment.
+                </div>
             </div>
-         </div>
-         
-         <div style="display: flex; gap: 12px;">
-           <ion-button expand="block" fill="outline" color="medium" style="flex: 1;" onclick="closeModal('page-add-customer')">Cancel</ion-button>
-           <ion-button expand="block" class="btn-main" style="flex: 1; margin-top: 0;" onclick="saveCustomer()">Save</ion-button>
-         </div>
-       </div>
+
+            <ion-button expand="block" class="btn-gold" onclick="finalizeSale()">Confirm & Print</ion-button>
+        </div>
     </div>
-    
-    <!-- ================== 4. ADD PRODUCT MODAL (Full Page) ================== -->
-    <div id="page-add-product" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
+
+    <!-- ADD PRODUCT MODAL -->
+    <div id="page-add-product" class="fullscreen-modal hidden">
        <div class="ion-padding">
          <div style="display: flex; align-items: center; margin-bottom: 24px;">
-           <ion-button fill="clear" onclick="closeModal('page-add-product')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
-             <ion-icon slot="icon-only" ios="arrow-back-outline" md="arrow-back-sharp"></ion-icon>
-           </ion-button>
+           <ion-icon name="arrow-back" style="font-size: 24px; margin-right: 10px;" onclick="closeModal('page-add-product')"></ion-icon>
            <h2 class="font-bold text-lg">Add New Product</h2>
          </div>
-
-         <!-- OFFLINE BADGE -->
-         <div class="offline-badge hidden" id="offline-badge-product">You're offline. Changes will sync when you reconnect</div>
-
-         <div class="app-card" style="border: 2px dashed var(--ion-border-color); box-shadow: none;">
+         <div class="app-card">
             <label class="text-xs font-bold text-gray">Product Name</label>
-            <div class="custom-input" style="margin-top: 4px;">
-              <input type="text" id="product-name-input" placeholder="e.g., 50kg Rice Bag">
+            <div class="custom-input"><input type="text" id="add-prod-name" placeholder="e.g., Malta Guinness"></div>
+            
+            <label class="text-xs font-bold text-gray">Category</label>
+            <div class="custom-input" style="gap: 8px;">
+                <select id="add-prod-category" style="flex: 1;">
+                    <!-- Filled by JS -->
+                </select>
+                <!-- Loud Add Category Button -->
+                <div class="add-cat-btn ion-activatable" onclick="promptAddCategory()">
+                    <ion-ripple-effect></ion-ripple-effect>
+                    <ion-icon name="add" style="font-size: 24px; font-weight: bold;"></ion-icon>
+                </div>
             </div>
 
             <label class="text-xs font-bold text-gray">Selling Price (₦)</label>
-            <div class="custom-input" style="margin-top: 4px;">
-              <input type="number" id="product-price-input" placeholder="500.00">
-            </div>
+            <div class="custom-input"><input type="number" id="add-prod-price" placeholder="0.00"></div>
+            
+            <label class="text-xs font-bold text-gray">Initial Stock</label>
+            <div class="custom-input"><input type="number" id="add-prod-stock" placeholder="0"></div>
+         </div>
+         <ion-button expand="block" class="btn-gold" onclick="saveNewProduct()">Save Product</ion-button>
+       </div>
+    </div>
 
-            <label class="text-xs font-bold text-gray">Current Stock Quantity</label>
-            <div class="custom-input" style="margin-top: 4px;">
-              <input type="number" id="product-stock-input" placeholder="10">
-            </div>
-            
-            <label class="text-xs font-bold text-gray">Category</label>
-            <div class="custom-input" style="margin-top: 4px;">
-                <select id="product-category-input">
-                    <option value="Foodstuff">Foodstuff</option>
-                    <option value="Beverages">Beverages</option>
-                    <option value="Household">Household</option>
-                    <!-- Options will be populated dynamically -->
-                </select>
-                <ion-icon ios="caret-down-outline" md="caret-down-sharp" class="text-gray"></ion-icon>
-            </div>
-            
-            <label class="text-xs font-bold text-gray">Image/Photo (Optional)</label>
-            <div style="background: #F3F4F6; border: 1px dashed #D1D5DB; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer;">
-                <ion-icon ios="camera-outline" md="camera-sharp" style="font-size: 32px; color: #9CA3AF;"></ion-icon>
-                <p class="text-xs text-gray" style="margin-top: 8px;">Tap to upload product photo</p>
-            </div>
+    <!-- PRODUCT DETAILS / EDIT / RESTOCK MODAL -->
+    <div id="page-product-details" class="fullscreen-modal hidden">
+       <div class="ion-padding">
+         <div style="display: flex; align-items: center; margin-bottom: 24px;">
+           <ion-icon name="arrow-back" style="font-size: 24px; margin-right: 10px;" onclick="closeModal('page-product-details')"></ion-icon>
+           <h2 class="font-bold text-lg">Product Details</h2>
          </div>
          
-         <div style="display: flex; gap: 12px; margin-top: 20px;">
-           <ion-button expand="block" fill="outline" color="medium" style="flex: 1;" onclick="closeModal('page-add-product')">Discard</ion-button>
-           <ion-button expand="block" class="btn-main" style="flex: 1; margin-top: 0;" onclick="saveProduct()">Add Product</ion-button>
-         </div>
-       </div>
-    </div>
-    
-    <!-- ================== 5. CUSTOMERS PAGE (Full Page) ================== -->
-    <div id="page-customers" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
-       <div class="ion-padding">
-         <div style="display: flex; align-items: center; margin-bottom: 24px;">
-           <ion-button fill="clear" onclick="closeModal('page-customers')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
-             <ion-icon slot="icon-only" ios="arrow-back-outline" md="arrow-back-sharp"></ion-icon>
-           </ion-button>
-           <h2 class="font-bold text-lg">Customers</h2>
-         </div>
-
-         <!-- OFFLINE BADGE -->
-         <div class="offline-badge hidden" id="offline-badge-customers">You're offline. Changes will sync when you reconnect</div>
-
-         <div class="custom-input">
-           <ion-icon ios="search-outline" md="search-sharp" style="margin-right: 8px;"></ion-icon>
-           <input placeholder="Search by name/phone">
-         </div>
-
-         <!-- Category Tabs -->
-         <div class="category-tabs">
-           <div class="category-tab active">All Customers</div>
-           <div class="category-tab">Owing</div>
-           <div class="category-tab">No Balance</div>
-         </div>
-
-         <!-- Customer List -->
-         <div id="customer-list">
-           <!-- Customer items will be dynamically generated here -->
-           <div class="customer-item">
-             <div class="customer-info">
-               <div class="font-bold text-sm">John Adams</div>
-               <div class="text-xs text-gray">isiah@gmail.com</div>
-               <div class="text-xs text-gray">08122789967</div>
-             </div>
-             <div class="customer-balance">₦12,500 owed</div>
-             <div class="customer-actions">
-               <ion-button fill="outline" size="small" style="--color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-customer-details-johnadams')">View Details</ion-button>
-               <ion-button size="small" style="--background: var(--ion-color-primary);">Record Payment</ion-button>
-             </div>
-           </div>
-
-           <div class="customer-item">
-             <div class="customer-info">
-               <div class="font-bold text-sm">Mama Chika</div>
-               <div class="text-xs text-gray">isiah@gmail.com</div>
-               <div class="text-xs text-gray">08122789967</div>
-             </div>
-             <div class="customer-balance">₦0 balance</div>
-             <div class="customer-actions">
-               <ion-button fill="outline" size="small" style="--color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-customer-details-mamachika')">View Details</ion-button>
-               <ion-button size="small" style="--background: var(--ion-color-primary);">Record Payment</ion-button>
-             </div>
-           </div>
-
-           <div class="customer-item">
-             <div class="customer-info">
-               <div class="font-bold text-sm">Adewale Stores</div>
-               <div class="text-xs text-gray">isiah@gmail.com</div>
-               <div class="text-xs text-gray">08122789967</div>
-             </div>
-             <div class="customer-balance">₦32,500 owed</div>
-             <div class="customer-actions">
-               <ion-button fill="outline" size="small" style="--color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-customer-details-adewalestores')">View Details</ion-button>
-               <ion-button size="small" style="--background: var(--ion-color-primary);">Record Payment</ion-button>
-             </div>
-           </div>
-         </div>
-
-         <!-- Add Customer Button -->
-         <ion-fab vertical="bottom" horizontal="end" slot="fixed" style="bottom: 80px; right: 20px;">
-           <ion-fab-button onclick="openModal('page-add-customer')">
-             <ion-icon ios="add-outline" md="add-sharp"></ion-icon>
-           </ion-fab-button>
-         </ion-fab>
-       </div>
-    </div>
-    
-    <!-- ================== 6. CUSTOMER DETAILS PAGE (Full Page) ================== -->
-    <div id="page-customer-details-johnadams" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
-       <div class="ion-padding">
-         <div style="display: flex; align-items: center; margin-bottom: 24px;">
-           <ion-button fill="clear" onclick="closeModal('page-customer-details-johnadams')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
-             <ion-icon slot="icon-only" ios="arrow-back-outline" md="arrow-back-sharp"></ion-icon>
-           </ion-button>
-           <h2 class="font-bold text-lg">Customer Details</h2>
-         </div>
-
-         <!-- OFFLINE BADGE -->
-         <div class="offline-badge hidden" id="offline-badge-customer-details">You're offline. Changes will sync when you reconnect</div>
-
-         <div class="app-card">
-           <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Customer Information</h3>
-           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-             <span class="text-xs text-gray">Name</span>
-             <span class="font-bold">John James</span>
-           </div>
-           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-             <span class="text-xs text-gray">Phone</span>
-             <span class="font-bold">08122789967</span>
-           </div>
-           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-             <span class="text-xs text-gray">Address</span>
-             <span class="font-bold">12 Ayo Street, Ikeja</span>
-           </div>
+         <div class="app-card" style="text-align: center; margin-bottom: 20px;">
+            <div style="font-size: 40px; color: var(--ion-color-primary);"><ion-icon name="cube"></ion-icon></div>
+            <h2 class="font-bold text-xl" id="edit-prod-title">Product Name</h2>
+            <p class="text-sm text-gray" id="edit-prod-sku">SKU: 123</p>
          </div>
 
          <div class="app-card">
-           <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Balance</h3>
-           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-             <span class="text-xs text-gray">Outstanding Balance</span>
-             <span class="font-bold">₦12,500</span>
-           </div>
+            <label class="text-xs font-bold text-gray">Current Stock</label>
+            <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+                <div class="custom-input" style="flex: 1; margin-bottom: 0;">
+                    <input type="number" id="edit-prod-stock" readonly>
+                </div>
+                <ion-button color="success" style="margin: 0; width: 100px;" onclick="restockProduct()">
+                    + Restock
+                </ion-button>
+            </div>
+            
+            <label class="text-xs font-bold text-gray">Selling Price (₦)</label>
+            <div class="custom-input"><input type="number" id="edit-prod-price"></div>
          </div>
-
-         <div style="display: flex; gap: 8px; margin-bottom: 24px;">
-           <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-customer-johnadams')">Edit Customer</ion-button>
-           <ion-button size="small" style="flex: 1; --background: var(--ion-color-danger); --color: white;">Delete Customer</ion-button>
-         </div>
-
-         <div class="app-card">
-           <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Transaction History</h3>
-           <div class="transaction-item">
-             <div style="display: flex; justify-content: space-between;">
-               <span>Purchase - ₦4,500</span>
-               <span>19th Jan, 2025</span>
-             </div>
-           </div>
-           <div class="transaction-item">
-             <div style="display: flex; justify-content: space-between;">
-               <span>Payment - ₦2000</span>
-               <span>Cash, 17th Jan, 2025</span>
-             </div>
-           </div>
-           <div class="transaction-item">
-             <div style="display: flex; justify-content: space-between;">
-               <span>Purchase - ₦10,000</span>
-               <span>Cash, 10th Jan 2025</span>
-             </div>
-           </div>
-         </div>
-       </div>
-    </div>
-    
-    <!-- ================== 7. RECORD PAYMENT PAGE (Full Page) ================== -->
-    <div id="page-record-payment-johnadams" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
-       <div class="ion-padding">
-         <div style="display: flex; align-items: center; margin-bottom: 24px;">
-           <ion-button fill="clear" onclick="closeModal('page-record-payment-johnadams')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
-             <ion-icon slot="icon-only" ios="arrow-back-outline" md="arrow-back-sharp"></ion-icon>
-           </ion-button>
-           <h2 class="font-bold text-lg">Record Payment</h2>
-         </div>
-
-         <!-- OFFLINE BADGE -->
-         <div class="offline-badge hidden" id="offline-badge-record-payment">You're offline. Changes will sync when you reconnect</div>
-
-         <div class="app-card">
-           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-             <span class="text-xs text-gray">Customer</span>
-             <span class="font-bold">John James</span>
-           </div>
-           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-             <span class="text-xs text-gray">Outstanding</span>
-             <span class="font-bold">₦12,500</span>
-           </div>
-         </div>
-
-         <div class="app-card">
-           <label class="text-xs font-bold text-gray">Amount Paid</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <input type="number" placeholder="Input Amount here">
-           </div>
-
-           <label class="text-xs font-bold text-gray">Date</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <input type="date">
-           </div>
-
-           <label class="text-xs font-bold text-gray">Payment method</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <select>
-               <option>Select</option>
-               <option>Cash</option>
-               <option>Bank Transfer</option>
-               <option>Mobile Money</option>
-             </select>
-           </div>
-
-           <label class="text-xs font-bold text-gray">Note</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <textarea placeholder="Part Payment for goods" rows="3"></textarea>
-           </div>
-         </div>
-
-         <div style="display: flex; gap: 12px; margin-top: 20px;">
-           <ion-button expand="block" fill="outline" color="medium" style="flex: 1;" onclick="closeModal('page-record-payment-johnadams')">Cancel</ion-button>
-           <ion-button expand="block" class="btn-main" style="flex: 1; margin-top: 0;" onclick="recordPayment()">Confirm payment</ion-button>
-         </div>
-       </div>
-    </div>
-    
-    <!-- ================== 8. EDIT INVENTORY PAGE (Full Page) ================== -->
-    <div id="page-edit-inventory-rc001" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
-       <div class="ion-padding">
-         <div style="display: flex; align-items: center; margin-bottom: 24px;">
-           <ion-button fill="clear" onclick="closeModal('page-edit-inventory-rc001')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
-             <ion-icon slot="icon-only" ios="arrow-back-outline" md="arrow-back-sharp"></ion-icon>
-           </ion-button>
-           <h2 class="font-bold text-lg">Edit Inventory</h2>
-         </div>
-
-         <!-- OFFLINE BADGE -->
-         <div class="offline-badge hidden" id="offline-badge-edit-inventory">You're offline. Changes will sync when you reconnect</div>
-
-         <div class="app-card">
-           <label class="text-xs font-bold text-gray">Product name</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <input type="text" id="edit-product-name" value="Rice (50kg)">
-           </div>
-
-           <label class="text-xs font-bold text-gray">Category</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <input type="text" id="edit-product-category" value="Foodstuff">
-           </div>
-
-           <label class="text-xs font-bold text-gray">Stock Quantity</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <input type="number" id="edit-product-stock" value="12">
-           </div>
-
-           <label class="text-xs font-bold text-gray">Selling Price</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <input type="number" id="edit-product-price" value="45000">
-           </div>
-
-           <label class="text-xs font-bold text-gray">Cost Price</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <input type="number" id="edit-product-cost" value="35000">
-           </div>
-
-           <label class="text-xs font-bold text-gray">Sku/Barcode</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <input type="text" id="edit-product-sku" value="RC-001">
-             <ion-icon ios="scan-outline" md="scan-sharp" class="text-gray"></ion-icon>
-           </div>
-         </div>
-
-         <div style="display: flex; gap: 12px; margin-top: 20px;">
-           <ion-button expand="block" fill="outline" color="medium" style="flex: 1;" onclick="closeModal('page-edit-inventory-rc001')">Cancel</ion-button>
-           <ion-button expand="block" class="btn-main" style="flex: 1; margin-top: 0;" onclick="saveInventoryEdit()">Save</ion-button>
-         </div>
-       </div>
-    </div>
-    
-    <!-- ================== 9. STOCK UPDATE PAGE (Full Page) ================== -->
-    <div id="page-stock-update-rc001" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
-       <div class="ion-padding">
-         <div style="display: flex; align-items: center; margin-bottom: 24px;">
-           <ion-button fill="clear" onclick="closeModal('page-stock-update-rc001')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
-             <ion-icon slot="icon-only" ios="arrow-back-outline" md="arrow-back-sharp"></ion-icon>
-           </ion-button>
-           <h2 class="font-bold text-lg">Stock Update</h2>
-         </div>
-
-         <!-- OFFLINE BADGE -->
-         <div class="offline-badge hidden" id="offline-badge-stock-update">You're offline. Changes will sync when you reconnect</div>
-
-         <div class="app-card">
-           <label class="text-xs font-bold text-gray">Item Name</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <input type="text" id="stock-update-item-name" value="Rice (50kg)" readonly>
-           </div>
-
-           <label class="text-xs font-bold text-gray">Action</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <select id="stock-update-action">
-               <option value="StockIn">Stock In</option>
-               <option value="StockOut">Stock Out</option>
-             </select>
-           </div>
-
-           <label class="text-xs font-bold text-gray">Quantity</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <input type="number" id="stock-update-quantity" value="10" min="1">
-           </div>
-
-           <label class="text-xs font-bold text-gray">Note</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <textarea id="stock-update-note" placeholder="Give small note on stock here" rows="3"></textarea>
-           </div>
-         </div>
-
-         <div style="display: flex; gap: 12px; margin-top: 20px;">
-           <ion-button expand="block" fill="outline" color="medium" style="flex: 1;" onclick="closeModal('page-stock-update-rc001')">Cancel</ion-button>
-           <ion-button expand="block" class="btn-main" style="flex: 1; margin-top: 0;" onclick="updateStock()">Save</ion-button>
-         </div>
+         
+         <ion-button expand="block" class="btn-gold" style="margin-bottom: 12px;" onclick="saveProductEdits()">Save Changes</ion-button>
+         <ion-button expand="block" fill="outline" color="danger" onclick="deleteProduct()">Delete Product</ion-button>
        </div>
     </div>
 
-    <!-- ================== 10. SHOP DETAILS PAGE (Full Page) ================== -->
-    <div id="page-shop-details" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
-       <div class="ion-padding">
-         <div style="display: flex; align-items: center; margin-bottom: 24px;">
-           <ion-button fill="clear" onclick="closeModal('page-shop-details')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
-             <ion-icon slot="icon-only" ios="arrow-back-outline" md="arrow-back-sharp"></ion-icon>
-           </ion-button>
-           <h2 class="font-bold text-lg">Shop Details</h2>
-         </div>
+    <!-- CUSTOMER DETAILS MODAL (Enhanced) -->
+    <div id="page-customer-details" class="fullscreen-modal hidden">
+        <div class="ion-padding">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <ion-icon name="arrow-back" style="font-size: 24px;" onclick="closeModal('page-customer-details')"></ion-icon>
+                <div class="text-primary font-bold">Customer Details</div>
+                <ion-icon name="create-outline" style="font-size: 24px;" onclick="showToast('Edit feature coming soon')"></ion-icon>
+            </div>
+            
+            <div class="app-card" style="text-align: center; padding: 30px 16px; background: linear-gradient(135deg, var(--ion-color-primary) 0%, #1a3c66 100%); color: white;">
+                <div style="width: 70px; height: 70px; background: rgba(255,255,255,0.2); border-radius: 50%; margin: 0 auto 12px auto; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: bold;">
+                    <span id="detail-cust-initial">J</span>
+                </div>
+                <div style="font-size: 22px; font-weight: 700;" id="detail-cust-name">John Doe</div>
+                <div style="opacity: 0.8;" id="detail-cust-phone">08012345678</div>
+                
+                <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 12px;">
+                        <div style="font-size: 10px; opacity: 0.8;">TOTAL SPENT</div>
+                        <div style="font-weight: bold;" id="detail-cust-spent">₦0</div>
+                    </div>
+                     <div style="background: white; color: var(--ion-color-primary); padding: 8px 16px; border-radius: 12px;">
+                        <div style="font-size: 10px; opacity: 0.8;">DEBT</div>
+                        <div style="font-weight: bold;" id="detail-cust-balance">₦0</div>
+                    </div>
+                </div>
+            </div>
 
-         <!-- OFFLINE BADGE -->
-         <div class="offline-badge hidden" id="offline-badge-shop-details">You're offline. Changes will sync when you reconnect</div>
+            <div style="display: flex; gap: 12px; margin: 16px 0;">
+                <ion-button expand="block" style="flex: 1;" color="success" onclick="showToast('Call feature simulated')">
+                    <ion-icon slot="start" name="call"></ion-icon> Call
+                </ion-button>
+                <!-- Changed SMS color from danger to medium/tertiary per request -->
+                <ion-button expand="block" style="flex: 1;" color="medium" onclick="showToast('SMS feature simulated')">
+                    <ion-icon slot="start" name="chatbubble"></ion-icon> SMS
+                </ion-button>
+            </div>
 
-         <div class="app-card">
-           <label class="text-xs font-bold text-gray">Shop Name</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <input type="text" value="Oreoluwa General Store">
-           </div>
+            <h3 class="font-bold text-sm" style="margin-top: 12px;">Transaction History</h3>
+            <div class="app-card" id="detail-cust-history" style="min-height: 100px;">
+                <!-- Populated by JS -->
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                 <ion-button expand="block" fill="outline" color="primary" style="flex: 1;" onclick="openModal('page-record-payment')">Record Payment</ion-button>
+                 <ion-button expand="block" fill="outline" color="warning" style="flex: 1;" onclick="openModal('page-generate-reminder')">Remind</ion-button>
+            </div>
 
-           <label class="text-xs font-bold text-gray">Owner Name</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <input type="text" value="Oreoluwa Bayode">
-           </div>
-
-           <label class="text-xs font-bold text-gray">Phone Number</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <input type="tel" value="08012345678">
-           </div>
-
-           <label class="text-xs font-bold text-gray">Email</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <input type="email" value="admin@your-email.com">
-           </div>
-
-           <label class="text-xs font-bold text-gray">Address</label>
-           <div class="custom-input" style="margin-top: 4px;">
-             <textarea rows="3">123 Main Street, Lagos, Nigeria</textarea>
-           </div>
-         </div>
-
-         <ion-button expand="block" class="btn-main" onclick="saveShopDetails()">Save Changes</ion-button>
-       </div>
-    </div>
-
-    <!-- ================== 11. DEVICE ID PAGE (Full Page) ================== -->
-    <div id="page-device-id" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
-       <div class="ion-padding">
-         <div style="display: flex; align-items: center; margin-bottom: 24px;">
-           <ion-button fill="clear" onclick="closeModal('page-device-id')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
-             <ion-icon slot="icon-only" ios="arrow-back-outline" md="arrow-back-sharp"></ion-icon>
-           </ion-button>
-           <h2 class="font-bold text-lg">Device ID</h2>
-         </div>
-
-         <div class="app-card">
-           <p class="text-sm">This unique ID identifies your device for Enimara services.</p>
-           <p class="font-bold text-lg" style="margin-top: 12px; word-break: break-all;">ABC123-DEF456-GHI789-JKL012</p>
-         </div>
-
-         <ion-button expand="block" fill="outline" color="medium" onclick="closeModal('page-device-id')">Close</ion-button>
-       </div>
-    </div>
-
-    <!-- ================== 12. CREATE CATEGORY MODAL (Full Page) ================== -->
-    <div id="page-create-category" class="page-container hidden" style="z-index: 300; background: var(--ion-background-color);">
-       <div class="ion-padding">
-         <div style="display: flex; align-items: center; margin-bottom: 24px;">
-           <ion-button fill="clear" onclick="closeModal('page-create-category')" style="margin-right: 8px; --padding-start:0; --color: var(--ion-text-color);">
-             <ion-icon slot="icon-only" ios="arrow-back-outline" md="arrow-back-sharp"></ion-icon>
-           </ion-button>
-           <h2 class="font-bold text-lg">Create New Category</h2>
-         </div>
-
-         <div class="create-category-input">
-             <input type="text" id="new-category-name" placeholder="Enter category name">
-         </div>
-
-         <div style="display: flex; gap: 12px;">
-           <ion-button expand="block" fill="outline" color="medium" style="flex: 1;" onclick="closeModal('page-create-category')">Cancel</ion-button>
-           <ion-button expand="block" class="btn-main" style="flex: 1; margin-top: 0;" onclick="createCategory()">Create</ion-button>
-         </div>
-       </div>
-    </div>
-
-    <!-- ================== 13. SIMULATED SCANNER OVERLAY ================== -->
-    <div id="scanner-overlay" class="scanner-overlay hidden">
-      <div class="scanner-frame"></div>
-      <div class="scanner-text">Scanning...</div>
-    </div>
-
-    <!-- ================== 14. INSTRUCTIONS MODAL ================== -->
-    <div id="instructions-modal" class="instructions-modal hidden">
-        <div class="instructions-content">
-            <h3 class="font-bold text-lg text-primary">How to Use Offline Mode</h3>
-            <p class="text-sm text-gray">Click the "Online" or "Offline" button at the top of the Home screen to simulate your connection status.</p>
-            <p class="text-sm text-gray">When offline, changes are saved locally and will sync automatically when you reconnect.</p>
-            <p class="text-sm text-gray">The "Pending sync" badge appears only when you are offline and have unsaved changes.</p>
-            <ion-button expand="block" class="btn-main" onclick="closeModal('instructions-modal')">Got it!</ion-button>
+            <!-- DELETE CUSTOMER BUTTON -->
+            <ion-button expand="block" fill="clear" color="danger" style="margin-top: 20px;" onclick="deleteCustomer()">
+                <ion-icon slot="start" name="trash"></ion-icon> Delete Customer
+            </ion-button>
         </div>
     </div>
 
-    <!-- ================== 15. POS ADD ITEM MODAL ================== -->
-    <div id="page-pos-add-item" class="pos-add-item-modal hidden">
-        <div class="pos-add-item-content">
-            <h3 class="font-bold text-lg text-primary">Add Item to Sale</h3>
+    <!-- RECORD DEBT PAYMENT MODAL -->
+    <div id="page-record-payment" class="popup-modal hidden">
+        <div class="popup-content">
+            <h3 class="font-bold text-lg" style="margin-bottom: 16px;">Record Payment</h3>
+            <p class="text-sm text-gray" style="margin-bottom: 12px;">How much did the customer pay?</p>
             <div class="custom-input">
-                <ion-icon ios="search-outline" md="search-sharp" style="margin-right: 8px;"></ion-icon>
-                <input placeholder="Search item..." id="pos-add-search" oninput="filterPosAddItems()">
+                <span style="font-weight: bold; margin-right: 5px;">₦</span>
+                <input type="number" id="debt-payment-amount" placeholder="0.00">
             </div>
-            <div id="pos-add-item-list">
-                <!-- Items will be populated here from inventory -->
-            </div>
-            <ion-button expand="block" fill="outline" color="medium" onclick="closeModal('page-pos-add-item')">Cancel</ion-button>
+            <ion-button expand="block" class="btn-gold" onclick="confirmDebtPayment()">Confirm Payment</ion-button>
+            <ion-button expand="block" fill="clear" color="medium" onclick="closeModal('page-record-payment')">Cancel</ion-button>
         </div>
     </div>
 
-    <!-- ================== 16. POS ITEM QUANTITY MODAL ================== -->
-    <div id="page-pos-item-quantity" class="pos-item-quantity-modal hidden">
-        <div class="pos-item-quantity-content">
-            <h3 class="font-bold text-lg text-primary">Adjust Quantity</h3>
-            <p class="text-sm text-gray" id="quantity-item-name">Item Name</p>
-            <div class="quantity-controls">
-                <div class="quantity-btn" onclick="adjustQuantity(-1)">-</div>
-                <input type="number" id="quantity-input" class="quantity-input" value="1" min="1" max="100" onchange="validateQuantity()">
-                <div class="quantity-btn" onclick="adjustQuantity(1)">+</div>
+    <!-- GENERATE REMINDER MODAL -->
+    <div id="page-generate-reminder" class="popup-modal hidden">
+        <div class="popup-content">
+             <h3 class="font-bold text-lg" style="margin-bottom: 16px;">Send Reminder</h3>
+             <label class="text-xs font-bold text-gray">Expected Payment Date</label>
+             <div class="custom-input"><input type="date" id="reminder-date"></div>
+             
+             <label class="text-xs font-bold text-gray">Preview Message</label>
+             <div class="app-card" style="background: #e5e7eb; padding: 10px; font-size: 12px; margin-bottom: 16px;" id="reminder-preview">
+                 Hello, kindly pay your debt of N5,000 to Oreoluwa Store by [Date]. Thanks.
+             </div>
+             
+             <ion-button expand="block" color="success" onclick="shareReminder()">
+                 <ion-icon slot="start" name="logo-whatsapp"></ion-icon> Send via WhatsApp
+             </ion-button>
+             <ion-button expand="block" fill="clear" color="medium" onclick="closeModal('page-generate-reminder')">Cancel</ion-button>
+        </div>
+    </div>
+
+    <!-- POS ITEM MODAL (Fixed) -->
+    <div id="page-pos-add-item" class="popup-modal hidden">
+        <div class="popup-content">
+            <h3 class="font-bold text-lg" style="margin-bottom: 16px;">Select Item</h3>
+             <div class="custom-input" style="padding: 8px; margin-bottom: 12px;">
+              <ion-icon name="search-outline"></ion-icon>
+              <input placeholder="Filter..." id="pos-filter-input" oninput="renderPosAddList()">
             </div>
-            <ion-button expand="block" class="btn-main" onclick="confirmQuantityChange()">Confirm</ion-button>
-            <ion-button expand="block" fill="outline" color="medium" onclick="closeModal('page-pos-item-quantity')">Cancel</ion-button>
+            <div id="pos-add-list" style="max-height: 300px; overflow-y: auto;"></div>
+            <ion-button expand="block" fill="clear" color="medium" onclick="closeModal('page-pos-add-item')">Cancel</ion-button>
+        </div>
+    </div>
+
+    <!-- QUANTITY MODAL -->
+    <div id="page-pos-qty" class="popup-modal hidden">
+        <div class="popup-content" style="text-align: center;">
+            <h3 class="font-bold text-lg" id="qty-item-name">Item Name</h3>
+            <p class="text-xs text-gray" id="qty-stock-display">Stock: 0</p>
+            
+            <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin: 24px 0;">
+                <div onclick="adjustQty(-1)" style="width: 40px; height: 40px; background: var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px;">-</div>
+                <input type="number" id="qty-input" value="1" style="width: 60px; text-align: center; font-size: 24px; border: none; background: transparent; font-weight: bold;">
+                <div onclick="adjustQty(1)" style="width: 40px; height: 40px; background: var(--ion-color-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px;">+</div>
+            </div>
+            
+            <ion-button expand="block" class="btn-gold" onclick="confirmAddToCart()">Add to Cart</ion-button>
+        </div>
+    </div>
+
+    <!-- Other Modals (Retained) -->
+    <div id="page-todays-sales" class="fullscreen-modal hidden">
+        <div class="ion-padding">
+            <div style="display: flex; align-items: center; margin-bottom: 24px;">
+               <ion-icon name="arrow-back" style="font-size: 24px; margin-right: 10px;" onclick="closeModal('page-todays-sales')"></ion-icon>
+               <h2 class="font-bold text-lg">Today's Sales</h2>
+            </div>
+            <div class="app-card" style="text-align: center; background: var(--ion-color-primary); color: white;">
+                <div class="text-xs" style="opacity: 0.8;">Total Revenue</div>
+                <div class="font-bold text-3xl" style="margin-top: 4px;" id="modal-sales-total">₦ 0</div>
+            </div>
+            <h3 class="font-bold text-sm" style="margin-bottom: 12px;">Transactions</h3>
+            <div id="todays-sales-list"></div>
+        </div>
+    </div>
+
+    <div id="page-activity-all" class="fullscreen-modal hidden">
+        <div class="ion-padding">
+            <div style="display: flex; align-items: center; margin-bottom: 24px;">
+               <ion-icon name="arrow-back" style="font-size: 24px; margin-right: 10px;" onclick="closeModal('page-activity-all')"></ion-icon>
+               <h2 class="font-bold text-lg">All Activity</h2>
+            </div>
+            <div id="all-activity-list-content"></div>
+        </div>
+    </div>
+
+    <!-- PROFILE PAGE -->
+    <div id="page-profile" class="fullscreen-modal hidden">
+        <div class="ion-padding">
+            <div style="display: flex; align-items: center; margin-bottom: 24px;">
+               <ion-icon name="arrow-back" style="font-size: 24px; margin-right: 10px;" onclick="closeModal('page-profile')"></ion-icon>
+               <h2 class="font-bold text-lg">Shop Profile</h2>
+            </div>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="width: 80px; height: 80px; background: #ddd; border-radius: 50%; margin: 0 auto; overflow: hidden; border: 3px solid white; box-shadow: var(--shadow-md);">
+                    <img src="oluwaferanmi-caleb-Q1QRTSeZIxI-unsplash (1).jpg" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <div class="text-primary font-bold" style="margin-top: 8px;">Oreoluwa Store</div>
+                <div class="text-gray text-xs">ID: SHOP-8821</div>
+            </div>
+            <div class="app-card">
+                <label class="text-xs font-bold text-gray">Shop Name</label>
+                <div class="custom-input"><input type="text" id="prof-name" value="Oreoluwa Store"></div>
+                <label class="text-xs font-bold text-gray">Phone</label>
+                <div class="custom-input"><input type="tel" id="prof-phone" value="08012345678"></div>
+                <label class="text-xs font-bold text-gray">Address</label>
+                <div class="custom-input"><input type="text" id="prof-addr" value="12 Market Road, Lagos"></div>
+            </div>
+            <ion-button expand="block" class="btn-gold" onclick="saveProfile()">Update Profile</ion-button>
+        </div>
+    </div>
+
+    <!-- ADD CUSTOMER MODAL -->
+    <div id="page-add-customer" class="fullscreen-modal hidden">
+       <div class="ion-padding">
+         <div style="display: flex; align-items: center; margin-bottom: 24px;">
+           <ion-icon name="arrow-back" style="font-size: 24px; margin-right: 10px;" onclick="closeModal('page-add-customer')"></ion-icon>
+           <h2 class="font-bold text-lg">Add Customer</h2>
+         </div>
+         <div class="app-card">
+            <label class="text-xs font-bold text-gray">Full Name</label>
+            <div class="custom-input"><input type="text" id="cust-name" placeholder="John Doe"></div>
+            
+            <label class="text-xs font-bold text-gray">Phone Number</label>
+            <div class="custom-input"><input type="tel" id="cust-phone" placeholder="080..."></div>
+            
+            <div style="height: 1px; background: var(--border-color); margin: 16px 0;"></div>
+            
+            <label class="text-xs font-bold text-danger">Amount Owing (Optional)</label>
+            <div class="custom-input"><input type="number" id="cust-debt" placeholder="0.00"></div>
+         </div>
+         <ion-button expand="block" class="btn-gold" onclick="saveCustomer()">Save Customer</ion-button>
+       </div>
+    </div>
+    
+    <!-- STAFF MANAGEMENT PAGE -->
+    <div id="page-staff" class="fullscreen-modal hidden">
+        <div class="ion-padding">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+               <div style="display: flex; align-items: center;">
+                   <ion-icon name="arrow-back" style="font-size: 24px; margin-right: 10px;" onclick="closeModal('page-staff')"></ion-icon>
+                   <h2 class="font-bold text-lg">Staff</h2>
+               </div>
+               <ion-button size="small" fill="outline" onclick="openModal('page-add-staff')">Add Staff</ion-button>
+            </div>
+            <div class="app-card" id="staff-list">
+                <!-- Populated by JS -->
+            </div>
+            <div style="margin-top: 20px;">
+                <ion-button expand="block" fill="clear" onclick="showToast('Role Management coming soon')">Manage Roles</ion-button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD STAFF MODAL -->
+    <div id="page-add-staff" class="popup-modal hidden">
+        <div class="popup-content">
+             <h3 class="font-bold text-lg" style="margin-bottom: 16px;">New Staff</h3>
+             <label class="text-xs font-bold text-gray">Name</label>
+             <div class="custom-input"><input type="text" id="staff-name-input"></div>
+             <label class="text-xs font-bold text-gray">Role</label>
+             <div class="custom-input">
+                 <select id="staff-role-input">
+                     <option value="Sales Rep">Sales Rep</option>
+                     <option value="Manager">Manager</option>
+                     <option value="Stock Keeper">Stock Keeper</option>
+                 </select>
+             </div>
+             <ion-button expand="block" class="btn-gold" onclick="saveNewStaff()">Add Staff</ion-button>
+             <ion-button expand="block" fill="clear" color="medium" onclick="closeModal('page-add-staff')">Cancel</ion-button>
+        </div>
+    </div>
+    
+    <!-- STAFF DETAILS MODAL -->
+    <div id="page-staff-details" class="popup-modal hidden">
+        <div class="popup-content" style="text-align:center;">
+             <div style="width: 60px; height: 60px; background: #e5e7eb; border-radius: 50%; margin: 0 auto 10px auto; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:20px;" id="staff-detail-initial">?</div>
+             <h3 class="font-bold text-lg" id="staff-detail-name">Staff Name</h3>
+             <p class="text-gray text-sm" id="staff-detail-role" style="margin-bottom: 20px;">Role</p>
+             
+             <ion-button expand="block" color="danger" fill="outline" onclick="deleteStaff()">Remove Staff</ion-button>
+             <ion-button expand="block" fill="clear" color="medium" onclick="closeModal('page-staff-details')">Close</ion-button>
         </div>
     </div>
 
@@ -1579,1122 +874,765 @@
 
   <!-- ================== LOGIC ================== -->
   <script>
-    // Global variable to track pending syncs
-    let pendingSyncCount = 0;
-    // Global variable to track real online status (from navigator.onLine)
-    let isRealOnline = navigator.onLine;
-    // Global variable to track simulated online status (used for UI badges, etc.)
-    let isSimulatedOnline = isRealOnline; // Start with real status
-    // Global variable to track current theme
-    let isDarkMode = false;
-    // Global variables for stats
-    let todaySales = 120000;
-    let lowStocks = 5;
-    // Global variable for current month revenue
-    let currentMonthRevenue = 0; // Will be calculated from sales log
-    // Global variable for current year total revenue (excluding current month)
-    let currentYearTotalRevenue = 11263000; // Base amount
+    // --- STATE ---
+    let state = {
+        categories: ['Foodstuff', 'Beverages', 'Household', 'Toiletries'],
+        inventory: [
+            { sku: 'RC1', name: 'Rice (50kg)', cat: 'Foodstuff', price: 90000, stock: 12 },
+            { sku: 'BV2', name: 'Milo Refill', cat: 'Beverages', price: 2500, stock: 45 },
+            { sku: 'HH3', name: 'Dish Soap', cat: 'Household', price: 800, stock: 20 },
+            { sku: 'FD4', name: 'Semovita', cat: 'Foodstuff', price: 6000, stock: 5 },
+            { sku: 'BV5', name: 'Malta Guinness', cat: 'Beverages', price: 400, stock: 5 }, // For Insight
+            { sku: 'TL6', name: 'Tissue Paper', cat: 'Toiletries', price: 500, stock: 100 },
+        ],
+        customers: [
+            { id: 1, name: 'John James', phone: '08122789967', balance: 12500, totalSpent: 150000, history: [{desc: 'Rice (50kg)', date: '28/11/2024', amount: 90000}] },
+            { id: 2, name: 'Mama Chika', phone: '08122789968', balance: 0, totalSpent: 45000, history: [] },
+            { id: 3, name: 'Adewale Stores', phone: '08033221100', balance: 32500, totalSpent: 210000, history: [] }
+        ],
+        staff: [
+            { id: 1, name: 'Joy B.', role: 'Sales Rep' },
+            { id: 2, name: 'Emmanuel K.', role: 'Stock Keeper' }
+        ],
+        shopProfile: {
+            name: 'Oreoluwa Store',
+            phone: '08012345678',
+            address: '12 Market Road, Lagos'
+        },
+        cart: [],
+        activityLog: [
+            { title: 'Sale', desc: 'Pepsi Cola (10)', time: '10:30 AM', icon: 'wallet' },
+            { title: 'Restock', desc: 'Milo Refill (+20)', time: '09:15 AM', icon: 'cube' }
+        ],
+        todayTotal: 120000,
+        salesHistory: [
+            { time: '10:30 AM', desc: 'Pepsi Cola (10)', amount: 3000 },
+            { time: '09:00 AM', desc: 'Rice (1)', amount: 90000 },
+            { time: '08:45 AM', desc: 'Semovita (2)', amount: 12000 }
+        ],
+        currentCatFilter: 'All',
+        currentCustFilter: 'all',
+        tempQtySku: null,
+        tempStaffId: null,
+        tempProdSku: null,
+        tempCustId: null
+    };
 
-    // --- New Function: Show Toast (Alert Replacement) ---
-    // Uses Ionic's built-in toast component for non-intrusive feedback
-    async function showToast(message, color = 'primary') {
-        const toast = document.createElement('ion-toast');
-        toast.message = message;
-        toast.duration = 2000;
-        toast.position = 'top';
-        toast.color = color;
-
-        document.body.appendChild(toast);
-        await toast.present();
-    }
-
-    // --- New Function: Check Online Status (Updated for simulation & real status) ---
-    // Toggles visibility of the offline badge based on simulated status, but updates simulated status from real status.
-    function checkOnlineStatus() {
-      // Update simulated status from real status
-      isRealOnline = navigator.onLine;
-      // The simulated status now reflects the real status
-      isSimulatedOnline = isRealOnline;
-
-      // Select all elements with the class 'offline-badge'
-      const badges = document.querySelectorAll('.offline-badge');
-      
-      badges.forEach(badge => {
-        if (isSimulatedOnline) {
-          // If online, hide the badge
-          badge.classList.add('hidden');
-        } else {
-          // If offline, show the badge
-          badge.classList.remove('hidden');
-        }
-      });
-
-      // Update the online/offline button text and class
-      const onlineOfflineBtn = document.getElementById('online-offline-btn');
-      if (onlineOfflineBtn) {
-          if (isSimulatedOnline) {
-              onlineOfflineBtn.classList.remove('offline');
-              onlineOfflineBtn.classList.add('online');
-              onlineOfflineBtn.innerText = 'Online';
-          } else {
-              onlineOfflineBtn.classList.remove('online');
-              onlineOfflineBtn.classList.add('offline');
-              onlineOfflineBtn.innerText = 'Offline';
-          }
-      }
-
-      // Update pending sync badge visibility based on simulated status
-      updateSyncBadge();
-
-      console.log('Real Online Status:', isRealOnline ? 'Online' : 'Offline');
-      console.log('Simulated Online Status:', isSimulatedOnline ? 'Online' : 'Offline');
-    }
-
-    // --- New Function: Toggle Online Status (Simulation) ---
-    // This function now acts as a toggle for the simulated status, which is then used by checkOnlineStatus
-    function toggleOnlineStatus() {
-        // Toggle the simulated status
-        isSimulatedOnline = !isSimulatedOnline;
-        // Call checkOnlineStatus to update UI elements
-        checkOnlineStatus();
-        showToast(`Simulated connection set to ${isSimulatedOnline ? 'Online' : 'Offline'}.`, isSimulatedOnline ? 'success' : 'warning');
-    }
-
-    // --- New Function: Toggle Theme (Light/Dark Mode) ---
-    function toggleTheme() {
-        isDarkMode = !isDarkMode;
-        if (isDarkMode) {
-            document.body.classList.add('dark-mode');
-            document.getElementById('theme-toggle').checked = true;
-        } else {
-            document.body.classList.remove('dark-mode');
-            document.getElementById('theme-toggle').checked = false;
-        }
-        localStorage.setItem('enimara-theme', isDarkMode ? 'dark' : 'light');
-        // Re-render charts to adapt to theme
+    // --- INIT ---
+    document.addEventListener('DOMContentLoaded', () => {
+        setupNetworkListeners();
         renderCharts();
-        showToast(`Switched to ${isDarkMode ? 'Dark' : 'Light'} mode.`, 'secondary');
+        renderInventoryList();
+        renderCategories();
+        renderRecentActivity();
+        renderCustomerList();
+        renderTopCustomers();
+        updateDashboardTotals();
+        renderStaffList();
+        
+        // Theme Listener
+        const toggle = document.getElementById('theme-toggle');
+        if(toggle) {
+            toggle.addEventListener('ionChange', toggleTheme);
+        }
+        
+        // Home Insight
+        updateInsight('home');
+    });
+
+    // --- NAVIGATION ---
+    function navigateTo(pageId) {
+        document.querySelectorAll('.page-container').forEach(el => el.classList.add('hidden'));
+        document.getElementById(pageId).classList.remove('hidden');
+        if(pageId === 'page-dashboard') switchTab('home');
     }
 
-    // --- New Function: Update Sync Badge (Based on offline status) ---
-    function updateSyncBadge() {
-      const badge = document.getElementById('pending-sync-badge');
-      if (badge) {
-          // Show badge only if offline AND there are pending syncs
-          if (!isSimulatedOnline && pendingSyncCount > 0) {
-              badge.classList.remove('hidden');
-              document.getElementById('sync-count').innerText = pendingSyncCount;
-          } else {
-              badge.classList.add('hidden');
-          }
-      }
-    }
-
-    // --- Navigation Logic ---
-    function navigateTo(page) {
-      // Hide all main pages
-      document.getElementById('page-login').classList.add('hidden');
-      document.getElementById('page-dashboard').classList.add('hidden');
-      document.getElementById('page-add-customer').classList.add('hidden');
-      document.getElementById('page-add-product').classList.add('hidden');
-      document.getElementById('page-customers').classList.add('hidden');
-      document.getElementById('page-customer-details-johnadams').classList.add('hidden');
-      document.getElementById('page-record-payment-johnadams').classList.add('hidden');
-      document.getElementById('page-edit-inventory-rc001').classList.add('hidden');
-      document.getElementById('page-stock-update-rc001').classList.add('hidden');
-      document.getElementById('page-shop-details').classList.add('hidden');
-      document.getElementById('page-device-id').classList.add('hidden');
-      document.getElementById('page-create-category').classList.add('hidden');
-      document.getElementById('instructions-modal').classList.add('hidden');
-      document.getElementById('page-pos-add-item').classList.add('hidden');
-      document.getElementById('page-pos-item-quantity').classList.add('hidden');
-      
-      // Show requested page
-      if(page === 'login') {
-        document.getElementById('page-login').classList.remove('hidden');
-      } else if (page === 'dashboard') {
-        document.getElementById('page-dashboard').classList.remove('hidden');
-        switchTab('home'); // Reset to home tab on dashboard entry
-      }
-    }
-
-    // --- Tab Switching Logic ---
     function switchTab(tabName) {
-      // Hide all tabs
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      
-      // Show selected tab
-      document.getElementById('tab-' + tabName).classList.remove('hidden');
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+        document.getElementById('tab-' + tabName).classList.remove('hidden');
+        
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('btn-' + tabName).classList.add('active');
 
-      // Update Tab Bar Active State
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.getElementById('btn-' + tabName).classList.add('active');
-
-      // Special logic for new tabs
-      if (tabName === 'home') {
-          // Show instructions modal on home load if needed (optional)
-          // openModal('instructions-modal');
-          renderCharts();
-          renderRecentActivity();
-      } else if (tabName === 'sales-details') {
-          renderSalesDetails();
-      } else if (tabName === 'activity-details') {
-          renderAllActivity();
-      } else if (tabName === 'inventory') {
-          renderInventoryList();
-      } else if (tabName === 'pos') {
-          renderPosItemsList(); // Refresh POS items from inventory
-      }
-    }
-
-    // --- Modal Logic ---
-    function openModal(modalId) {
-      // Ensure the modal exists before trying to show it
-      const modal = document.getElementById(modalId);
-      if (modal) {
-        modal.classList.remove('hidden');
-        // Special logic for Edit Inventory modal to populate fields
-        if (modalId.startsWith('page-edit-inventory-')) {
-            const sku = modalId.split('-')[3]; // Extract SKU from modal ID
-            loadInventoryItemForEdit(sku);
+        // Logic refresh per tab
+        if(tabName === 'inventory') {
+            renderInventoryList();
+            renderCategories(); // Ensure filter tabs are up to date
         }
-        // Special logic for Stock Update modal to populate fields
-        if (modalId.startsWith('page-stock-update-')) {
-            const sku = modalId.split('-')[3]; // Extract SKU from modal ID
-            const inventory = getInventory();
-            const item = inventory.find(i => i.sku === sku);
-            if (item) {
-                document.getElementById('stock-update-item-name').value = item.name;
-                // Store the SKU for the update function
-                document.getElementById('page-stock-update-rc001').setAttribute('data-sku', sku);
-            }
-        }
-        // Special logic for Add Product modal to populate categories
-        if (modalId === 'page-add-product') {
-            populateCategorySelect();
-        }
-        // Special logic for POS Add Item modal to populate list
-        if (modalId === 'page-pos-add-item') {
-            renderPosAddItemList();
-        }
-        // Special logic for POS Item Quantity modal
-        if (modalId === 'page-pos-item-quantity') {
-            updateQuantityModalUI();
-        }
-      } else {
-        console.error(`Modal with ID ${modalId} not found.`);
-      }
+        if(tabName === 'customers') { renderCustomerList(); renderTopCustomers(); }
+        
+        updateInsight(tabName);
     }
     
-    function closeModal(modalId) {
-      // Ensure the modal exists before trying to hide it
-      const modal = document.getElementById(modalId);
-      if (modal) {
-        modal.classList.add('hidden');
-      } else {
-        console.error(`Modal with ID ${modalId} not found.`);
-      }
+    function updateInsight(tab) {
+        const textEl = document.getElementById('home-insight-text');
+        const btnEl = document.getElementById('home-insight-btn');
+        
+        if(tab === 'home') {
+            // Logic: Check lowest stock item
+            const lowItem = state.inventory.sort((a,b) => a.stock - b.stock)[0];
+            if(lowItem) {
+                textEl.innerText = `"${lowItem.name}" is running low (${lowItem.stock} left). Customers might ask for it soon.`;
+                btnEl.innerText = "Restock Now";
+                btnEl.onclick = () => switchTab('inventory');
+            }
+        }
     }
 
-    // --- Inventory Management ---
-    function getInventory() {
-        return JSON.parse(localStorage.getItem('enimara-inventory')) || [
-            { sku: 'RC-001', name: 'Rice (50kg)', category: 'Foodstuff', price: 45000, stock: 12, cost: 35000 },
-            { sku: 'MK-022', name: 'Milk Powder', category: 'Beverages', price: 500, stock: 40, cost: 300 },
-            { sku: 'DW-001', name: 'Dishwasher', category: 'Household', price: 2500, stock: 5, cost: 2000 }
-        ];
+    function openModal(id) { 
+        document.getElementById(id).classList.remove('hidden'); 
+        if(id === 'page-todays-sales') renderTodaysSales();
+        if(id === 'page-activity-all') renderAllActivity();
+        if(id === 'page-pos-add-item') renderPosAddList();
+        if(id === 'page-add-product') populateCategorySelect();
+    }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    // --- THEME TOGGLE (FIXED) ---
+    function toggleTheme() {
+        document.body.classList.toggle('dark');
     }
 
-    function saveInventory(inventory) {
-        localStorage.setItem('enimara-inventory', JSON.stringify(inventory));
+    // --- CHARTS ---
+    function renderCharts() {
+        // MARKET REACH
+        const labels = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov'];
+        const data = [704500, 850000, 920000, 1100000, 1275960];
+        const maxVal = 1400000;
+        
+        let barSvg = `<svg class="svg-chart" viewBox="0 0 320 180">`;
+        [0, 0.25, 0.5, 0.75, 1].forEach((pct, i) => {
+            const y = 160 - (160 * pct);
+            const labelVal = (pct * maxVal / 1000).toFixed(0) + 'k';
+            barSvg += `<line x1="30" y1="${y}" x2="320" y2="${y}" class="chart-grid-line" />`;
+            barSvg += `<text x="25" y="${y+3}" text-anchor="end" class="chart-axis-text">${labelVal}</text>`;
+        });
+
+        const barW = 30;
+        const gap = (290 - (data.length * barW)) / (data.length + 1);
+        data.forEach((val, i) => {
+            const h = (val / maxVal) * 160;
+            const x = 30 + gap + (i * (barW + gap));
+            const y = 160 - h;
+            barSvg += `<rect x="${x}" y="${y}" width="${barW}" height="${h}" class="chart-bar" />`;
+            barSvg += `<text x="${x + barW/2}" y="175" text-anchor="middle" class="chart-axis-text">${labels[i]}</text>`;
+            if(i === 4) { 
+                 barSvg += `<text x="${x + barW/2}" y="${y - 5}" text-anchor="middle" font-size="9" font-weight="bold" fill="var(--ion-color-primary)">1.2M</text>`;
+            }
+        });
+        barSvg += `</svg>`;
+        document.getElementById('bar-chart-container').innerHTML = barSvg;
+
+        // CUSTOMER RETENTION
+        const retention = [60, 65, 70, 72, 80]; // Returning
+        const newCust = [20, 40, 35, 50, 65];   // New
+        
+        let lineSvg = `<svg class="svg-chart" viewBox="0 0 320 150">`;
+        lineSvg += `<circle cx="40" cy="10" r="4" fill="#10B981" /><text x="50" y="13" font-size="10" fill="var(--text-muted)">Loyal Customer</text>`;
+        lineSvg += `<circle cx="120" cy="10" r="4" fill="var(--ion-color-primary)" /><text x="130" y="13" font-size="10" fill="var(--text-muted)">New Customer</text>`;
+
+        const drawLine = (dataset, color) => {
+            let d = "";
+            dataset.forEach((val, i) => {
+                const x = 30 + (i * 70);
+                const y = 140 - val;
+                d += (i===0 ? `M${x},${y}` : ` L${x},${y}`);
+                lineSvg += `<circle cx="${x}" cy="${y}" r="3" fill="${color}" />`;
+            });
+            return `<path d="${d}" stroke="${color}" stroke-width="2" fill="none" />`;
+        };
+
+        lineSvg += drawLine(retention, '#10B981');
+        lineSvg += drawLine(newCust, 'var(--ion-color-primary)');
+        
+        labels.forEach((l, i) => {
+             lineSvg += `<text x="${30 + (i*70)}" y="150" text-anchor="middle" class="chart-axis-text">${l}</text>`;
+        });
+
+        lineSvg += `</svg>`;
+        document.getElementById('line-chart-container').innerHTML = lineSvg;
+    }
+
+    // --- CUSTOMERS ---
+    function renderCustomerList() {
+        const container = document.getElementById('customer-list-container');
+        const filterText = document.getElementById('customer-search').value.toLowerCase();
+        container.innerHTML = '';
+
+        state.customers.forEach(cust => {
+            const matchesSearch = cust.name.toLowerCase().includes(filterText) || cust.phone.includes(filterText);
+            const matchesFilter = state.currentCustFilter === 'all' || (state.currentCustFilter === 'owing' && cust.balance > 0);
+
+            if(matchesSearch && matchesFilter) {
+                container.innerHTML += `
+                    <div class="customer-card ion-activatable" onclick="openCustomerDetail(${cust.id})">
+                        <ion-ripple-effect></ion-ripple-effect>
+                        <div style="display:flex; align-items:center;">
+                            <div style="width:40px; height:40px; background:var(--app-bg); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-right:12px; font-weight:bold; color:var(--text-muted);">
+                                ${cust.name.charAt(0)}
+                            </div>
+                            <div>
+                                <div class="font-bold text-sm">${cust.name}</div>
+                                <div class="text-xs text-gray">${cust.phone}</div>
+                            </div>
+                        </div>
+                        <div style="text-align:right;">
+                            ${cust.balance > 0 ? `<div class="debt-badge">Owe: ${formatCurrency(cust.balance)}</div>` : `<div class="text-xs text-success font-bold">Paid</div>`}
+                        </div>
+                    </div>`;
+            }
+        });
+    }
+
+    function renderTopCustomers() {
+        const list = document.getElementById('top-customers-list');
+        const listMonth = document.getElementById('top-customers-month-list');
+        
+        const top = [...state.customers].sort((a,b) => b.totalSpent - a.totalSpent).slice(0, 5);
+        
+        const renderItem = (c) => `
+            <div class="top-customer-item ion-activatable" onclick="openCustomerDetail(${c.id})">
+                <ion-ripple-effect></ion-ripple-effect>
+                <div class="font-bold text-sm text-primary">${c.name}</div>
+                <div class="text-xs text-gray" style="margin-top:4px;">${formatCurrency(c.totalSpent)}</div>
+            </div>
+        `;
+        
+        list.innerHTML = top.map(renderItem).join('');
+        listMonth.innerHTML = top.slice(0,3).map(renderItem).join(''); // Mocking month same as all time for now
+    }
+
+    function filterCustomers(type) {
+        state.currentCustFilter = type;
+        document.getElementById('seg-all').style.background = type === 'all' ? 'var(--card-bg)' : 'transparent';
+        document.getElementById('seg-all').style.boxShadow = type === 'all' ? 'var(--shadow-sm)' : 'none';
+        
+        document.getElementById('seg-owing').style.background = type === 'owing' ? 'var(--card-bg)' : 'transparent';
+        document.getElementById('seg-owing').style.boxShadow = type === 'owing' ? 'var(--shadow-sm)' : 'none';
+        
+        renderCustomerList();
+    }
+
+    function saveCustomer() {
+        const name = document.getElementById('cust-name').value;
+        const phone = document.getElementById('cust-phone').value;
+        const debt = parseFloat(document.getElementById('cust-debt').value) || 0;
+        
+        if(name) {
+            state.customers.push({ 
+                id: Date.now(), 
+                name, 
+                phone, 
+                balance: debt,
+                totalSpent: 0,
+                history: []
+            });
+            renderCustomerList();
+            renderTopCustomers();
+            closeModal('page-add-customer');
+            showToast('Customer Added!');
+        }
+    }
+
+    function openCustomerDetail(id) {
+        state.tempCustId = id;
+        const cust = state.customers.find(c => c.id === id);
+        if(cust) {
+            document.getElementById('detail-cust-name').innerText = cust.name;
+            document.getElementById('detail-cust-initial').innerText = cust.name.charAt(0);
+            document.getElementById('detail-cust-phone').innerText = cust.phone;
+            document.getElementById('detail-cust-balance').innerText = formatCurrency(cust.balance);
+            document.getElementById('detail-cust-spent').innerText = formatCurrency(cust.totalSpent);
+            
+            const histContainer = document.getElementById('detail-cust-history');
+            histContainer.innerHTML = '';
+            
+            if(cust.history && cust.history.length > 0) {
+                 cust.history.forEach(h => {
+                     histContainer.innerHTML += `
+                        <div class="list-item">
+                            <div>
+                                <div class="font-bold">${h.desc}</div>
+                                <div class="text-xs text-gray">${h.date}</div>
+                            </div>
+                            <div class="font-bold">₦${h.amount.toLocaleString()}</div>
+                        </div>
+                     `;
+                 });
+            } else {
+                histContainer.innerHTML = '<div class="text-gray text-xs text-center" style="padding: 20px;">No transaction history yet.</div>';
+            }
+            openModal('page-customer-details');
+        }
+    }
+    
+    function deleteCustomer() {
+        if(confirm("Are you sure you want to delete this customer? This cannot be undone.")) {
+            state.customers = state.customers.filter(c => c.id !== state.tempCustId);
+            renderCustomerList();
+            renderTopCustomers();
+            closeModal('page-customer-details');
+            showToast("Customer Deleted");
+        }
+    }
+    
+    function confirmDebtPayment() {
+        const amt = parseFloat(document.getElementById('debt-payment-amount').value);
+        const cust = state.customers.find(c => c.id === state.tempCustId);
+        
+        if(cust && amt > 0) {
+            cust.balance -= amt;
+            if(cust.balance < 0) cust.balance = 0;
+            
+            cust.history.unshift({
+                desc: 'Debt Payment',
+                date: new Date().toLocaleDateString(),
+                amount: amt
+            });
+            
+            showToast(`Payment Recorded. New Balance: ${formatCurrency(cust.balance)}`);
+            closeModal('page-record-payment');
+            openCustomerDetail(state.tempCustId); // Refresh details
+            renderCustomerList();
+        }
+    }
+    
+    function shareReminder() {
+        const cust = state.customers.find(c => c.id === state.tempCustId);
+        const date = document.getElementById('reminder-date').value;
+        if(cust && date) {
+            const msg = `Hello ${cust.name}, kindly pay your debt of ${formatCurrency(cust.balance)} to ${state.shopProfile.name} by ${date}. Thanks.`;
+            const url = `https://wa.me/${cust.phone}?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+            closeModal('page-generate-reminder');
+        } else {
+            showToast('Please select a date');
+        }
+    }
+
+    // --- STOCK & CATEGORIES ---
+    function renderCategories() {
+        const container = document.getElementById('inventory-category-tabs');
+        container.innerHTML = `<div class="stock-tab ${state.currentCatFilter === 'All' ? 'active' : ''}" onclick="filterStock('All', this)">All</div>`;
+        state.categories.forEach(cat => {
+            container.innerHTML += `<div class="stock-tab ${state.currentCatFilter === cat ? 'active' : ''}" onclick="filterStock('${cat}', this)">${cat}</div>`;
+        });
+    }
+
+    function filterStock(cat, element) {
+        state.currentCatFilter = cat;
+        // Visual updates
+        document.querySelectorAll('.stock-tab').forEach(el => el.classList.remove('active'));
+        element.classList.add('active');
+        renderInventoryList();
     }
 
     function renderInventoryList() {
-        const list = document.getElementById('inventory-list');
-        const inventory = getInventory();
-        const currentCategory = document.querySelector('.category-tab.active').textContent.toLowerCase();
+        const container = document.getElementById('inventory-list');
+        const filter = document.getElementById('inventory-search').value.toLowerCase();
+        container.innerHTML = '';
 
-        list.innerHTML = ''; // Clear existing items
-        inventory.forEach(item => {
-            if (currentCategory === 'all' || item.category.toLowerCase() === currentCategory) {
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'inventory-item';
-                itemDiv.setAttribute('data-category', item.category.toLowerCase());
-                itemDiv.setAttribute('data-sku', item.sku); // Store SKU as data attribute
-                itemDiv.innerHTML = `
-                    <div class="inventory-details">
-                      <div>
-                        <span class="font-bold text-lg text-primary">${item.name}</span>
-                        <div class="text-xs text-gray">SKU: ${item.sku}</div>
-                      </div>
-                      <span class="font-bold">₦ ${item.price}</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 12px;">
-                      <span class="text-xs text-gray">${item.category}</span>
-                      <span class="inventory-stock">${item.stock} Units left</span>
-                    </div>
-                    <div style="display: flex; gap: 8px;">
-                      <ion-button fill="outline" size="small" style="flex: 1; --color: var(--ion-text-color); --border-color: var(--ion-border-color);" onclick="openModal('page-edit-inventory-${item.sku}')">Edit</ion-button>
-                      <ion-button size="small" style="flex: 1; --background: var(--ion-color-primary);" onclick="openModal('page-stock-update-${item.sku}')">Restock</ion-button>
-                    </div>
-                `;
-                list.appendChild(itemDiv);
+        state.inventory.forEach(item => {
+            const matchesCat = state.currentCatFilter === 'All' || item.cat === state.currentCatFilter;
+            const matchesSearch = item.name.toLowerCase().includes(filter);
+
+            if(matchesCat && matchesSearch) {
+                container.innerHTML += `
+                    <div class="app-card ion-activatable" style="display: flex; justify-content: space-between; align-items: center;" onclick="openProductDetail('${item.sku}')">
+                        <ion-ripple-effect></ion-ripple-effect>
+                        <div>
+                            <div class="font-bold">${item.name}</div>
+                            <div class="text-xs text-gray">${item.cat} • SKU: ${item.sku}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="font-bold">${formatCurrency(item.price)}</div>
+                            <div class="text-xs" style="color: ${item.stock < 10 ? 'red' : 'green'}">${item.stock} left</div>
+                        </div>
+                    </div>`;
             }
         });
     }
-
-    function loadInventoryItemForEdit(sku) {
-        const inventory = getInventory();
-        const item = inventory.find(i => i.sku === sku);
-        if (item) {
-            document.getElementById('edit-product-name').value = item.name;
-            document.getElementById('edit-product-category').value = item.category;
-            document.getElementById('edit-product-stock').value = item.stock;
-            document.getElementById('edit-product-price').value = item.price;
-            document.getElementById('edit-product-cost').value = item.cost;
-            document.getElementById('edit-product-sku').value = item.sku;
-            // Store the original SKU for the update function
-            document.getElementById('page-edit-inventory-rc001').setAttribute('data-original-sku', sku);
+    
+    function openProductDetail(sku) {
+        state.tempProdSku = sku;
+        const item = state.inventory.find(i => i.sku === sku);
+        if(item) {
+            document.getElementById('edit-prod-title').innerText = item.name;
+            document.getElementById('edit-prod-sku').innerText = `SKU: ${item.sku}`;
+            document.getElementById('edit-prod-stock').value = item.stock;
+            document.getElementById('edit-prod-price').value = item.price;
+            openModal('page-product-details');
         }
     }
-
-    function saveInventoryEdit() {
-        const originalSku = document.getElementById('page-edit-inventory-rc001').getAttribute('data-original-sku');
-        const inventory = getInventory();
-        const index = inventory.findIndex(i => i.sku === originalSku);
-
-        if (index !== -1) {
-            // Update the item in the inventory array
-            inventory[index] = {
-                sku: document.getElementById('edit-product-sku').value,
-                name: document.getElementById('edit-product-name').value,
-                category: document.getElementById('edit-product-category').value,
-                price: parseInt(document.getElementById('edit-product-price').value) || 0,
-                stock: parseInt(document.getElementById('edit-product-stock').value) || 0,
-                cost: parseInt(document.getElementById('edit-product-cost').value) || 0
-            };
-
-            // Save the updated inventory
-            saveInventory(inventory);
-
-            // Re-render the inventory list to reflect changes
+    
+    function restockProduct() {
+        const amt = prompt("How many items are you adding?");
+        if(amt && parseInt(amt) > 0) {
+            const item = state.inventory.find(i => i.sku === state.tempProdSku);
+            if(item) {
+                item.stock += parseInt(amt);
+                document.getElementById('edit-prod-stock').value = item.stock;
+                showToast("Stock Updated");
+                renderInventoryList();
+            }
+        }
+    }
+    
+    function saveProductEdits() {
+        const newPrice = document.getElementById('edit-prod-price').value;
+        const item = state.inventory.find(i => i.sku === state.tempProdSku);
+        if(item && newPrice) {
+            item.price = parseFloat(newPrice);
             renderInventoryList();
-
-            // Also re-render the POS items list if needed
-            if (document.getElementById('tab-pos').classList.contains('hidden') === false) {
-                renderPosItemsList();
-            }
-
-            // Increment the sync counter
-            pendingSyncCount++;
-            updateSyncBadge();
-
-            showToast('Inventory updated and pending sync.', 'success');
-            closeModal('page-edit-inventory-rc001');
-        } else {
-            showToast('Error: Item not found for editing.', 'danger');
+            showToast("Product Updated");
+            closeModal('page-product-details');
+        }
+    }
+    
+    function deleteProduct() {
+        if(confirm("Delete this product?")) {
+            state.inventory = state.inventory.filter(i => i.sku !== state.tempProdSku);
+            renderInventoryList();
+            closeModal('page-product-details');
+            showToast("Product Deleted");
+        }
+    }
+    
+    function populateCategorySelect() {
+        const sel = document.getElementById('add-prod-category');
+        sel.innerHTML = '';
+        state.categories.forEach(c => {
+            sel.innerHTML += `<option value="${c}">${c}</option>`;
+        });
+    }
+    
+    function promptAddCategory() {
+        const newCat = prompt("Enter New Category Name:");
+        if(newCat) {
+             state.categories.push(newCat);
+             populateCategorySelect(); // Update modal select
+             // Select the new one immediately
+             document.getElementById('add-prod-category').value = newCat;
+             
+             // Update tabs immediately too
+             renderCategories();
+             
+             showToast(`Category "${newCat}" created!`);
+        }
+    }
+    
+    function saveNewProduct() {
+        const name = document.getElementById('add-prod-name').value;
+        const price = parseInt(document.getElementById('add-prod-price').value);
+        const stock = parseInt(document.getElementById('add-prod-stock').value);
+        const cat = document.getElementById('add-prod-category').value;
+        
+        if(name && price) {
+            state.inventory.push({
+                sku: 'GEN' + Math.floor(Math.random()*1000),
+                name: name,
+                cat: cat,
+                price: price,
+                stock: stock || 0
+            });
+            renderInventoryList();
+            showToast('Product Saved!');
+            closeModal('page-add-product');
+            // Clear inputs
+            document.getElementById('add-prod-name').value = '';
+            document.getElementById('add-prod-price').value = '';
         }
     }
 
-    function recordInventoryActivity(itemName, action, qty) {
-        // Increment the sync counter
-        pendingSyncCount++;
-        updateSyncBadge();
-
-        // Add to global activity log
-        addActivityToLog(action, itemName, `Qty: ${qty}`, "");
-        showToast(`${action} for ${itemName} recorded and pending sync.`, 'success');
-    }
-
-    // --- Stock Update Logic ---
-    function updateStock() {
-        const sku = document.getElementById('page-stock-update-rc001').getAttribute('data-sku');
-        const action = document.getElementById('stock-update-action').value;
-        const quantity = parseInt(document.getElementById('stock-update-quantity').value) || 0;
-        const note = document.getElementById('stock-update-note').value;
-
-        if (quantity <= 0) {
-            showToast('Quantity must be greater than 0.', 'warning');
-            return;
-        }
-
-        const inventory = getInventory();
-        const itemIndex = inventory.findIndex(i => i.sku === sku);
-
-        if (itemIndex !== -1) {
-            if (action === 'StockIn') {
-                inventory[itemIndex].stock += quantity;
-            } else if (action === 'StockOut') {
-                inventory[itemIndex].stock = Math.max(0, inventory[itemIndex].stock - quantity); // Prevent negative stock
-            }
-
-            saveInventory(inventory);
-            renderInventoryList(); // Update the list view
-
-            // Add activity log entry
-            const actionText = action === 'StockIn' ? 'Restock' : 'Stock Out';
-            addActivityToLog(actionText, inventory[itemIndex].name, `Qty: ${quantity}`, `Note: ${note}`);
-            // Increment the sync counter
-            pendingSyncCount++;
-            updateSyncBadge();
-
-            showToast(`${actionText} for ${inventory[itemIndex].name} completed.`, 'success');
-            closeModal('page-stock-update-rc001');
-        } else {
-            showToast('Error: Item not found.', 'danger');
-        }
-    }
-
-
-    // --- POS Management ---
-    function renderPosItemsList() {
-        // This function populates the POS search/selection list from inventory
-        // For simplicity in this demo, we just update the search placeholder suggestion
-        const posSearch = document.getElementById('pos-search');
-        const inventory = getInventory();
-        if (inventory.length > 0) {
-            const firstItemName = inventory[0].name;
-            posSearch.placeholder = `Search item... (e.g. ${firstItemName})`;
-        }
-    }
-
-    let posCart = []; // Array to hold items in the POS cart
-    let currentCartItemIndex = -1; // Index of the item currently being modified in the cart
-
-    function renderPosAddItemList() {
-        const list = document.getElementById('pos-add-item-list');
-        const inventory = getInventory();
-        const searchTerm = document.getElementById('pos-add-search').value.toLowerCase();
-
-        list.innerHTML = ''; // Clear existing items
-        inventory.forEach(item => {
-            if (item.name.toLowerCase().includes(searchTerm) || item.sku.toLowerCase().includes(searchTerm)) {
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'app-card';
-                itemDiv.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                      <div>
-                        <div class="font-bold text-sm">${item.name}</div>
-                        <div class="text-xs text-gray">SKU: ${item.sku} | Stock: ${item.stock}</div>
-                      </div>
-                      <ion-button size="small" style="--background: var(--ion-color-primary);" onclick="addPosItemFromList('${item.sku}')">Add</ion-button>
-                    </div>
-                `;
-                list.appendChild(itemDiv);
+    // --- POS ADD ITEM LOGIC (Fixed) ---
+    function renderPosAddList() {
+        const container = document.getElementById('pos-add-list');
+        const filter = document.getElementById('pos-filter-input') ? document.getElementById('pos-filter-input').value.toLowerCase() : "";
+        container.innerHTML = '';
+        
+        state.inventory.forEach(item => {
+            if(item.name.toLowerCase().includes(filter)) {
+                container.innerHTML += `
+                    <div class="list-item ion-activatable" onclick="initiateAddToCart('${item.sku}')">
+                        <ion-ripple-effect></ion-ripple-effect>
+                        <div>
+                            <div class="font-bold">${item.name}</div>
+                            <div class="text-xs text-gray">Stock: ${item.stock}</div>
+                        </div>
+                        <ion-icon name="add-circle" style="font-size: 28px; color: var(--ion-color-secondary);"></ion-icon>
+                    </div>`;
             }
         });
     }
 
-    function filterPosAddItems() {
-        // Re-render the list based on the current search term
-        renderPosAddItemList();
+    function initiateAddToCart(sku) {
+        const item = state.inventory.find(i => i.sku === sku);
+        if(!item) return;
+        
+        state.tempQtySku = sku;
+        document.getElementById('qty-item-name').innerText = item.name;
+        document.getElementById('qty-stock-display').innerText = `Available: ${item.stock}`;
+        document.getElementById('qty-input').value = 1;
+        
+        closeModal('page-pos-add-item');
+        openModal('page-pos-qty');
+    }
+    
+    function adjustQty(amount) {
+        const input = document.getElementById('qty-input');
+        let val = parseInt(input.value) + amount;
+        if(val < 1) val = 1;
+        input.value = val;
     }
 
-    function addPosItemFromList(sku) {
-        const inventory = getInventory();
-        const item = inventory.find(i => i.sku === sku);
-
-        if (!item) {
-            showToast('Item not found in inventory.', 'danger');
-            return;
+    function confirmAddToCart() {
+        const sku = state.tempQtySku;
+        const qty = parseInt(document.getElementById('qty-input').value);
+        const item = state.inventory.find(i => i.sku === sku);
+        
+        if(item) {
+            const existing = state.cart.find(c => c.sku === sku);
+            if(existing) existing.qty += qty;
+            else state.cart.push({...item, qty: qty});
+            
+            updateCartUI();
+            closeModal('page-pos-qty');
+            showToast('Item Added');
         }
-
-        if (item.stock <= 0) {
-            showToast('Item is out of stock!', 'warning');
-            return;
-        }
-
-        // Check if item already exists in cart
-        const existingItemIndex = posCart.findIndex(cartItem => cartItem.sku === item.sku);
-        if (existingItemIndex !== -1) {
-            // If exists, increment quantity (if stock allows)
-            if (posCart[existingItemIndex].quantity < item.stock) {
-                posCart[existingItemIndex].quantity++;
-            } else {
-                showToast('Not enough stock for this item.', 'warning');
-                return;
-            }
-        } else {
-            // If new, add to cart with quantity 1
-            if (item.stock > 0) {
-                posCart.push({ ...item, quantity: 1 });
-            } else {
-                showToast('Item is out of stock!', 'warning');
-                return;
-            }
-        }
-        renderPosCartItems();
-        updatePosTotal();
-        closeModal('page-pos-add-item'); // Close the modal after adding
     }
 
-    function renderPosCartItems() {
-        const list = document.getElementById('pos-items-list');
-        list.innerHTML = ''; // Clear existing items
-
-        posCart.forEach((cartItem, index) => {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'pos-item-row';
-            itemDiv.onclick = () => openQuantityModal(index); // Attach click handler
-            itemDiv.innerHTML = `
-                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; cursor: pointer;">
-                  <div>
-                    <div class="font-bold text-sm">${cartItem.name} x ${cartItem.quantity}</div>
-                    <div class="text-xs text-gray">SKU: ${cartItem.sku}</div>
-                  </div>
-                  <div class="font-bold">₦ ${cartItem.price * cartItem.quantity}</div>
+    function updateCartUI() {
+        const container = document.getElementById('pos-items-list');
+        let total = 0;
+        container.innerHTML = '';
+        
+        if(state.cart.length > 0) {
+            document.getElementById('pos-empty').classList.add('hidden');
+            document.getElementById('pos-active').classList.remove('hidden');
+            
+            state.cart.forEach(item => {
+                total += item.price * item.qty;
+                container.innerHTML += `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <div>${item.name} <span class="text-muted">x${item.qty}</span></div>
+                        <div class="font-bold">${formatCurrency(item.price * item.qty)}</div>
+                    </div>`;
+            });
+            document.getElementById('pos-total').innerText = formatCurrency(total);
+        }
+    }
+    
+    function openInvoicePreview() {
+        if(state.cart.length === 0) return;
+        
+        // Populate Invoice Data from Shop Profile
+        document.getElementById('inv-shop-name').innerText = state.shopProfile.name;
+        document.getElementById('inv-shop-address').innerText = state.shopProfile.address;
+        document.getElementById('inv-shop-phone').innerText = state.shopProfile.phone;
+        
+        document.getElementById('inv-date').innerText = new Date().toLocaleDateString();
+        document.getElementById('inv-time').innerText = new Date().toLocaleTimeString();
+        
+        const cont = document.getElementById('inv-items');
+        cont.innerHTML = '';
+        let total = 0;
+        
+        state.cart.forEach(item => {
+            total += item.price * item.qty;
+            cont.innerHTML += `
+                <div class="invoice-row">
+                    <span>${item.qty} x ${item.name}</span>
+                    <span>${(item.price * item.qty).toLocaleString()}</span>
                 </div>
             `;
-            list.appendChild(itemDiv);
         });
+        document.getElementById('inv-total').innerText = formatCurrency(total);
+        
+        openModal('page-invoice-preview');
     }
 
-    function openQuantityModal(index) {
-        currentCartItemIndex = index;
-        const item = posCart[index];
-        document.getElementById('quantity-item-name').textContent = item.name;
-        document.getElementById('quantity-input').value = item.quantity;
-        document.getElementById('quantity-input').max = item.maxQuantity; // Use max from cart item
-        openModal('page-pos-item-quantity');
-    }
-
-    function updateQuantityModalUI() {
-        if (currentCartItemIndex >= 0 && currentCartItemIndex < posCart.length) {
-            const item = posCart[currentCartItemIndex];
-            document.getElementById('quantity-input').value = item.quantity;
-            document.getElementById('quantity-input').max = item.maxQuantity;
-        }
-    }
-
-    function adjustQuantity(change) {
-        const input = document.getElementById('quantity-input');
-        let newValue = parseInt(input.value) + change;
-        newValue = Math.max(1, Math.min(newValue, parseInt(input.max))); // Clamp between 1 and max
-        input.value = newValue;
-    }
-
-    function validateQuantity() {
-        const input = document.getElementById('quantity-input');
-        let value = parseInt(input.value);
-        if (isNaN(value) || value < 1) {
-            value = 1;
-        } else if (value > parseInt(input.max)) {
-            value = parseInt(input.max);
-        }
-        input.value = value;
-    }
-
-    function confirmQuantityChange() {
-        if (currentCartItemIndex >= 0 && currentCartItemIndex < posCart.length) {
-            const newQuantity = parseInt(document.getElementById('quantity-input').value);
-            if (!isNaN(newQuantity) && newQuantity >= 1 && newQuantity <= posCart[currentCartItemIndex].maxQuantity) {
-                posCart[currentCartItemIndex].quantity = newQuantity;
-                renderPosCartItems(); // Re-render to show new quantity
-                updatePosTotal(); // Update total
-            } else {
-                showToast('Invalid quantity entered.', 'warning');
-            }
-        }
-        closeModal('page-pos-item-quantity');
-        currentCartItemIndex = -1; // Reset index
-    }
-
-    function updatePosTotal() {
-        let total = 0;
-        posCart.forEach(item => {
-            total += item.price * item.quantity;
+    function finalizeSale() {
+        let saleTotal = 0;
+        let desc = "";
+        
+        state.cart.forEach((c, i) => {
+            saleTotal += c.price * c.qty;
+            if(i===0) desc = `${c.name} (${c.qty})`;
+            // Deduct stock logic (simplified)
+            const invItem = state.inventory.find(inv => inv.sku === c.sku);
+            if(invItem) invItem.stock -= c.qty;
         });
-        document.getElementById('pos-total').textContent = `₦ ${total}`;
-    }
+        
+        if(state.cart.length > 1) desc += ` + ${state.cart.length -1} others`;
 
-    function recordSale() {
-        if (posCart.length === 0) {
-            showToast('Cannot record a sale with an empty cart.', 'warning');
-            return;
-        }
-
-        // Increment the sync counter
-        pendingSyncCount++;
-        updateSyncBadge();
-
-        // Get the total amount from the POS screen
-        const totalAmount = document.getElementById('pos-total').textContent;
-        const totalNum = parseInt(totalAmount.replace(/[^\d]/g, ''));
-
-        // Update inventory stock based on cart items
-        const inventory = getInventory();
-        let lowStocksChanged = false;
-        posCart.forEach(cartItem => {
-            const invItemIndex = inventory.findIndex(i => i.sku === cartItem.sku);
-            if (invItemIndex !== -1) {
-                inventory[invItemIndex].stock -= cartItem.quantity;
-                if (inventory[invItemIndex].stock <= 5 && inventory[invItemIndex].stock + cartItem.quantity > 5) {
-                    // Stock just went low
-                    lowStocks++;
-                    lowStocksChanged = true;
-                } else if (inventory[invItemIndex].stock <= 0 && inventory[invItemIndex].stock + cartItem.quantity > 0) {
-                    // Stock just ran out, but was already low, so don't double count
-                    // We only care about crossing the 'low' threshold
-                }
-            }
+        // Update State
+        state.todayTotal += saleTotal;
+        state.salesHistory.unshift({
+            time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+            desc: desc,
+            amount: saleTotal
         });
-        saveInventory(inventory);
+        
+        state.activityLog.unshift({
+            title: 'Sale', desc: desc, time: 'Just Now', icon: 'wallet'
+        });
 
-        // Re-render inventory list to reflect stock changes
-        renderInventoryList();
-
-        // Update current month revenue and total year revenue
-        currentMonthRevenue += totalNum;
-        currentYearTotalRevenue += totalNum;
-
-        // Simulate a sale by updating the today's sales stat
-        todaySales += totalNum;
-        document.getElementById('today-sales').innerText = `₦ ${todaySales.toLocaleString()}`;
-        localStorage.setItem('enimara-today-sales', todaySales);
-
-        // Update low stocks count if necessary
-        if (lowStocksChanged) {
-            document.getElementById('low-stocks').innerText = lowStocks;
-            localStorage.setItem('enimara-low-stocks', lowStocks);
-        }
-
-        // Add a new activity to the recent activity list and sales details
-        const firstItemName = posCart[0]?.name || "Item";
-        const totalItemsInCart = posCart.reduce((sum, item) => sum + item.quantity, 0);
-        // Add to global activity log
-        addActivityToLog("Sale", firstItemName, `Qty: ${totalItemsInCart}`, totalAmount);
-        // Add to sales details log
-        addSaleToLog(totalAmount, "Cash"); // Assuming cash for demo
-
-        // Clear the POS cart
-        posCart = [];
+        updateDashboardTotals();
+        renderRecentActivity();
+        renderInventoryList(); // Refresh stock counts
+        
+        // Reset Cart
+        state.cart = [];
+        document.getElementById('pos-items-list').innerHTML = '';
         document.getElementById('pos-active').classList.add('hidden');
         document.getElementById('pos-empty').classList.remove('hidden');
-        renderPosCartItems(); // Clear the visual cart
-        updatePosTotal(); // Reset total
-
-        showToast(`Sale of ${totalAmount} recorded and pending sync.`, 'success');
-    }
-
-    // --- Inventory Category Filtering Logic ---
-    function filterCategory(category) {
-        // Update active tab
-        document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
-        event.target.classList.add('active');
-
-        // Re-render inventory list with new filter
-        renderInventoryList();
-    }
-
-    // --- Product Category Selection Logic ---
-    function populateCategorySelect() {
-        const selectElement = document.getElementById('product-category-input');
-        if (selectElement) {
-            // Clear existing options (except default)
-            selectElement.innerHTML = '';
-            // Add default options
-            const defaultOptions = [
-                { value: 'Foodstuff', text: 'Foodstuff' },
-                { value: 'Beverages', text: 'Beverages' },
-                { value: 'Household', text: 'Household' }
-            ];
-            defaultOptions.forEach(opt => {
-                const option = document.createElement('option');
-                option.value = opt.value;
-                option.text = opt.text;
-                selectElement.appendChild(option);
-            });
-
-            // Load user-created categories from localStorage
-            const storedCategories = JSON.parse(localStorage.getItem('enimara-categories')) || [];
-            storedCategories.forEach(cat => {
-                const option = document.createElement('option');
-                option.value = cat;
-                option.text = cat;
-                selectElement.appendChild(option);
-            });
-
-            // Add 'Create New...' option
-            const createOption = document.createElement('option');
-            createOption.value = 'create_new';
-            createOption.text = 'Create New Category...';
-            selectElement.appendChild(createOption);
-
-            // Set selected value from localStorage if exists
-            const selectedCategory = localStorage.getItem('enimara-selected-category');
-            if (selectedCategory && selectElement.querySelector(`option[value="${selectedCategory}"]`)) {
-                selectElement.value = selectedCategory;
-            }
-        }
-    }
-
-    // --- Create Category Logic ---
-    function createCategory() {
-        const input = document.getElementById('new-category-name');
-        const categoryName = input.value.trim();
-
-        if (categoryName) {
-            // Load existing categories
-            let categories = JSON.parse(localStorage.getItem('enimara-categories')) || [];
-            // Add new category if it doesn't exist
-            if (!categories.includes(categoryName)) {
-                categories.push(categoryName);
-                localStorage.setItem('enimara-categories', JSON.stringify(categories));
-                showToast(`Category "${categoryName}" created.`, 'success');
-                // Reset input
-                input.value = '';
-                // Close modal
-                closeModal('page-create-category');
-                // Repopulate the select in the Add Product modal
-                populateCategorySelect();
-                // Set the newly created category as the selected value in the Add Product modal
-                if (document.getElementById('page-add-product').classList.contains('hidden') === false) {
-                    document.getElementById('product-category-input').value = categoryName;
-                    localStorage.setItem('enimara-selected-category', categoryName);
-                }
-            } else {
-                showToast(`Category "${categoryName}" already exists.`, 'warning');
-            }
-        } else {
-            showToast('Please enter a category name.', 'warning');
-        }
-    }
-
-    // --- Handle Category Select Change in Add Product ---
-    document.addEventListener('DOMContentLoaded', () => {
-        const categorySelect = document.getElementById('product-category-input');
-        if (categorySelect) {
-            categorySelect.addEventListener('change', function() {
-                if (this.value === 'create_new') {
-                    // Open the create category modal
-                    openModal('page-create-category');
-                    // Reset the select to the previous value (or a default)
-                    // For simplicity, reset to the first default option
-                    this.value = 'Foodstuff';
-                } else {
-                    // Store the selected value
-                    localStorage.setItem('enimara-selected-category', this.value);
-                }
-            });
-        }
-    });
-
-
-    // --- Form Save Interactions (for demonstration) ---
-    function saveCustomer() {
-        // Increment the sync counter
-        pendingSyncCount++;
-        updateSyncBadge();
         
-        showToast('Customer saved and pending sync.', 'success');
-        closeModal('page-add-customer');
-    }
-    
-    function saveProduct() {
-        // Increment the sync counter
-        pendingSyncCount++;
-        updateSyncBadge();
-        
-        const name = document.getElementById('product-name-input').value;
-        const price = parseInt(document.getElementById('product-price-input').value) || 0;
-        const stock = parseInt(document.getElementById('product-stock-input').value) || 0;
-        const category = document.getElementById('product-category-input').value;
-
-        if (!name) {
-             showToast('Please enter a product name.', 'warning');
-             return;
-        }
-
-        const newSku = `NEW-${Math.floor(Math.random() * 10000)}`;
-        const newProduct = {
-            sku: newSku,
-            name: name,
-            category: category,
-            price: price,
-            stock: stock,
-            cost: price * 0.8 // Example cost calculation
-        };
-
-        const inventory = getInventory();
-        inventory.push(newProduct);
-        saveInventory(inventory);
-
-        showToast(`"${name}" added and pending sync.`, 'success');
-        closeModal('page-add-product');
-
-        // Re-render inventory list
-        renderInventoryList();
+        closeModal('page-invoice-preview');
+        showToast('Sale Confirmed!');
+        switchTab('home');
     }
 
-    function saveShopDetails() {
-        showToast('Shop details saved.', 'success');
-        closeModal('page-shop-details');
-    }
-    
-    function recordPayment() {
-        // Increment the sync counter
-        pendingSyncCount++;
-        updateSyncBadge();
-        
-        showToast('Payment recorded and pending sync.', 'success');
-        closeModal('page-record-payment-johnadams');
-    }
-    
-    function updateStock() {
-        // Increment the sync counter
-        pendingSyncCount++;
-        updateSyncBadge();
-        
-        showToast('Stock updated and pending sync.', 'success');
-        closeModal('page-stock-update-rc001');
-    }
-
-    // --- Helper Functions ---
-    function addActivityToLog(action, item, qty, amount) {
-        const activityLog = JSON.parse(localStorage.getItem('enimara-activity-log')) || [];
-        activityLog.unshift({
-            timestamp: new Date().toISOString(),
-            action: action,
-            item: item,
-            qty: qty,
-            amount: amount
-        });
-        // Keep only the last 100 activities to prevent localStorage bloat
-        localStorage.setItem('enimara-activity-log', JSON.stringify(activityLog.slice(0, 100)));
-        // Re-render recent activity if on home screen
-        if (document.getElementById('tab-home').classList.contains('hidden') === false) {
-            renderRecentActivity();
-        }
-        // Re-render all activity if on activity details screen
-        if (document.getElementById('tab-activity-details').classList.contains('hidden') === false) {
-            renderAllActivity();
-        }
-    }
-
-    function addSaleToLog(total, paymentMethod) {
-        const salesLog = JSON.parse(localStorage.getItem('enimara-sales-log')) || [];
-        // Check if default sales exist
-        if (salesLog.length === 0) {
-            // Add default sales records totaling the initial amount
-            salesLog.push(
-                { timestamp: new Date(Date.now() - 86400000).toISOString(), total: "₦ 50,000", paymentMethod: "Cash" },
-                { timestamp: new Date(Date.now() - 43200000).toISOString(), total: "₦ 70,000", paymentMethod: "POS" }
-            );
-        }
-        salesLog.unshift({
-            timestamp: new Date().toISOString(),
-            total: total,
-            paymentMethod: paymentMethod
-        });
-        // Keep only the last 100 sales to prevent localStorage bloat
-        localStorage.setItem('enimara-sales-log', JSON.stringify(salesLog.slice(0, 100)));
-        // Re-render sales details if on sales details screen
-        if (document.getElementById('tab-sales-details').classList.contains('hidden') === false) {
-            renderSalesDetails();
-        }
-    }
-
+    // --- ACTIVITY ---
     function renderRecentActivity() {
-        const list = document.getElementById('recent-activity-list');
-        const activityLog = JSON.parse(localStorage.getItem('enimara-activity-log')) || [];
-        // Take only the first 5 items
-        const recentActivities = activityLog.slice(0, 5);
-
-        list.innerHTML = ''; // Clear existing items
-        recentActivities.forEach(activity => {
-            const date = new Date(activity.timestamp).toLocaleDateString();
-            const time = new Date(activity.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            const item = document.createElement('div');
-            item.className = 'transaction-item';
-            item.innerHTML = `
-                <div style="display: flex; align-items: center; padding: 0 8px;">
-                  <div style="width: 32px; height: 32px; background: #F3F4F6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
-                    <ion-icon ios="${activity.action === 'Sale' ? 'trending-up-outline' : 'download-outline'}" md="${activity.action === 'Sale' ? 'trending-up-sharp' : 'download-sharp'}"></ion-icon>
-                  </div>
-                  <div style="flex: 1;">
-                    <div class="font-bold text-sm">${activity.item}</div>
-                    <div class="text-xs text-gray">Staff: Joy B.</div>
-                  </div>
-                  <div style="text-align: right; flex-shrink: 0;">
-                    <div class="font-bold text-sm">${activity.action}</div>
-                    <div class="text-xs text-gray">${activity.qty} ${activity.amount ? `<br>${activity.amount}` : ''}</div>
-                    <div class="text-xs text-gray">${time}</div>
-                  </div>
-                </div>
-            `;
-            list.appendChild(item);
+        const container = document.getElementById('recent-activity-list');
+        container.innerHTML = '';
+        state.activityLog.slice(0, 3).forEach(act => {
+            container.innerHTML += createActivityHTML(act);
         });
-    }
-
-    function renderAllActivity() {
-        const list = document.getElementById('all-activity-list');
-        const activityLog = JSON.parse(localStorage.getItem('enimara-activity-log')) || [];
-
-        list.innerHTML = ''; // Clear existing items
-        activityLog.forEach(activity => {
-            const date = new Date(activity.timestamp).toLocaleDateString();
-            const time = new Date(activity.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            const item = document.createElement('div');
-            item.className = 'app-card';
-            item.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <div>
-                    <div class="font-bold text-sm">${activity.item}</div>
-                    <div class="text-xs text-gray">${activity.action} - ${activity.qty} ${activity.amount ? `(${activity.amount})` : ''}</div>
-                    <div class="text-xs text-gray">${date} at ${time}</div>
-                  </div>
-                </div>
-            `;
-            list.appendChild(item);
-        });
-    }
-
-    function renderSalesDetails() {
-        const tbody = document.querySelector('#sales-table tbody');
-        const salesLog = JSON.parse(localStorage.getItem('enimara-sales-log')) || [];
-
-        tbody.innerHTML = ''; // Clear existing items
-        salesLog.forEach(sale => {
-            const date = new Date(sale.timestamp).toLocaleDateString();
-            const time = new Date(sale.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${date}<br><span class="text-xs text-gray">${time}</span></td>
-                <td>Sale Transaction</td> <!-- Simplified for demo -->
-                <td>${sale.total}</td>
-                <td>${sale.paymentMethod}</td>
-            `;
-            tbody.appendChild(row);
-        });
-    }
-
-    function renderCharts() {
-        renderBarChart();
-        renderLineChart();
-    }
-
-    function renderBarChart() {
-        const barChartPlaceholder = document.getElementById('bar-chart-placeholder');
-        barChartPlaceholder.innerHTML = ''; // Clear previous bars
-
-        // Simulate revenue data for last 5 months (Oct, Nov, Dec last year, Jan, Feb this year, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov this year)
-        const now = new Date();
-        const currentMonth = now.getMonth(); // 0-11 (Jan-Nov)
-        const currentYear = now.getFullYear();
-
-        // Generate 5 months of revenue data
-        const months = [];
-        const revenues = [];
-        for (let i = 4; i >= 0; i--) {
-            const date = new Date(currentYear, currentMonth - i, 1);
-            months.push(date.toLocaleString('default', { month: 'short' }));
-            // Generate random revenue within the specified range for previous months
-            if (i > 0) { // Not current month
-                revenues.push(Math.floor(Math.random() * (1340677 - 820340 + 1)) + 820340);
-            } else { // Current month, use dynamic value
-                revenues.push(currentMonthRevenue);
-            }
-        }
-
-        const maxValue = Math.max(...revenues, 1); // Ensure non-zero max for scaling
-
-        months.forEach((month, index) => {
-            const revenue = revenues[index];
-            const barHeightPercent = (revenue / maxValue) * 100;
-
-            const barContainer = document.createElement('div');
-            barContainer.style.display = 'flex';
-            barContainer.style.flexDirection = 'column';
-            barContainer.style.alignItems = 'center';
-            barContainer.style.height = '100%';
-            barContainer.style.justifyContent = 'flex-end';
-            barContainer.style.flex = '1'; // Distribute space equally
-
-            const bar = document.createElement('div');
-            bar.className = 'chart-bar';
-            bar.style.height = `${barHeightPercent}%`;
-            bar.style.background = 'var(--ion-color-secondary)'; // Use secondary color for bars
-            bar.style.position = 'relative';
-            bar.style.margin = '0 2px'; // Add small margin between bars
-
-            const valueLabel = document.createElement('div');
-            valueLabel.className = 'chart-bar-value';
-            valueLabel.textContent = `₦${revenue.toLocaleString()}`;
-
-            bar.appendChild(valueLabel);
-            barContainer.appendChild(bar);
-
-            // Add month label below the bar
-            const monthLabel = document.createElement('div');
-            monthLabel.style.fontSize = '0.6rem';
-            monthLabel.style.color = 'var(--ion-text-color)';
-            monthLabel.style.fontWeight = '600';
-            monthLabel.style.marginTop = '4px';
-            monthLabel.textContent = month;
-
-            barContainer.appendChild(monthLabel);
-            barChartPlaceholder.appendChild(barContainer);
-        });
-    }
-
-    function renderLineChart() {
-        const graphContainer = document.getElementById('line-chart-graph');
-        graphContainer.innerHTML = ''; // Clear previous points and lines
-
-        // Simulate revenue data for 5 years (including current year)
-        const years = ['2020', '2021', '2022', '2023', '2024']; // 2024 is current year
-        const revenues = [8500000, 9200000, 10100000, 10800000, currentYearTotalRevenue]; // Last value is dynamic
-
-        const maxValue = Math.max(...revenues, 1); // Ensure non-zero max for scaling
-        const numPoints = years.length;
-
-        years.forEach((year, index) => {
-            const revenue = revenues[index];
-            const yPercent = 100 - (revenue / maxValue) * 100; // Invert for top-down coordinate system
-            const xPercent = (index / (numPoints - 1)) * 100;
-
-            const point = document.createElement('div');
-            point.className = 'chart-line-point';
-            point.style.bottom = `${yPercent}%`;
-            point.style.left = `${xPercent}%`;
-
-            const valueLabel = document.createElement('div');
-            valueLabel.className = 'chart-line-point-value';
-            valueLabel.textContent = `₦${revenue.toLocaleString()}`;
-
-            point.appendChild(valueLabel);
-            graphContainer.appendChild(point);
-
-            // Draw line segment to next point (if not the last point)
-            if (index < numPoints - 1) {
-                const nextRevenue = revenues[index + 1];
-                const nextYPercent = 100 - (nextRevenue / maxValue) * 100;
-                const nextXPercent = ((index + 1) / (numPoints - 1)) * 100;
-
-                const line = document.createElement('div');
-                line.className = 'chart-line-line';
-
-                // Calculate length and angle of the line
-                const deltaX = nextXPercent - xPercent;
-                const deltaY = yPercent - nextYPercent; // Note: yPercent decreases as revenue increases
-                const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-                const angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
-
-                line.style.width = `${length}%`;
-                line.style.transformOrigin = 'left center';
-                line.style.transform = `rotate(${angle}deg)`;
-                line.style.left = `${xPercent}%`;
-                line.style.bottom = `${yPercent}%`;
-                line.style.marginLeft = '4px'; // Adjust for point center
-
-                graphContainer.appendChild(line);
-            }
-        });
-    }
-
-
-    function updateSyncBadge() {
-      const badge = document.getElementById('pending-sync-badge');
-      if (badge) {
-          // Show badge only if offline AND there are pending syncs
-          if (!isSimulatedOnline && pendingSyncCount > 0) {
-              badge.classList.remove('hidden');
-              document.getElementById('sync-count').innerText = pendingSyncCount;
-          } else {
-              badge.classList.add('hidden');
-          }
-      }
     }
     
-    function startScanner() {
-      document.getElementById('scanner-overlay').classList.remove('hidden');
-      setTimeout(() => {
-        document.getElementById('scanner-overlay').classList.add('hidden');
-        showToast('Product scanned successfully.', 'success');
-        openModal('page-pos-add-item'); // Open add item modal after scan
-      }, 2000);
+    function renderAllActivity() {
+        const container = document.getElementById('all-activity-list-content');
+        container.innerHTML = '';
+        state.activityLog.forEach(act => {
+            container.innerHTML += `<div class="app-card" style="padding: 12px; margin-bottom: 8px;">${createActivityHTML(act)}</div>`;
+        });
+    }
+    
+    function renderTodaysSales() {
+        const container = document.getElementById('todays-sales-list');
+        container.innerHTML = '';
+        state.salesHistory.forEach(sale => {
+            container.innerHTML += `
+                <div class="list-item">
+                    <div>
+                        <div class="font-bold text-sm">${sale.desc}</div>
+                        <div class="text-xs text-gray">${sale.time}</div>
+                    </div>
+                    <div class="font-bold text-success">+${formatCurrency(sale.amount)}</div>
+                </div>
+            `;
+        });
+        document.getElementById('modal-sales-total').innerText = formatCurrency(state.todayTotal);
     }
 
-    // --- Initial Setup and Listeners ---
-    document.addEventListener('DOMContentLoaded', () => {
-        // 1. Load theme preference from localStorage
-        const savedTheme = localStorage.getItem('enimara-theme');
-        if (savedTheme === 'dark') {
-            isDarkMode = true;
-            document.body.classList.add('dark-mode');
-            document.getElementById('theme-toggle').checked = true;
-        } else {
-            isDarkMode = false;
-            document.body.classList.remove('dark-mode');
-            document.getElementById('theme-toggle').checked = false;
-        }
+    function createActivityHTML(act) {
+        return `
+            <div style="padding: 12px 16px; display: flex; align-items: center; border-bottom: 1px solid var(--border-color);">
+                <div style="width: 36px; height: 36px; background: var(--app-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                   <ion-icon name="${act.icon}" style="color: var(--text-muted); font-size: 18px;"></ion-icon>
+                </div>
+                <div style="flex: 1;">
+                   <div class="font-bold text-sm">${act.title}</div>
+                   <div class="text-xs text-gray">${act.desc}</div>
+                </div>
+                <div class="text-xs text-gray">${act.time}</div>
+            </div>`;
+    }
 
-        // 2. Load stats from localStorage
-        const savedSales = localStorage.getItem('enimara-today-sales');
-        if (savedSales) {
-            todaySales = parseInt(savedSales);
-            document.getElementById('today-sales').innerText = `₦ ${todaySales.toLocaleString()}`;
-        }
-        const savedLowStocks = localStorage.getItem('enimara-low-stocks');
-        if (savedLowStocks) {
-            lowStocks = parseInt(savedLowStocks);
-            document.getElementById('low-stocks').innerText = lowStocks;
-        }
-
-        // 3. Load initial online status from localStorage (or default to navigator.onLine)
-        // Note: navigator.onLine is the source of truth, so we don't strictly need to store this in localStorage
-        // but we can use it to initialize the simulated status if needed.
-        // For this demo, we'll start with the real status from navigator.onLine
-        isRealOnline = navigator.onLine;
-        isSimulatedOnline = isRealOnline; // Start with real status
-
-        // 4. Set initial online status UI
-        checkOnlineStatus();
-
-        // 5. Listen for real-time online/offline events
-        window.addEventListener('online', checkOnlineStatus);
-        window.addEventListener('offline', checkOnlineStatus);
-
-        // 6. Initialize inventory list on load if needed
-        if (!localStorage.getItem('enimara-inventory')) {
-            saveInventory(getInventory()); // Save default inventory if not present
-        }
-
-        // 7. Initialize default sales log if empty
-        const salesLog = JSON.parse(localStorage.getItem('enimara-sales-log')) || [];
-        if (salesLog.length === 0) {
-            // Add default sales records totaling the initial amount
-            salesLog.push(
-                { timestamp: new Date(Date.now() - 86400000).toISOString(), total: "₦ 50,000", paymentMethod: "Cash" },
-                { timestamp: new Date(Date.now() - 43200000).toISOString(), total: "₦ 70,000", paymentMethod: "POS" }
-            );
-            localStorage.setItem('enimara-sales-log', JSON.stringify(salesLog));
-            todaySales = 120000; // Update todaySales to match defaults
-            localStorage.setItem('enimara-today-sales', todaySales);
-            document.getElementById('today-sales').innerText = `₦ ${todaySales.toLocaleString()}`;
-        }
-
-        // 8. Calculate current month/year revenue from sales log
-        const allSales = JSON.parse(localStorage.getItem('enimara-sales-log')) || [];
-        const now = new Date();
-        const currentMonthNum = now.getMonth();
-        const currentYearNum = now.getFullYear();
-
-        currentMonthRevenue = 0;
-        allSales.forEach(sale => {
-            const saleDate = new Date(sale.timestamp);
-            if (saleDate.getMonth() === currentMonthNum && saleDate.getFullYear() === currentYearNum) {
-                currentMonthRevenue += parseInt(sale.total.replace(/[^\d]/g, '')) || 0;
-            }
+    // --- STAFF ---
+    function renderStaffList() {
+        const container = document.getElementById('staff-list');
+        container.innerHTML = '';
+        state.staff.forEach(s => {
+            container.innerHTML += `
+                <div class="list-item ion-activatable" onclick="openStaffDetail(${s.id})">
+                    <ion-ripple-effect></ion-ripple-effect>
+                    <div>
+                        <div class="font-bold">${s.name}</div>
+                        <div class="text-xs text-gray">${s.role}</div>
+                    </div>
+                    <ion-badge color="success">Active</ion-badge>
+                </div>
+            `;
         });
+    }
+    
+    function openStaffDetail(id) {
+        state.tempStaffId = id;
+        const staff = state.staff.find(s => s.id === id);
+        if(staff) {
+            document.getElementById('staff-detail-name').innerText = staff.name;
+            document.getElementById('staff-detail-initial').innerText = staff.name.charAt(0);
+            document.getElementById('staff-detail-role').innerText = staff.role;
+            openModal('page-staff-details');
+        }
+    }
+    
+    function saveNewStaff() {
+        const name = document.getElementById('staff-name-input').value;
+        const role = document.getElementById('staff-role-input').value;
+        if(name) {
+            state.staff.push({ id: Date.now(), name, role });
+            renderStaffList();
+            showToast('Staff Added');
+            closeModal('page-add-staff');
+        }
+    }
+    
+    function deleteStaff() {
+        state.staff = state.staff.filter(s => s.id !== state.tempStaffId);
+        renderStaffList();
+        closeModal('page-staff-details');
+        showToast('Staff Removed');
+    }
 
-        // 9. Start on login page (default)
-        navigateTo('login');
-    });
+    // --- SETTINGS / PROFILE ---
+    function saveProfile() {
+        state.shopProfile.name = document.getElementById('prof-name').value;
+        state.shopProfile.phone = document.getElementById('prof-phone').value;
+        state.shopProfile.address = document.getElementById('prof-addr').value;
+        showToast("Profile Updated");
+        closeModal('page-profile');
+    }
 
+    function updateDashboardTotals() {
+        const els = document.querySelectorAll('#home-today-sales');
+        els.forEach(el => el.innerText = formatCurrency(state.todayTotal));
+    }
+
+    // --- UTILS ---
+    function formatCurrency(num) {
+        return '₦' + num.toLocaleString();
+    }
+
+    async function showToast(msg) {
+        const toast = document.createElement('ion-toast');
+        toast.message = msg;
+        toast.duration = 2000;
+        toast.position = 'top';
+        document.body.appendChild(toast);
+        return toast.present();
+    }
+
+    function setupNetworkListeners() {
+        const updateStatus = () => {
+            const isOnline = navigator.onLine;
+            const badge = document.getElementById('status-badge');
+            const posIcon = document.getElementById('pos-status-icon');
+            const banner = document.getElementById('offline-banner');
+            
+            if(badge) {
+                badge.innerText = isOnline ? "Online" : "Offline";
+                badge.style.background = isOnline ? "#D1FAE5" : "#FEE2E2";
+                badge.style.color = isOnline ? "#065F46" : "#B91C1C";
+            }
+            if(posIcon) posIcon.style.color = isOnline ? "var(--ion-color-secondary)" : "var(--text-muted)";
+            if(banner) banner.classList.toggle('hidden', isOnline);
+        };
+        window.addEventListener('online', updateStatus);
+        window.addEventListener('offline', updateStatus);
+    }
   </script>
 </body>
 </html>
