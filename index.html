@@ -248,7 +248,7 @@
     <ion-app>
         <!-- Theme Toggle Button -->
         <ion-button class="theme-toggle" fill="clear" id="themeToggle">
-            <ion-icon name="moon" slot="icon-only"></ion-icon>
+            <ion-icon ios="moon-outline" md="moon" slot="icon-only"></ion-icon>
         </ion-button>
 
         <!-- Header with Branding -->
@@ -277,7 +277,7 @@
                             <ion-card class="app-card booking-card" id="bookingCard">
                                 <div class="card-header">
                                     <div class="app-icon booking-icon">
-                                        <ion-icon name="calendar"></ion-icon>
+                                        <ion-icon ios="calendar-outline" md="calendar"></ion-icon>
                                     </div>
                                     <h2 class="app-name">Enimara Booking</h2>
                                     <p class="app-description">Streamline your appointment scheduling and reservations
@@ -297,7 +297,7 @@
                                     <a href="booking.html">
                                         <ion-button class="launch-btn" expand="block">
                                             Launch Booking
-                                            <ion-icon name="rocket" slot="end"></ion-icon>
+                                            <ion-icon ios="rocket-outline" md="rocket" slot="end"></ion-icon>
                                         </ion-button>
                                     </a>
 
@@ -311,7 +311,7 @@
                             <ion-card class="app-card pos-card" id="posCard">
                                 <div class="card-header">
                                     <div class="app-icon pos-icon">
-                                        <ion-icon name="cash"></ion-icon>
+                                        <ion-icon ios="cash-outline" md="cash"></ion-icon>
                                     </div>
                                     <h2 class="app-name">Enimara POS</h2>
                                     <p class="app-description">Complete point-of-sale solution for your business</p>
@@ -330,7 +330,7 @@
                                     <a href="pos.html">
                                         <ion-button class="launch-btn" expand="block">
                                             Launch POS
-                                            <ion-icon name="cube" slot="end"></ion-icon>
+                                            <ion-icon ios="cube-outline" md="cube" slot="end"></ion-icon>
                                         </ion-button>
                                     </a>
 
@@ -364,7 +364,11 @@
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('dark');
             const isDark = body.classList.contains('dark');
-            themeToggle.querySelector('ion-icon').setAttribute('name', isDark ? 'sunny' : 'moon');
+            // Update the icon name based on the platform mode (ios/md)
+            const platform = Ionic.mode; // Access Ionic's detected mode
+            const iconToUse = isDark ? (platform === 'ios' ? 'sunny-outline' : 'sunny') : (platform === 'ios' ? 'moon-outline' : 'moon');
+            themeToggle.querySelector('ion-icon').setAttribute('ios', iconToUse);
+            themeToggle.querySelector('ion-icon').setAttribute('md', iconToUse);
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         });
 
