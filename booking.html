@@ -614,6 +614,27 @@
             background: var(--grad-orange);
         }
 
+        /* --- ADDED RESPONSIVE UTILITIES --- */
+        .process-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .process-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .desktop-only-block {
+                display: block !important;
+            }
+        }
+
+        .desktop-only-block {
+            display: none;
+        }
+
         ::-webkit-scrollbar {
             width: 0px;
             background: transparent;
@@ -1100,10 +1121,8 @@
 
                 <!-- How It Works (Process) -->
                 <div class="landing-section alt-bg">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
-                        <div style="display: none; @media(min-width: 768px){display:block;}">
-                            <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" style="width: 100%; border-radius: 20px; box-shadow: var(--shadow-lg);" alt="Process">
-                        </div>
+                    <div class="process-grid">
+                        <!-- Text Content (First on mobile, Left on Desktop) -->
                         <div>
                             <div class="landing-h2" style="text-align: left;">Relax, We Got You.</div>
                             <p class="p" style="font-size: 16px; margin-bottom: 30px;">Our booking process is seamless, so you can focus on yourself.</p>
@@ -1129,6 +1148,11 @@
                                     <div class="small text-muted">Walk in, relax, and let us handle the magic.</div>
                                 </div>
                             </div>
+                        </div>
+
+                        <!-- Image Content (Hidden on mobile, Right on Desktop) -->
+                        <div class="desktop-only-block">
+                            <img src="https://images.unsplash.com/photo-1600334019640-eb886851b32d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" style="width: 100%; border-radius: 20px; box-shadow: var(--shadow-lg); object-fit: cover; height: 100%; min-height: 400px;" alt="Relaxing Spa Atmosphere">
                         </div>
                     </div>
                 </div>
