@@ -7,16 +7,16 @@
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Enimara — Booking OS</title>
     <link rel="icon" type="image/x-icon" href="Enimara Favicon.png">
-    
+
     <!-- Ionic Framework (Core + CSS) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
     <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
-    
+
     <!-- Ionicons -->
     <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.js"></script>
-    
+
     <!-- Fonts -->
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
@@ -640,7 +640,7 @@
                     <div class="h1" data-i18n="nav_home">Home</div>
                     <div class="small" id="home-date">Loading...</div>
                 </div>
-                
+
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <!-- Network Badge -->
                     <div id="status-badge"
@@ -899,7 +899,7 @@
     <div id="page-landing" class="page page-full">
         <div class="page-content" style="padding:0;">
             <!-- Navbar -->
-            <nav class="landing-nav">
+            <!-- <nav class="landing-nav">
                 <div class="bold" style="font-family: 'Playfair Display'; font-size: 20px;">Enimara.</div>
                 <div style="display: flex; gap: 20px; font-size: 14px; font-weight: 500;">
                     <a href="#about" style="text-decoration:none; color: var(--text);">About</a>
@@ -911,8 +911,43 @@
                     Admin View
                     <ion-ripple-effect></ion-ripple-effect>
                 </button>
-            </nav>
+            </nav> -->
 
+            <ion-menu type="overlay" side="end" content-id="main-content">
+                <ion-header>
+                    <ion-toolbar>
+                        <ion-title>Enimara</ion-title>
+                    </ion-toolbar>
+                </ion-header>
+                <ion-content class="ion-padding">
+                    <ion-list inset="true">
+                        <ion-item>
+                            <ion-label>
+                                <a href="#about" style="text-decoration:none; color: var(--text);">About</a>
+                            </ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                <a href="#services" style="text-decoration:none; color: var(--text);">Services</a>
+                            </ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                <a href="#contact" style="text-decoration:none; color: var(--text);">Contact</a>
+                            </ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                <button class="btn ion-activatable" style="padding: 8px 16px; font-size: 12px;"
+                                    onclick="window.app.nav('home'); document.getElementById('tabbar').style.display='flex';">
+                                    Admin View
+                                    <ion-ripple-effect></ion-ripple-effect>
+                                </button>
+                            </ion-label>
+                        </ion-item>
+                    </ion-list>
+                </ion-content>
+            </ion-menu>
             <!-- Hero -->
             <div class="landing-hero">
                 <h1
@@ -1172,7 +1207,7 @@
                             badge.style.background = isOnline ? "#D1FAE5" : "#FEE2E2";
                             badge.style.color = isOnline ? "#065F46" : "#B91C1C";
                         }
-                        
+
                         if (banner) {
                             if (isOnline) {
                                 banner.classList.add('hidden');
@@ -1184,7 +1219,7 @@
 
                     window.addEventListener('online', updateStatus);
                     window.addEventListener('offline', updateStatus);
-                    
+
                     // Initial check
                     updateStatus();
                 },
