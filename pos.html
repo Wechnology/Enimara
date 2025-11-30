@@ -925,46 +925,49 @@
 
         <!-- INVOICE PREVIEW MODAL -->
         <div id="page-invoice-preview" class="fullscreen-modal hidden" style="z-index: 2000;">
-    <div class="ion-padding">
-        <!-- NEW: Add the header section with the back button here -->
-        <div style="display: flex; align-items: center; margin-bottom: 16px;">
-            <ion-icon name="arrow-back" style="font-size: 24px; margin-right: 10px;" onclick="closeModal('page-invoice-preview')"></ion-icon>
-            <h2 class="font-bold text-lg" data-i18n="invoice_preview">Invoice Preview</h2> <!-- Or use the shop name if preferred as title -->
-        </div>
-        <!-- END NEW HEADER SECTION -->
+            <div class="ion-padding">
+                <!-- NEW: Add the header section with the back button here -->
+                <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                    <ion-icon name="arrow-back" style="font-size: 24px; margin-right: 10px;"
+                        onclick="closeModal('page-invoice-preview')"></ion-icon>
+                    <h2 class="font-bold text-lg" data-i18n="invoice_preview">Invoice Preview</h2>
+                    <!-- Or use the shop name if preferred as title -->
+                </div>
+                <!-- END NEW HEADER SECTION -->
 
-        <!-- Original content starts here, now without the shop name as the main header -->
-        <div style="text-align: center;">
-            <h2 class="font-bold text-lg" id="inv-shop-name">Shop Name</h2> <!-- This is now just part of the invoice body -->
-            <p class="text-xs text-gray" style="margin: 4px 0;">Date: <span id="inv-date">--</span> | Time:
-                <span id="inv-time">--</span>
-            </p>
-            <!-- SECTION FOR CUSTOMER (already correctly placed) -->
-            <div id="inv-customer-section" style="margin-top: 8px;">
+                <!-- Original content starts here, now without the shop name as the main header -->
+                <div style="text-align: center;">
+                    <h2 class="font-bold text-lg" id="inv-shop-name">Shop Name</h2>
+                    <!-- This is now just part of the invoice body -->
+                    <p class="text-xs text-gray" style="margin: 4px 0;">Date: <span id="inv-date">--</span> | Time:
+                        <span id="inv-time">--</span>
+                    </p>
+                    <!-- SECTION FOR CUSTOMER (already correctly placed) -->
+                    <div id="inv-customer-section" style="margin-top: 8px;">
+                        <div class="invoice-row">
+                            <span data-i18n="customer">Customer:</span>
+                            <span id="inv-cust-name" style="font-weight: bold;"></span>
+                        </div>
+                    </div>
+                    <!-- END CUSTOMER SECTION -->
+                    <div class="invoice-divider"></div>
+                </div>
+                <div id="inv-items">
+                    <!-- Items will be added here by JS -->
+                </div>
+                <div class="invoice-divider"></div>
                 <div class="invoice-row">
-                    <span data-i18n="customer">Customer:</span>
-                    <span id="inv-cust-name" style="font-weight: bold;"></span>
+                    <span data-i18n="total">Total:</span>
+                    <span id="inv-total">₦0.00</span>
+                </div>
+                <div class="invoice-divider"></div>
+                <div style="text-align: center; font-size: 11px; margin-top: 10px;" data-i18n="invoice_footer">
+                    Thanks for your patronage!<br>No Refund after payment.
                 </div>
             </div>
-            <!-- END CUSTOMER SECTION -->
-            <div class="invoice-divider"></div>
+            <ion-button expand="block" class="btn-gold" onclick="finalizeSale()" data-i18n="confirm_print">Confirm &
+                Print</ion-button>
         </div>
-        <div id="inv-items">
-            <!-- Items will be added here by JS -->
-        </div>
-        <div class="invoice-divider"></div>
-        <div class="invoice-row">
-            <span data-i18n="total">Total:</span>
-            <span id="inv-total">₦0.00</span>
-        </div>
-        <div class="invoice-divider"></div>
-        <div style="text-align: center; font-size: 11px; margin-top: 10px;" data-i18n="invoice_footer">
-            Thanks for your patronage!<br>No Refund after payment.
-        </div>
-    </div>
-    <ion-button expand="block" class="btn-gold" onclick="finalizeSale()" data-i18n="confirm_print">Confirm &
-        Print</ion-button>
-</div>
         <!-- ADD CATEGORY MODAL -->
         <div id="page-add-category-input" class="popup-modal hidden">
             <div class="popup-content">
@@ -2405,7 +2408,7 @@
             // Open the modal
             openModal('page-invoice-preview');
         }            // Calculate total and build item list (existing logic)
-       
+
         function finalizeSale() {
             state.cart.forEach(c => { const i = state.inventory.find(x => x.sku === c.sku); if (i) i.stock -= c.qty; });
             state.todayTotal += state.cart.reduce((a, b) => a + (b.price * b.qty), 0);

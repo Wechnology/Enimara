@@ -1,1036 +1,1360 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-<title>Enimara — Booking OS</title>
-<link rel="icon" type="image/x-icon" href="Enimara Favicon.png">
-<!-- Ionic Framework (Core + CSS) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
-<script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
-<script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
-<!-- Ionicons -->
-<script type="module" src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.js"></script>
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet"/>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Enimara — Booking OS</title>
+    <link rel="icon" type="image/x-icon" href="Enimara Favicon.png">
+    <!-- Ionic Framework (Core + CSS) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    <!-- Ionicons -->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.js"></script>
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+        rel="stylesheet" />
 
-<style>
-/* --- THEME VARIABLES --- */
-:root {
-  --ion-font-family: 'Noto Sans', sans-serif;
-  
-  /* Light Theme */
-  --primary: #1e293b; 
-  --primary-rgb: 30, 41, 59;
-  --accent: #d97706; 
-  --accent-light: #fef3c7;
-  --bg: #f3f4f6; 
-  --card: #ffffff;
-  --text: #111827;
-  --text-muted: #6b7280;
-  --border: #e2e8f0;
-  --input-bg: #f8fafc;
-  
-  --grad-start: #1e293b;
-  --grad-end: #0f172a;
-  --grad-orange: linear-gradient(to right, #f59e0b 0%, #d97706 100%);
-  
-  --danger: #ef4444;
-  --success: #10b981;
-  --warning: #f59e0b;
-  
-  --radius: 16px;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --shadow-glow: 0 0 15px rgba(217, 119, 6, 0.2);
-  
-  --safe-bottom: env(safe-area-inset-bottom);
-}
+    <style>
+        /* --- THEME VARIABLES --- */
+        :root {
+            --ion-font-family: 'Noto Sans', sans-serif;
 
-body.dark {
-  --primary: #94a3b8; 
-  --primary-rgb: 148, 163, 184;
-  --accent: #9a3412; 
-  --accent-light: rgba(154, 52, 18, 0.2);
-  --bg: #0f172a; 
-  --card: #1e293b; 
-  --text: #f1f5f9; 
-  --text-muted: #94a3b8; 
-  --border: #334155; 
-  --input-bg: #020617; 
-  
-  --grad-start: #172554; 
-  --grad-end: #020617; 
-  --grad-orange: linear-gradient(to right, #7c2d12 0%, #9a3412 100%);
-  
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.4);
-  --shadow-glow: none;
-}
+            /* Light Theme */
+            --primary: #1e293b;
+            --primary-rgb: 30, 41, 59;
+            --accent: #d97706;
+            --accent-light: #fef3c7;
+            --bg: #f3f4f6;
+            --card: #ffffff;
+            --text: #111827;
+            --text-muted: #6b7280;
+            --border: #e2e8f0;
+            --input-bg: #f8fafc;
 
-/* --- BASE STYLES --- */
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-body {
-  font-family: var(--ion-font-family);
-  background: var(--bg);
-  color: var(--text);
-  margin: 0;
-  overflow: hidden; 
-  transition: background 0.3s ease, color 0.3s ease;
-}
+            --grad-start: #1e293b;
+            --grad-end: #0f172a;
+            --grad-orange: linear-gradient(to right, #f59e0b 0%, #d97706 100%);
 
-/* Typography */
-.h1 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; margin: 0 0 4px 0; color: var(--text); line-height: 1.2; }
-.h2 { font-size: 18px; font-weight: 700; margin: 0 0 12px 0; color: var(--text); letter-spacing: -0.01em; }
-.p { font-size: 14px; color: var(--text-muted); line-height: 1.5; margin: 0 0 16px 0; }
-.small { font-size: 12px; color: var(--text-muted); font-weight: 500; }
-.bold { font-weight: 600; color: var(--text); }
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
 
-/* Layout Containers */
-.page {
-  position: absolute; inset: 0;
-  /* Removed padding here to allow ion-content to handle it */
-  display: none; opacity: 0;
-  flex-direction: column; /* Needed for ion-content to flex correctly */
-  background: var(--bg);
-  transform: translateY(10px);
-  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-  z-index: 100;
-}
-.page.active { display: flex; opacity: 1; transform: translateY(0); z-index: 110; }
-.page-full { z-index: 2000; bottom: 0; } 
+            --radius: 16px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-glow: 0 0 15px rgba(217, 119, 6, 0.2);
 
-/* Scroll Container for non-Ionic pages */
-.page-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px 20px 100px 20px; /* Standard padding + bottom space for tabs */
-  scroll-behavior: smooth;
-}
+            --safe-bottom: env(safe-area-inset-bottom);
+        }
 
-/* Ionic Content Override */
-ion-content {
-  --background: var(--bg);
-  --padding-bottom: 100px;
-}
+        body.dark {
+            --primary: #94a3b8;
+            --primary-rgb: 148, 163, 184;
+            --accent: #9a3412;
+            --accent-light: rgba(154, 52, 18, 0.2);
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --input-bg: #020617;
 
-/* Cards & Interactives */
-.app-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-bottom: 16px;
-  box-shadow: var(--shadow-sm);
-  position: relative;
-  overflow: hidden; /* Critical for Ripple */
-  transition: background 0.3s, border-color 0.3s;
-}
+            --grad-start: #172554;
+            --grad-end: #020617;
+            --grad-orange: linear-gradient(to right, #7c2d12 0%, #9a3412 100%);
 
-/* --- BUTTONS --- */
-.btn {
-  background: var(--accent);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 14px 20px;
-  font-size: 14px;
-  font-weight: 700;
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  cursor: pointer;
-  position: relative; overflow: hidden; /* Critical for Ripple */
-  box-shadow: var(--shadow-glow);
-  transition: transform 0.1s;
-  z-index: 1; /* Ensure above background */
-}
-.btn:active { transform: scale(0.97); }
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+            --shadow-glow: none;
+        }
 
-body.mode-ios .btn { border-radius: 50px; }
-body.mode-md .btn { border-radius: 8px; text-transform: uppercase; letter-spacing: 0.5px; font-size: 13px; }
+        /* --- BASE STYLES --- */
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-.btn-block { width: 100%; display: flex; }
-.btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text); box-shadow: none; }
-body.mode-ios .btn-ghost { border: none; }
+        body {
+            font-family: var(--ion-font-family);
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            overflow: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
 
-.btn-icon { width: 40px; height: 40px; padding: 0; border-radius: 50%; }
+        /* Typography */
+        .h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+            color: var(--text);
+            line-height: 1.2;
+        }
 
-.input {
-  width: 100%;
-  background: var(--input-bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 14px;
-  font-size: 15px;
-  color: var(--text);
-  outline: none;
-  font-family: inherit;
-  margin-bottom: 16px;
-  transition: border-color 0.2s;
-  -webkit-appearance: none;
-}
-.input:focus { border-color: var(--accent); }
+        .h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+            color: var(--text);
+            letter-spacing: -0.01em;
+        }
 
-/* --- CUSTOM TOGGLE --- */
-.custom-toggle {
-  width: 50px; height: 28px; background: var(--border);
-  border-radius: 30px; position: relative; cursor: pointer;
-  transition: background 0.3s;
-  overflow: hidden;
-}
-.custom-toggle::after {
-  content: ''; position: absolute; top: 2px; left: 2px;
-  width: 24px; height: 24px; background: white; border-radius: 50%;
-  transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-.custom-toggle.checked { background: var(--success); }
-.custom-toggle.checked::after { transform: translateX(22px); }
+        .p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin: 0 0 16px 0;
+        }
 
-/* --- COMPONENT SPECIFIC --- */
+        .small {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
 
-/* Tab Bar */
-.tabbar {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  height: calc(65px + var(--safe-bottom));
-  background: var(--card);
-  border-top: 1px solid var(--border);
-  display: flex; justify-content: space-around;
-  padding-top: 10px; padding-bottom: var(--safe-bottom);
-  z-index: 1000;
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
-  border-radius: 24px 24px 0 0;
-}
-.tab-btn {
-  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  background: none; border: none; gap: 4px;
-  color: var(--text-muted);
-  position: relative; overflow: hidden;
-}
-.tab-btn ion-icon { font-size: 24px; transition: 0.3s; pointer-events: none; }
-.tab-btn span { font-size: 10px; font-weight: 600; pointer-events: none; }
-.tab-btn.active { color: var(--accent); }
-.tab-btn.active ion-icon { transform: translateY(-4px); }
+        .bold {
+            font-weight: 600;
+            color: var(--text);
+        }
 
-/* Calendar */
-.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 16px; }
-.cal-head { text-align: center; font-size: 11px; color: var(--text-muted); font-weight: 700; padding-bottom: 6px; }
-.cal-cell {
-  aspect-ratio: 1;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  border-radius: 10px;
-  font-size: 14px; font-weight: 600;
-  color: var(--text);
-  background: var(--card);
-  border: 1px solid var(--border);
-  position: relative; /* Critical */
-  transition: all 0.2s;
-  cursor: pointer;
-  overflow: hidden; /* Critical */
-}
-.cal-cell.disabled { opacity: 0.3; background: var(--bg); pointer-events: none; }
-.cal-cell.today { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
-.cal-cell.selected { background: var(--accent); color: white; border-color: var(--accent); }
-.cal-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--success); margin-top: 2px; }
+        /* Layout Containers */
+        .page {
+            position: absolute;
+            inset: 0;
+            /* Removed padding here to allow ion-content to handle it */
+            display: none;
+            opacity: 0;
+            flex-direction: column;
+            /* Needed for ion-content to flex correctly */
+            background: var(--bg);
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            z-index: 100;
+        }
 
-/* Modals */
-.modal-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 3000;
-  backdrop-filter: blur(4px);
-  display: none; align-items: flex-end; justify-content: center;
-  opacity: 0; transition: opacity 0.3s;
-}
-.modal-overlay.active { display: flex; opacity: 1; }
-.modal-card {
-  width: 100%; max-width: 600px;
-  background: var(--card);
-  border-radius: 24px 24px 0 0;
-  padding: 24px;
-  max-height: 90vh; overflow-y: auto;
-  transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-  box-shadow: var(--shadow-lg);
-}
-.modal-overlay.active .modal-card { transform: translateY(0); }
+        .page.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 110;
+        }
 
-/* Landing Page */
-.landing-nav {
-    position: sticky; top: 0; z-index: 50;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 16px 24px;
-    background: rgba(255,255,255,0.9);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-body.dark .landing-nav { background: rgba(15, 23, 42, 0.9); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .page-full {
+            z-index: 2000;
+            bottom: 0;
+        }
 
-.landing-hero {
-  background: linear-gradient(135deg, #0f172a, #334155);
-  color: white;
-  padding: 100px 20px 80px;
-  text-align: center;
-  position: relative; overflow: hidden;
-}
-.landing-hero::before {
-    content:''; position: absolute; top:0; left:0; right:0; bottom:0;
-    background: radial-gradient(circle at 20% 50%, rgba(217, 119, 6, 0.15), transparent 50%);
-    pointer-events: none;
-}
+        /* Scroll Container for non-Ionic pages */
+        .page-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 20px 100px 20px;
+            /* Standard padding + bottom space for tabs */
+            scroll-behavior: smooth;
+        }
 
-.landing-section { padding: 60px 20px; max-width: 1000px; margin: 0 auto; }
-.landing-h2 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--text); margin-bottom: 10px; text-align: center; }
-.landing-sub { color: var(--text-muted); text-align: center; max-width: 600px; margin: 0 auto 40px; font-size: 16px; }
+        /* Ionic Content Override */
+        ion-content {
+            --background: var(--bg);
+            --padding-bottom: 100px;
+        }
 
-.stat-card {
-    text-align: center; padding: 20px;
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; box-shadow: var(--shadow-sm);
-}
-.stat-num { font-size: 32px; font-weight: 800; color: var(--accent); margin-bottom: 4px; }
+        /* Cards & Interactives */
+        .app-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            /* Critical for Ripple */
+            transition: background 0.3s, border-color 0.3s;
+        }
 
-.service-icon-grid {
-  display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px;
-}
-.icon-option {
-  width: 40px; height: 40px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  border: 2px solid var(--border); font-size: 20px; color: var(--text-muted);
-  cursor: pointer;
-  position: relative; overflow: hidden;
-}
-.icon-option.selected { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+        /* --- BUTTONS --- */
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            /* Critical for Ripple */
+            box-shadow: var(--shadow-glow);
+            transition: transform 0.1s;
+            z-index: 1;
+            /* Ensure above background */
+        }
 
-/* Helper classes */
-.ion-activatable { position: relative; overflow: hidden; cursor: pointer; }
-ion-ripple-effect { 
-    color: currentColor; /* Matches text color */
-    opacity: 0.3; /* Visibility adjustment */
-}
+        .btn:active {
+            transform: scale(0.97);
+        }
 
-.bg-orange-gradient { background: var(--grad-orange); }
-::-webkit-scrollbar { width: 0px; background: transparent; }
-</style>
+        body.mode-ios .btn {
+            border-radius: 50px;
+        }
+
+        body.mode-md .btn {
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 13px;
+        }
+
+        .btn-block {
+            width: 100%;
+            display: flex;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            box-shadow: none;
+        }
+
+        body.mode-ios .btn-ghost {
+            border: none;
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border-radius: 50%;
+        }
+
+        .input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 15px;
+            color: var(--text);
+            outline: none;
+            font-family: inherit;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+            -webkit-appearance: none;
+        }
+
+        .input:focus {
+            border-color: var(--accent);
+        }
+
+        /* --- CUSTOM TOGGLE --- */
+        .custom-toggle {
+            width: 50px;
+            height: 28px;
+            background: var(--border);
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+            overflow: hidden;
+        }
+
+        .custom-toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .custom-toggle.checked {
+            background: var(--success);
+        }
+
+        .custom-toggle.checked::after {
+            transform: translateX(22px);
+        }
+
+        /* --- COMPONENT SPECIFIC --- */
+
+        /* Tab Bar */
+        .tabbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: calc(65px + var(--safe-bottom));
+            background: var(--card);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding-top: 10px;
+            padding-bottom: var(--safe-bottom);
+            z-index: 1000;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+            border-radius: 24px 24px 0 0;
+        }
+
+        .tab-btn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            gap: 4px;
+            color: var(--text-muted);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn ion-icon {
+            font-size: 24px;
+            transition: 0.3s;
+            pointer-events: none;
+        }
+
+        .tab-btn span {
+            font-size: 10px;
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+        .tab-btn.active {
+            color: var(--accent);
+        }
+
+        .tab-btn.active ion-icon {
+            transform: translateY(-4px);
+        }
+
+        /* Calendar */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            margin-top: 16px;
+        }
+
+        .cal-head {
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 700;
+            padding-bottom: 6px;
+        }
+
+        .cal-cell {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            background: var(--card);
+            border: 1px solid var(--border);
+            position: relative;
+            /* Critical */
+            transition: all 0.2s;
+            cursor: pointer;
+            overflow: hidden;
+            /* Critical */
+        }
+
+        .cal-cell.disabled {
+            opacity: 0.3;
+            background: var(--bg);
+            pointer-events: none;
+        }
+
+        .cal-cell.today {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .cal-cell.selected {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .cal-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--success);
+            margin-top: 2px;
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 3000;
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-card {
+            width: 100%;
+            max-width: 600px;
+            background: var(--card);
+            border-radius: 24px 24px 0 0;
+            padding: 24px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: translateY(0);
+        }
+
+        /* Landing Page */
+        .landing-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark .landing-nav {
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .landing-hero {
+            background: linear-gradient(135deg, #0f172a, #334155);
+            color: white;
+            padding: 100px 20px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .landing-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(217, 119, 6, 0.15), transparent 50%);
+            pointer-events: none;
+        }
+
+        .landing-section {
+            padding: 60px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .landing-h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: var(--text);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .landing-sub {
+            color: var(--text-muted);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            font-size: 16px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-num {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .service-icon-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .icon-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--border);
+            font-size: 20px;
+            color: var(--text-muted);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .icon-option.selected {
+            background: var(--accent-light);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Helper classes */
+        .ion-activatable {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        ion-ripple-effect {
+            color: currentColor;
+            /* Matches text color */
+            opacity: 0.3;
+            /* Visibility adjustment */
+        }
+
+        .bg-orange-gradient {
+            background: var(--grad-orange);
+        }
+
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+    </style>
 </head>
+
 <body class="mode-md">
 
-<!-- ================= 1. LOGIN PAGE ================= -->
-<div id="page-login" class="page active" style="z-index: 200; align-items: center; justify-content: center;">
-  <div style="width: 100%; max-width: 350px; text-align: center;">
-    <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 32px; box-shadow: var(--shadow-glow);">
-      <img src="Enimara Favicon.png" alt="Logo"
+    <!-- ================= 1. LOGIN PAGE ================= -->
+    <div id="page-login" class="page active" style="z-index: 200; align-items: center; justify-content: center;">
+        <div style="width: 100%; max-width: 350px; text-align: center;">
+            <div
+                style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 32px; box-shadow: var(--shadow-glow);">
+                <img src="Enimara Favicon.png" alt="Logo"
                     style="width: 80px; height: 80px; border-radius: 20px; box-shadow: var(--shadow-md);">
-    </div>
-    <h1 class="h1" style="margin-bottom: 8px;">Enimara</h1>
-    <p class="p" style="margin-bottom: 30px;">Premium Booking OS</p>
+            </div>
+            <h1 class="h1" style="margin-bottom: 8px;">Enimara</h1>
+            <p class="p" style="margin-bottom: 30px;">Premium Booking OS</p>
 
-    <div class="app-card" style="text-align: left;">
-      <label class="small bold" style="margin-bottom: 6px; display: block;">Email</label>
-      <input type="email" class="input" value="admin@enimara.com">
-      
-      <label class="small bold" style="margin-bottom: 6px; display: block;">Password</label>
-      <input type="password" class="input" value="password">
-      
-      <button class="btn btn-block ion-activatable" onclick="window.app.login()">
-        Sign In <ion-icon ios="arrow-forward-outline" md="arrow-forward"></ion-icon>
-        <ion-ripple-effect></ion-ripple-effect>
-      </button>
-    </div>
-  </div>
-</div>
+            <div class="app-card" style="text-align: left;">
+                <label class="small bold" style="margin-bottom: 6px; display: block;">Email</label>
+                <input type="email" class="input" value="admin@enimara.com">
 
-<!-- ================= 2. HOME PAGE (Ionic Content & Refresher) ================= -->
-<div id="page-home" class="page">
-  <!-- Use ion-content to enable Refresher -->
-  <ion-content id="home-content" class="ion-padding" style="--padding-bottom: 100px;">
-    
-    <ion-refresher slot="fixed" id="refresher">
-      <ion-refresher-content pulling-icon="arrow-down" pulling-text="Pull to refresh" refreshing-spinner="crescent"></ion-refresher-content>
-    </ion-refresher>
+                <label class="small bold" style="margin-bottom: 6px; display: block;">Password</label>
+                <input type="password" class="input" value="password">
 
-    <!-- Header -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; margin-top: 10px;">
-      <div>
-        <div class="h1" data-i18n="nav_home">Home</div>
-        <div class="small" id="home-date">Loading...</div>
-      </div>
-      <div class="ion-activatable" onclick="window.app.toggleNotif()" style="position: relative; padding: 10px; background: var(--card); border-radius: 50%; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
-        <ion-icon ios="notifications-outline" md="notifications" style="font-size: 22px; color: var(--text); pointer-events:none;"></ion-icon>
-        <div id="notif-badge" style="position: absolute; top: 8px; right: 10px; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; display: none;"></div>
-        <ion-ripple-effect></ion-ripple-effect>
-      </div>
-    </div>
-
-    <!-- Stats -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
-      <div class="app-card" style="margin:0; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; border: none;">
-        <div class="small" style="color: rgba(255,255,255,0.7);" data-i18n="total_revenue">Revenue</div>
-        <div class="h1" style="color: white; margin-top: 8px; font-size: 22px;" id="stat-revenue">₦0</div>
-        <div class="small" style="display: flex; align-items: center; gap: 4px; color: var(--success); font-weight:700;">
-          <ion-icon ios="trending-up-outline" md="trending-up"></ion-icon> +12%
+                <button class="btn btn-block ion-activatable" onclick="window.app.login()">
+                    Sign In <ion-icon ios="arrow-forward-outline" md="arrow-forward"></ion-icon>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </button>
+            </div>
         </div>
-        <ion-ripple-effect style="color:white;"></ion-ripple-effect>
-      </div>
-      <div class="app-card ion-activatable" style="margin:0;">
-        <div class="small" data-i18n="bookings">Bookings</div>
-        <div class="h1" style="margin-top: 8px; font-size: 22px;" id="stat-bookings">0</div>
-        <div class="small text-muted" data-i18n="upcoming">Upcoming</div>
-        <ion-ripple-effect></ion-ripple-effect>
-      </div>
     </div>
 
-    <!-- Website Preview CTA -->
-    <div class="app-card ion-activatable bg-orange-gradient" onclick="window.app.showLanding()" style="border: none;">
-      <div style="display: flex; align-items: center; justify-content: space-between; color: white;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <div style="background: rgba(255,255,255,0.2); padding: 8px; border-radius: 50%;">
-            <ion-icon ios="globe-outline" md="globe" style="font-size: 24px; pointer-events:none;"></ion-icon>
-          </div>
-          <div>
-            <div class="bold" style="font-size: 15px;">Live Website</div>
-            <div class="small" style="color: rgba(255,255,255,0.8);">Visitor View</div>
-          </div>
-        </div>
-        <ion-icon ios="chevron-forward-outline" md="chevron-forward" style="pointer-events:none;"></ion-icon>
-      </div>
-      <ion-ripple-effect style="color:white;"></ion-ripple-effect>
+    <!-- ================= 2. HOME PAGE (Ionic Content & Refresher) ================= -->
+    <div id="page-home" class="page">
+        <!-- Use ion-content to enable Refresher -->
+        <ion-content id="home-content" class="ion-padding" style="--padding-bottom: 100px;">
+
+            <ion-refresher slot="fixed" id="refresher">
+                <ion-refresher-content pulling-icon="arrow-down" pulling-text="Pull to refresh"
+                    refreshing-spinner="crescent"></ion-refresher-content>
+            </ion-refresher>
+
+            <!-- Header -->
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; margin-top: 10px;">
+                <div>
+                    <div class="h1" data-i18n="nav_home">Home</div>
+                    <div class="small" id="home-date">Loading...</div>
+                </div>
+                <div class="ion-activatable" onclick="window.app.toggleNotif()"
+                    style="position: relative; padding: 10px; background: var(--card); border-radius: 50%; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
+                    <ion-icon ios="notifications-outline" md="notifications"
+                        style="font-size: 22px; color: var(--text); pointer-events:none;"></ion-icon>
+                    <div id="notif-badge"
+                        style="position: absolute; top: 8px; right: 10px; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; display: none;">
+                    </div>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                <div class="app-card"
+                    style="margin:0; background: linear-gradient(135deg, var(--grad-start), var(--grad-end)); color: white; border: none;">
+                    <div class="small" style="color: rgba(255,255,255,0.7);" data-i18n="total_revenue">Revenue</div>
+                    <div class="h1" style="color: white; margin-top: 8px; font-size: 22px;" id="stat-revenue">₦0</div>
+                    <div class="small"
+                        style="display: flex; align-items: center; gap: 4px; color: var(--success); font-weight:700;">
+                        <ion-icon ios="trending-up-outline" md="trending-up"></ion-icon> +12%
+                    </div>
+                    <ion-ripple-effect style="color:white;"></ion-ripple-effect>
+                </div>
+                <div class="app-card ion-activatable" style="margin:0;">
+                    <div class="small" data-i18n="bookings">Bookings</div>
+                    <div class="h1" style="margin-top: 8px; font-size: 22px;" id="stat-bookings">0</div>
+                    <div class="small text-muted" data-i18n="upcoming">Upcoming</div>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </div>
+            </div>
+
+            <!-- Website Preview CTA -->
+            <div class="app-card ion-activatable bg-orange-gradient" onclick="window.app.showLanding()"
+                style="border: none;">
+                <div style="display: flex; align-items: center; justify-content: space-between; color: white;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="background: rgba(255,255,255,0.2); padding: 8px; border-radius: 50%;">
+                            <ion-icon ios="globe-outline" md="globe"
+                                style="font-size: 24px; pointer-events:none;"></ion-icon>
+                        </div>
+                        <div>
+                            <div class="bold" style="font-size: 15px;">Live Website</div>
+                            <div class="small" style="color: rgba(255,255,255,0.8);">Visitor View</div>
+                        </div>
+                    </div>
+                    <ion-icon ios="chevron-forward-outline" md="chevron-forward"
+                        style="pointer-events:none;"></ion-icon>
+                </div>
+                <ion-ripple-effect style="color:white;"></ion-ripple-effect>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="h2" data-i18n="quick_actions">Quick Actions</div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px;">
+                <div class="ion-activatable"
+                    style="display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;"
+                    onclick="window.app.nav('bookings'); setTimeout(()=>window.app.openBookingModal(), 100);">
+                    <div
+                        style="width: 50px; height: 50px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);">
+                        <ion-icon ios="add-outline" md="add"
+                            style="font-size: 24px; color: var(--accent); pointer-events:none;"></ion-icon>
+                    </div>
+                    <span class="small bold" data-i18n="qa_book">Book</span>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </div>
+
+                <div class="ion-activatable"
+                    style="display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;"
+                    onclick="window.app.nav('customers'); setTimeout(()=>window.app.openCustomerModal(), 100);">
+                    <div
+                        style="width: 50px; height: 50px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);">
+                        <ion-icon ios="person-add-outline" md="person-add"
+                            style="font-size: 24px; color: var(--primary); pointer-events:none;"></ion-icon>
+                    </div>
+                    <span class="small bold" data-i18n="qa_cust">Client</span>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </div>
+
+                <div class="ion-activatable"
+                    style="display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;"
+                    onclick="window.app.sharePayment()">
+                    <div
+                        style="width: 50px; height: 50px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);">
+                        <ion-icon ios="card-outline" md="card"
+                            style="font-size: 24px; color: var(--success); pointer-events:none;"></ion-icon>
+                    </div>
+                    <span class="small bold" data-i18n="qa_pay">Pay</span>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </div>
+
+                <div class="ion-activatable"
+                    style="display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;"
+                    onclick="window.app.shareLink()">
+                    <div
+                        style="width: 50px; height: 50px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);">
+                        <ion-icon ios="share-outline" md="share-social"
+                            style="font-size: 24px; color: var(--warning); pointer-events:none;"></ion-icon>
+                    </div>
+                    <span class="small bold" data-i18n="qa_share">Share</span>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </div>
+            </div>
+        </ion-content>
     </div>
 
-    <!-- Quick Actions -->
-    <div class="h2" data-i18n="quick_actions">Quick Actions</div>
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px;">
-      <div class="ion-activatable" style="display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;" onclick="window.app.nav('bookings'); setTimeout(()=>window.app.openBookingModal(), 100);">
-        <div style="width: 50px; height: 50px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);">
-          <ion-icon ios="add-outline" md="add" style="font-size: 24px; color: var(--accent); pointer-events:none;"></ion-icon>
-        </div>
-        <span class="small bold" data-i18n="qa_book">Book</span>
-        <ion-ripple-effect></ion-ripple-effect>
-      </div>
-      
-      <div class="ion-activatable" style="display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;" onclick="window.app.nav('customers'); setTimeout(()=>window.app.openCustomerModal(), 100);">
-        <div style="width: 50px; height: 50px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);">
-          <ion-icon ios="person-add-outline" md="person-add" style="font-size: 24px; color: var(--primary); pointer-events:none;"></ion-icon>
-        </div>
-        <span class="small bold" data-i18n="qa_cust">Client</span>
-        <ion-ripple-effect></ion-ripple-effect>
-      </div>
+    <!-- ================= 3. BOOKINGS PAGE ================= -->
+    <div id="page-bookings" class="page">
+        <div class="page-content">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="h1" data-i18n="nav_bookings">Bookings</div>
+                <button class="btn btn-icon ion-activatable" onclick="window.app.openBookingModal()">
+                    <ion-icon ios="add-outline" md="add"></ion-icon>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </button>
+            </div>
 
-      <div class="ion-activatable" style="display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;" onclick="window.app.sharePayment()">
-        <div style="width: 50px; height: 50px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);">
-          <ion-icon ios="card-outline" md="card" style="font-size: 24px; color: var(--success); pointer-events:none;"></ion-icon>
-        </div>
-        <span class="small bold" data-i18n="qa_pay">Pay</span>
-        <ion-ripple-effect></ion-ripple-effect>
-      </div>
+            <div class="app-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <button class="btn-ghost ion-activatable" style="border:none; padding: 8px;"
+                        onclick="window.app.changeMonth(-1)">
+                        <ion-icon ios="chevron-back-outline" md="chevron-back"></ion-icon>
+                        <ion-ripple-effect></ion-ripple-effect>
+                    </button>
+                    <div class="bold" id="cal-title" style="font-size: 16px;"></div>
+                    <button class="btn-ghost ion-activatable" style="border:none; padding: 8px;"
+                        onclick="window.app.changeMonth(1)">
+                        <ion-icon ios="chevron-forward-outline" md="chevron-forward"></ion-icon>
+                        <ion-ripple-effect></ion-ripple-effect>
+                    </button>
+                </div>
+                <div class="calendar-grid">
+                    <div class="cal-head">S</div>
+                    <div class="cal-head">M</div>
+                    <div class="cal-head">T</div>
+                    <div class="cal-head">W</div>
+                    <div class="cal-head">T</div>
+                    <div class="cal-head">F</div>
+                    <div class="cal-head">S</div>
+                    <div id="cal-body" style="display: contents;"></div>
+                </div>
+            </div>
 
-      <div class="ion-activatable" style="display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;" onclick="window.app.shareLink()">
-        <div style="width: 50px; height: 50px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);">
-          <ion-icon ios="share-outline" md="share-social" style="font-size: 24px; color: var(--warning); pointer-events:none;"></ion-icon>
-        </div>
-        <span class="small bold" data-i18n="qa_share">Share</span>
-        <ion-ripple-effect></ion-ripple-effect>
-      </div>
-    </div>
-  </ion-content>
-</div>
+            <div class="h2" style="margin-top: 24px;" data-i18n="upcoming">Upcoming</div>
+            <div id="booking-list-upcoming" style="padding-bottom: 20px;"></div>
 
-<!-- ================= 3. BOOKINGS PAGE ================= -->
-<div id="page-bookings" class="page">
-  <div class="page-content">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <div class="h1" data-i18n="nav_bookings">Bookings</div>
-      <button class="btn btn-icon ion-activatable" onclick="window.app.openBookingModal()">
-        <ion-icon ios="add-outline" md="add"></ion-icon>
-        <ion-ripple-effect></ion-ripple-effect>
-      </button>
+            <div class="h2" style="margin-top: 24px;">History</div>
+            <div id="booking-list-history" style="padding-bottom: 20px; opacity: 0.8;"></div>
+        </div>
     </div>
 
-    <div class="app-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <button class="btn-ghost ion-activatable" style="border:none; padding: 8px;" onclick="window.app.changeMonth(-1)">
-          <ion-icon ios="chevron-back-outline" md="chevron-back"></ion-icon>
-          <ion-ripple-effect></ion-ripple-effect>
+    <!-- ================= 4. SERVICES PAGE ================= -->
+    <div id="page-services" class="page">
+        <div class="page-content">
+            <div class="h1" data-i18n="nav_services">Services</div>
+            <div class="p" data-i18n="services_desc">Manage your menu and prices.</div>
+
+            <div id="services-list"></div>
+
+            <button class="btn btn-block ion-activatable" style="margin-top: 20px;"
+                onclick="window.app.openServiceModal()">
+                <ion-icon ios="add-circle-outline" md="add-circle"></ion-icon>
+                <span data-i18n="add_service">Add Service</span>
+                <ion-ripple-effect></ion-ripple-effect>
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= 5. CUSTOMERS PAGE ================= -->
+    <div id="page-customers" class="page">
+        <div class="page-content">
+            <div class="h1" data-i18n="nav_customers">Customers</div>
+
+            <div style="position: relative; margin-bottom: 20px;">
+                <ion-icon ios="search-outline" md="search"
+                    style="position: absolute; left: 14px; top: 14px; color: var(--text-muted); pointer-events: none;"></ion-icon>
+                <input type="text" class="input" style="padding-left: 40px; margin: 0;"
+                    placeholder="Search name or phone..." oninput="window.app.filterCustomers(this.value)">
+            </div>
+
+            <div id="customers-list"></div>
+
+            <button class="btn btn-block ion-activatable" style="margin-top: 20px;"
+                onclick="window.app.openCustomerModal()">
+                <ion-icon ios="person-add-outline" md="person-add"></ion-icon>
+                <span data-i18n="add_customer">Add Customer</span>
+                <ion-ripple-effect></ion-ripple-effect>
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= 6. SETTINGS PAGE ================= -->
+    <div id="page-settings" class="page">
+        <div class="page-content">
+            <div class="h1" data-i18n="nav_settings">Settings</div>
+
+            <div class="app-card">
+                <div class="ion-activatable"
+                    style="display: flex; justify-content: space-between; align-items: center; padding: 12px 4px; margin: -4px; border-radius: 8px; cursor: pointer;"
+                    onclick="window.app.toggleDark()">
+                    <div>
+                        <div class="bold" data-i18n="dark_mode">Dark Mode</div>
+                        <div class="small text-muted">Easier on the eyes</div>
+                    </div>
+                    <!-- Custom toggle div -->
+                    <div id="dark-toggle-btn" class="custom-toggle"></div>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid var(--border); margin: 12px 0;">
+
+                <div>
+                    <div class="bold" style="margin-bottom: 8px;" data-i18n="language">Language</div>
+                    <select class="input" id="lang-select" style="margin: 0;" onchange="window.app.setLang(this.value)">
+                        <option value="en">English</option>
+                        <option value="fr">Français</option>
+                        <option value="yo">Yorùbá</option>
+                        <option value="ha">Hausa</option>
+                        <option value="ig">Igbo</option>
+                        <option value="pcm">Pidgin</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="app-card">
+                <div class="h2" data-i18n="payment_settings">Payment Details</div>
+                <div class="p small">Enter bank details to share with clients.</div>
+                <textarea id="pay-details" class="input" rows="3"
+                    placeholder="Bank Name: GTBank&#10;Acct: 0123456789&#10;Name: Enimara Biz"></textarea>
+                <button class="btn btn-block ion-activatable" onclick="window.app.saveSettings()">
+                    <span data-i18n="save">Save Changes</span>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </button>
+            </div>
+
+            <div class="app-card">
+                <div class="h2">Business Hours</div>
+                <div class="p small">Set automatically to: <br>Mon-Sat, 9:00 AM - 6:00 PM</div>
+            </div>
+
+            <button class="btn btn-ghost btn-block ion-activatable"
+                style="color: var(--danger); border-color: var(--danger);" onclick="window.app.logout()">
+                Log Out <ion-icon ios="log-out-outline" md="log-out"></ion-icon>
+                <ion-ripple-effect></ion-ripple-effect>
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= 7. PUBLIC LANDING PAGE (WEBSITE) ================= -->
+    <div id="page-landing" class="page page-full">
+        <div class="page-content" style="padding:0;">
+            <!-- Navbar -->
+            <nav class="landing-nav">
+                <div class="bold" style="font-family: 'Playfair Display'; font-size: 20px;">Enimara.</div>
+                <div style="display: flex; gap: 20px; font-size: 14px; font-weight: 500;">
+                    <a href="#about" style="text-decoration:none; color: var(--text);">About</a>
+                    <a href="#services" style="text-decoration:none; color: var(--text);">Services</a>
+                    <a href="#contact" style="text-decoration:none; color: var(--text);">Contact</a>
+                </div>
+                <button class="btn ion-activatable" style="padding: 8px 16px; font-size: 12px;"
+                    onclick="window.app.nav('home'); document.getElementById('tabbar').style.display='flex';">
+                    Admin View
+                    <ion-ripple-effect></ion-ripple-effect>
+                </button>
+            </nav>
+
+            <!-- Hero -->
+            <div class="landing-hero">
+                <h1
+                    style="font-family: 'Playfair Display', serif; font-size: 48px; margin-bottom: 16px; line-height: 1.1;">
+                    Beauty, Redefined.</h1>
+                <p
+                    style="opacity: 0.9; font-size: 18px; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Experience premium care tailored just for you. From styling to therapy, we bring out your inner
+                    shine.
+                </p>
+                <div style="display: flex; gap: 12px; justify-content: center;">
+                    <button class="btn ion-activatable"
+                        style="background: white; color: var(--primary-rgb); font-size: 16px; padding: 14px 32px;"
+                        onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
+                        <ion-text color="dark">
+                            Book Appointment
+                        </ion-text>
+                        <ion-ripple-effect></ion-ripple-effect>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div
+                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 800px; margin: -40px auto 40px; position: relative; z-index: 10; padding: 0 20px;">
+                <div class="stat-card">
+                    <div class="stat-num">500+</div>
+                    <div class="small">Happy Clients</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num">4.9</div>
+                    <div class="small">Star Rating</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num">100%</div>
+                    <div class="small">Satisfaction</div>
+                </div>
+            </div>
+
+            <!-- Why Us -->
+            <div id="about" class="landing-section">
+                <div class="landing-h2">Why Choose Us</div>
+                <p class="landing-sub">We combine artistry with care to deliver an unforgettable experience.</p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; text-align: center;">
+                    <div>
+                        <div
+                            style="width: 60px; height: 60px; background: var(--accent-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: var(--accent);">
+                            <ion-icon ios="sparkles-outline" md="sparkles" style="font-size: 28px;"></ion-icon>
+                        </div>
+                        <div class="bold">Premium Products</div>
+                        <div class="small p" style="margin-top: 8px;">Only the best brands for your skin and hair.</div>
+                    </div>
+                    <div>
+                        <div
+                            style="width: 60px; height: 60px; background: var(--accent-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: var(--accent);">
+                            <ion-icon ios="time-outline" md="time" style="font-size: 28px;"></ion-icon>
+                        </div>
+                        <div class="bold">On Time</div>
+                        <div class="small p" style="margin-top: 8px;">We respect your schedule. No waiting time.</div>
+                    </div>
+                    <div>
+                        <div
+                            style="width: 60px; height: 60px; background: var(--accent-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: var(--accent);">
+                            <ion-icon ios="heart-outline" md="heart" style="font-size: 28px;"></ion-icon>
+                        </div>
+                        <div class="bold">Expert Care</div>
+                        <div class="small p" style="margin-top: 8px;">Certified professionals at your service.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services -->
+            <div id="services" style="background: var(--card); padding: 60px 20px;">
+                <div class="landing-h2">Our Menu</div>
+                <p class="landing-sub">Select a service to book your slot.</p>
+
+                <!-- Dynamic Services Grid -->
+                <div id="landing-grid"
+                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; max-width: 1000px; margin: 0 auto;">
+                </div>
+            </div>
+
+            <!-- Contact -->
+            <div id="contact" class="landing-section">
+                <div class="landing-h2">Visit Us</div>
+                <div style="text-align: center;">
+                    <p class="p" style="font-size: 16px;">123 Fashion Avenue, Lagos, Nigeria.</p>
+                    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+                        <ion-icon ios="logo-instagram" md="logo-instagram"
+                            style="font-size: 28px; color: var(--text-muted);"></ion-icon>
+                        <ion-icon ios="logo-whatsapp" md="logo-whatsapp"
+                            style="font-size: 28px; color: var(--text-muted);"></ion-icon>
+                        <ion-icon ios="logo-twitter" md="logo-twitter"
+                            style="font-size: 28px; color: var(--text-muted);"></ion-icon>
+                    </div>
+                    <p class="small" style="margin-top: 40px;">&copy; 2025 Powered by Enimara OS</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= NAVIGATION BAR ================= -->
+    <div id="tabbar" class="tabbar" style="display: none;">
+        <button class="tab-btn ion-activatable active" id="tab-home" onclick="window.app.nav('home')">
+            <ion-icon ios="home-outline" md="home"></ion-icon><span data-i18n="nav_home">Home</span>
+            <ion-ripple-effect></ion-ripple-effect>
         </button>
-        <div class="bold" id="cal-title" style="font-size: 16px;"></div>
-        <button class="btn-ghost ion-activatable" style="border:none; padding: 8px;" onclick="window.app.changeMonth(1)">
-          <ion-icon ios="chevron-forward-outline" md="chevron-forward"></ion-icon>
-          <ion-ripple-effect></ion-ripple-effect>
+        <button class="tab-btn ion-activatable" id="tab-bookings" onclick="window.app.nav('bookings')">
+            <ion-icon ios="calendar-outline" md="calendar"></ion-icon><span data-i18n="nav_bookings">Bookings</span>
+            <ion-ripple-effect></ion-ripple-effect>
         </button>
-      </div>
-      <div class="calendar-grid">
-        <div class="cal-head">S</div><div class="cal-head">M</div><div class="cal-head">T</div><div class="cal-head">W</div><div class="cal-head">T</div><div class="cal-head">F</div><div class="cal-head">S</div>
-        <div id="cal-body" style="display: contents;"></div>
-      </div>
-    </div>
-
-    <div class="h2" style="margin-top: 24px;" data-i18n="upcoming">Upcoming</div>
-    <div id="booking-list-upcoming" style="padding-bottom: 20px;"></div>
-
-    <div class="h2" style="margin-top: 24px;">History</div>
-    <div id="booking-list-history" style="padding-bottom: 20px; opacity: 0.8;"></div>
-  </div>
-</div>
-
-<!-- ================= 4. SERVICES PAGE ================= -->
-<div id="page-services" class="page">
-  <div class="page-content">
-    <div class="h1" data-i18n="nav_services">Services</div>
-    <div class="p" data-i18n="services_desc">Manage your menu and prices.</div>
-    
-    <div id="services-list"></div>
-
-    <button class="btn btn-block ion-activatable" style="margin-top: 20px;" onclick="window.app.openServiceModal()">
-      <ion-icon ios="add-circle-outline" md="add-circle"></ion-icon>
-      <span data-i18n="add_service">Add Service</span>
-      <ion-ripple-effect></ion-ripple-effect>
-    </button>
-  </div>
-</div>
-
-<!-- ================= 5. CUSTOMERS PAGE ================= -->
-<div id="page-customers" class="page">
-  <div class="page-content">
-    <div class="h1" data-i18n="nav_customers">Customers</div>
-    
-    <div style="position: relative; margin-bottom: 20px;">
-      <ion-icon ios="search-outline" md="search" style="position: absolute; left: 14px; top: 14px; color: var(--text-muted); pointer-events: none;"></ion-icon>
-      <input type="text" class="input" style="padding-left: 40px; margin: 0;" placeholder="Search name or phone..." oninput="window.app.filterCustomers(this.value)">
-    </div>
-
-    <div id="customers-list"></div>
-
-    <button class="btn btn-block ion-activatable" style="margin-top: 20px;" onclick="window.app.openCustomerModal()">
-      <ion-icon ios="person-add-outline" md="person-add"></ion-icon>
-      <span data-i18n="add_customer">Add Customer</span>
-      <ion-ripple-effect></ion-ripple-effect>
-    </button>
-  </div>
-</div>
-
-<!-- ================= 6. SETTINGS PAGE ================= -->
-<div id="page-settings" class="page">
-  <div class="page-content">
-    <div class="h1" data-i18n="nav_settings">Settings</div>
-
-    <div class="app-card">
-      <div class="ion-activatable" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 4px; margin: -4px; border-radius: 8px; cursor: pointer;" onclick="window.app.toggleDark()">
-        <div>
-          <div class="bold" data-i18n="dark_mode">Dark Mode</div>
-          <div class="small text-muted">Easier on the eyes</div>
-        </div>
-        <!-- Custom toggle div -->
-        <div id="dark-toggle-btn" class="custom-toggle"></div>
-        <ion-ripple-effect></ion-ripple-effect>
-      </div>
-      
-      <hr style="border: 0; border-top: 1px solid var(--border); margin: 12px 0;">
-      
-      <div>
-        <div class="bold" style="margin-bottom: 8px;" data-i18n="language">Language</div>
-        <select class="input" id="lang-select" style="margin: 0;" onchange="window.app.setLang(this.value)">
-          <option value="en">English</option>
-          <option value="fr">Français</option>
-          <option value="yo">Yorùbá</option>
-          <option value="ha">Hausa</option>
-          <option value="ig">Igbo</option>
-          <option value="pcm">Pidgin</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="app-card">
-      <div class="h2" data-i18n="payment_settings">Payment Details</div>
-      <div class="p small">Enter bank details to share with clients.</div>
-      <textarea id="pay-details" class="input" rows="3" placeholder="Bank Name: GTBank&#10;Acct: 0123456789&#10;Name: Enimara Biz"></textarea>
-      <button class="btn btn-block ion-activatable" onclick="window.app.saveSettings()">
-        <span data-i18n="save">Save Changes</span>
-        <ion-ripple-effect></ion-ripple-effect>
-      </button>
-    </div>
-    
-    <div class="app-card">
-        <div class="h2">Business Hours</div>
-        <div class="p small">Set automatically to: <br>Mon-Sat, 9:00 AM - 6:00 PM</div>
-    </div>
-
-    <button class="btn btn-ghost btn-block ion-activatable" style="color: var(--danger); border-color: var(--danger);" onclick="window.app.logout()">
-      Log Out <ion-icon ios="log-out-outline" md="log-out"></ion-icon>
-      <ion-ripple-effect></ion-ripple-effect>
-    </button>
-  </div>
-</div>
-
-<!-- ================= 7. PUBLIC LANDING PAGE (WEBSITE) ================= -->
-<div id="page-landing" class="page page-full">
-  <div class="page-content" style="padding:0;">
-    <!-- Navbar -->
-    <nav class="landing-nav">
-        <div class="bold" style="font-family: 'Playfair Display'; font-size: 20px;">Enimara.</div>
-        <div style="display: flex; gap: 20px; font-size: 14px; font-weight: 500;">
-            <a href="#about" style="text-decoration:none; color: var(--text);">About</a>
-            <a href="#services" style="text-decoration:none; color: var(--text);">Services</a>
-            <a href="#contact" style="text-decoration:none; color: var(--text);">Contact</a>
-        </div>
-        <button class="btn ion-activatable" style="padding: 8px 16px; font-size: 12px;" onclick="window.app.nav('home'); document.getElementById('tabbar').style.display='flex';">
-           Admin View
-           <ion-ripple-effect></ion-ripple-effect>
+        <button class="tab-btn ion-activatable" id="tab-services" onclick="window.app.nav('services')">
+            <ion-icon ios="grid-outline" md="grid"></ion-icon><span data-i18n="nav_services">Services</span>
+            <ion-ripple-effect></ion-ripple-effect>
         </button>
-    </nav>
-
-    <!-- Hero -->
-    <div class="landing-hero">
-      <h1 style="font-family: 'Playfair Display', serif; font-size: 48px; margin-bottom: 16px; line-height: 1.1;">Beauty, Redefined.</h1>
-      <p style="opacity: 0.9; font-size: 18px; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">
-          Experience premium care tailored just for you. From styling to therapy, we bring out your inner shine.
-      </p>
-      <div style="display: flex; gap: 12px; justify-content: center;">
-          <button class="btn ion-activatable" style="background: white; color: var(--primary-rgb); font-size: 16px; padding: 14px 32px;" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
-              <ion-text color="dark">
-                  Book Appointment
-              </ion-text>
-              <ion-ripple-effect></ion-ripple-effect>
-          </button>
-      </div>
+        <button class="tab-btn ion-activatable" id="tab-customers" onclick="window.app.nav('customers')">
+            <ion-icon ios="people-outline" md="people"></ion-icon><span data-i18n="nav_customers">Clients</span>
+            <ion-ripple-effect></ion-ripple-effect>
+        </button>
+        <button class="tab-btn ion-activatable" id="tab-settings" onclick="window.app.nav('settings')">
+            <ion-icon ios="settings-outline" md="settings"></ion-icon><span data-i18n="nav_settings">Settings</span>
+            <ion-ripple-effect></ion-ripple-effect>
+        </button>
     </div>
 
-    <!-- Stats -->
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 800px; margin: -40px auto 40px; position: relative; z-index: 10; padding: 0 20px;">
-        <div class="stat-card">
-            <div class="stat-num">500+</div>
-            <div class="small">Happy Clients</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-num">4.9</div>
-            <div class="small">Star Rating</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-num">100%</div>
-            <div class="small">Satisfaction</div>
-        </div>
+    <!-- ================= MODAL CONTAINER ================= -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal-card" id="modal-content"></div>
     </div>
 
-    <!-- Why Us -->
-    <div id="about" class="landing-section">
-      <div class="landing-h2">Why Choose Us</div>
-      <p class="landing-sub">We combine artistry with care to deliver an unforgettable experience.</p>
-      
-      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; text-align: center;">
-        <div>
-          <div style="width: 60px; height: 60px; background: var(--accent-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: var(--accent);">
-              <ion-icon ios="sparkles-outline" md="sparkles" style="font-size: 28px;"></ion-icon>
-          </div>
-          <div class="bold">Premium Products</div>
-          <div class="small p" style="margin-top: 8px;">Only the best brands for your skin and hair.</div>
-        </div>
-        <div>
-          <div style="width: 60px; height: 60px; background: var(--accent-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: var(--accent);">
-              <ion-icon ios="time-outline" md="time" style="font-size: 28px;"></ion-icon>
-          </div>
-          <div class="bold">On Time</div>
-          <div class="small p" style="margin-top: 8px;">We respect your schedule. No waiting time.</div>
-        </div>
-        <div>
-          <div style="width: 60px; height: 60px; background: var(--accent-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: var(--accent);">
-              <ion-icon ios="heart-outline" md="heart" style="font-size: 28px;"></ion-icon>
-          </div>
-          <div class="bold">Expert Care</div>
-          <div class="small p" style="margin-top: 8px;">Certified professionals at your service.</div>
-        </div>
-      </div>
-    </div>
+    <script>
+        (function () {
 
-    <!-- Services -->
-    <div id="services" style="background: var(--card); padding: 60px 20px;">
-        <div class="landing-h2">Our Menu</div>
-        <p class="landing-sub">Select a service to book your slot.</p>
-        
-        <!-- Dynamic Services Grid -->
-        <div id="landing-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; max-width: 1000px; margin: 0 auto;">
-        </div>
-    </div>
+            // --- Enimara Core Engine ---
+            window.app = {
+                data: {
+                    lang: 'en',
+                    dark: false,
+                    services: [
+                        { id: 1, name: 'Gel Polish', price: 5000, duration: 45, icon: 'color-palette' },
+                        { id: 2, name: 'Hair Cut', price: 3000, duration: 30, icon: 'cut' },
+                        { id: 3, name: 'Facial Treatment', price: 15000, duration: 60, icon: 'sparkles' },
+                        { id: 4, name: 'Full Massage', price: 20000, duration: 90, icon: 'body' }
+                    ],
+                    customers: [
+                        { id: 1, name: 'Sarah Jones', phone: '08012345678', notes: 'VIP Client' },
+                        { id: 2, name: 'Mike Ross', phone: '09087654321', notes: 'Late arrival usually' }
+                    ],
+                    bookings: [],
+                    paymentDetails: "",
+                    notifications: [{ id: 1, text: "Welcome to Enimara! Set up your services.", read: false }]
+                },
 
-    <!-- Contact -->
-    <div id="contact" class="landing-section">
-      <div class="landing-h2">Visit Us</div>
-      <div style="text-align: center;">
-          <p class="p" style="font-size: 16px;">123 Fashion Avenue, Lagos, Nigeria.</p>
-          <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
-          <ion-icon ios="logo-instagram" md="logo-instagram" style="font-size: 28px; color: var(--text-muted);"></ion-icon>
-          <ion-icon ios="logo-whatsapp" md="logo-whatsapp" style="font-size: 28px; color: var(--text-muted);"></ion-icon>
-          <ion-icon ios="logo-twitter" md="logo-twitter" style="font-size: 28px; color: var(--text-muted);"></ion-icon>
-          </div>
-          <p class="small" style="margin-top: 40px;">&copy; 2025 Powered by Enimara OS</p>
-      </div>
-    </div>
-  </div>
-</div>
+                // Backend config for Working Hours
+                config: {
+                    workStart: 9, // 9 AM
+                    workEnd: 18,   // 6 PM
+                    workDays: [1, 2, 3, 4, 5, 6] // Mon-Sat (0 is Sun)
+                },
 
-<!-- ================= NAVIGATION BAR ================= -->
-<div id="tabbar" class="tabbar" style="display: none;">
-  <button class="tab-btn ion-activatable active" id="tab-home" onclick="window.app.nav('home')">
-    <ion-icon ios="home-outline" md="home"></ion-icon><span data-i18n="nav_home">Home</span>
-    <ion-ripple-effect></ion-ripple-effect>
-  </button>
-  <button class="tab-btn ion-activatable" id="tab-bookings" onclick="window.app.nav('bookings')">
-    <ion-icon ios="calendar-outline" md="calendar"></ion-icon><span data-i18n="nav_bookings">Bookings</span>
-    <ion-ripple-effect></ion-ripple-effect>
-  </button>
-  <button class="tab-btn ion-activatable" id="tab-services" onclick="window.app.nav('services')">
-    <ion-icon ios="grid-outline" md="grid"></ion-icon><span data-i18n="nav_services">Services</span>
-    <ion-ripple-effect></ion-ripple-effect>
-  </button>
-  <button class="tab-btn ion-activatable" id="tab-customers" onclick="window.app.nav('customers')">
-    <ion-icon ios="people-outline" md="people"></ion-icon><span data-i18n="nav_customers">Clients</span>
-    <ion-ripple-effect></ion-ripple-effect>
-  </button>
-  <button class="tab-btn ion-activatable" id="tab-settings" onclick="window.app.nav('settings')">
-    <ion-icon ios="settings-outline" md="settings"></ion-icon><span data-i18n="nav_settings">Settings</span>
-    <ion-ripple-effect></ion-ripple-effect>
-  </button>
-</div>
+                state: {
+                    viewDate: new Date(),
+                    selectedServiceId: null,
+                    selectedIcon: 'cut',
+                    isIOS: false
+                },
 
-<!-- ================= MODAL CONTAINER ================= -->
-<div id="modal-overlay" class="modal-overlay">
-  <div class="modal-card" id="modal-content"></div>
-</div>
+                icons: ['cut', 'color-palette', 'body', 'sparkles', 'shirt', 'glasses', 'briefcase', 'cafe', 'flower', 'heart'],
 
-<script>
-(function(){
+                i18n: {
+                    en: {
+                        nav_home: "Home", nav_bookings: "Bookings", nav_services: "Services", nav_customers: "Clients", nav_settings: "Settings",
+                        total_revenue: "Total Revenue", bookings: "Bookings", quick_actions: "Quick Actions", upcoming: "Upcoming",
+                        qa_book: "Book", qa_cust: "Client", qa_pay: "Pay", qa_share: "Share",
+                        add_service: "Add Service", add_customer: "Add Customer", save: "Save",
+                        payment_settings: "Payment Details", dark_mode: "Dark Mode", language: "Language",
+                        services_desc: "Manage your menu and prices."
+                    },
+                    fr: {
+                        nav_home: "Accueil", nav_bookings: "Réservations", nav_services: "Services", nav_customers: "Clients", nav_settings: "Paramètres",
+                        total_revenue: "Revenu Total", bookings: "Réservations", quick_actions: "Actions Rapides", upcoming: "À venir",
+                        qa_book: "Réserver", qa_cust: "Client", qa_pay: "Payer", qa_share: "Partager",
+                        add_service: "Ajouter Service", add_customer: "Ajouter Client", save: "Enregistrer",
+                        payment_settings: "Détails de Paiement", dark_mode: "Mode Sombre", language: "Langue",
+                        services_desc: "Gérez votre menu et vos prix."
+                    },
+                    yo: {
+                        nav_home: "Ilé", nav_bookings: "Àwọn Ìwé", nav_services: "Àwọn Iṣẹ́", nav_customers: "Àwọn Oníbárà", nav_settings: "Ètò",
+                        total_revenue: "Owó Tó Wọlé", bookings: "Ibi Ìpamọ́", quick_actions: "Ìgbésẹ̀ Kíá", upcoming: "Ńbọ̀",
+                        qa_book: "Wé", qa_cust: "Oníbárà", qa_pay: "Sanwó", qa_share: "Pín",
+                        add_service: "Fi Iṣẹ́ Kún", add_customer: "Fi Oníbárà Kún", save: "Fipamọ́",
+                        payment_settings: "Àlàyé Ìsanwó", dark_mode: "Ipo Okunkun", language: "Èdè",
+                        services_desc: "Ṣakoso akojọ aṣayan ati awọn idiyele."
+                    },
+                    ha: {
+                        nav_home: "Gida", nav_bookings: "Yin Ajiyar", nav_services: "Ayyuka", nav_customers: "Abokan Ciniki", nav_settings: "Saituna",
+                        total_revenue: "Kudin Shiga", bookings: "Littattafai", quick_actions: "Ayyukan Gaggawa", upcoming: "Mai Zuwa",
+                        qa_book: "Ajiye", qa_cust: "Aboki", qa_pay: "Biya", qa_share: "Raba",
+                        add_service: "Ƙara Sabis", add_customer: "Ƙara Abokin Ciniki", save: "Ajiye",
+                        payment_settings: "Bayanin Biya", dark_mode: "Yanayin Duhu", language: "Harshe",
+                        services_desc: "Sarrafa menu da farashin ku."
+                    },
+                    ig: {
+                        nav_home: "Ụlọ", nav_bookings: "Ntinye Akwụkwọ", nav_services: "Ọrụ", nav_customers: "Ndị Ahịa", nav_settings: "Nhazi",
+                        total_revenue: "Ego Nata", bookings: "Ntinye", quick_actions: "Ihe Emere Ngwa", upcoming: "Na-abịa",
+                        qa_book: "Debe", qa_cust: "Onye Ahịa", qa_pay: "Kwụọ Ụgwọ", qa_share: "Kekọrịta",
+                        add_service: "Tinye Ọrụ", add_customer: "Tinye Onye Ahịa", save: "Chekwaa",
+                        payment_settings: "Nkọwa Ịkwụ Ụgwọ", dark_mode: "Ọnọdụ Ojii", language: "Asụsụ",
+                        services_desc: "Jikwaa menu na ọnụahịa gị."
+                    },
+                    pcm: {
+                        nav_home: "House", nav_bookings: "Bookings", nav_services: "Work", nav_customers: "Customers", nav_settings: "Settings",
+                        total_revenue: "Money wey enter", bookings: "Bookings", quick_actions: "Sharp Sharp", upcoming: "Coming",
+                        qa_book: "Book", qa_cust: "Customer", qa_pay: "Pay", qa_share: "Share",
+                        add_service: "Add Work", add_customer: "Add Customer", save: "Save am",
+                        payment_settings: "Payment Details", dark_mode: "Dark Mode", language: "Language",
+                        services_desc: "Manage your menu and prices."
+                    }
+                },
 
-// --- Enimara Core Engine ---
-window.app = {
-  data: {
-    lang: 'en',
-    dark: false,
-    services: [
-      { id: 1, name: 'Gel Polish', price: 5000, duration: 45, icon: 'color-palette' },
-      { id: 2, name: 'Hair Cut', price: 3000, duration: 30, icon: 'cut' },
-      { id: 3, name: 'Facial Treatment', price: 15000, duration: 60, icon: 'sparkles' },
-      { id: 4, name: 'Full Massage', price: 20000, duration: 90, icon: 'body' }
-    ],
-    customers: [
-      { id: 1, name: 'Sarah Jones', phone: '08012345678', notes: 'VIP Client' },
-      { id: 2, name: 'Mike Ross', phone: '09087654321', notes: 'Late arrival usually' }
-    ],
-    bookings: [],
-    paymentDetails: "",
-    notifications: [{id: 1, text: "Welcome to Enimara! Set up your services.", read: false}]
-  },
-  
-  // Backend config for Working Hours
-  config: {
-      workStart: 9, // 9 AM
-      workEnd: 18,   // 6 PM
-      workDays: [1, 2, 3, 4, 5, 6] // Mon-Sat (0 is Sun)
-  },
-  
-  state: {
-    viewDate: new Date(),
-    selectedServiceId: null,
-    selectedIcon: 'cut',
-    isIOS: false
-  },
+                init() {
+                    try {
+                        this.detectPlatform();
+                        const saved = localStorage.getItem('enimara_db_v4');
+                        if (saved) {
+                            this.data = { ...this.data, ...JSON.parse(saved) };
+                        }
+                        this.applyTheme();
+                        document.getElementById('lang-select').value = this.data.lang;
+                        document.getElementById('pay-details').value = this.data.paymentDetails || '';
+                        this.translate();
+                        this.renderHome();
+                        this.initRefresher();
+                        console.log("Enimara Engine Started. Platform:", this.state.isIOS ? 'iOS' : 'MD');
+                    } catch (e) {
+                        console.error("Init Error", e);
+                    }
+                },
 
-  icons: ['cut', 'color-palette', 'body', 'sparkles', 'shirt', 'glasses', 'briefcase', 'cafe', 'flower', 'heart'],
+                initRefresher() {
+                    const refresher = document.getElementById('refresher');
+                    if (refresher) {
+                        refresher.addEventListener('ionRefresh', (event) => {
+                            console.log("Refreshing...");
+                            setTimeout(() => {
+                                this.renderHome(); // Reload data
+                                event.target.complete();
+                            }, 1500);
+                        });
+                    }
+                },
 
-  i18n: {
-    en: {
-      nav_home: "Home", nav_bookings: "Bookings", nav_services: "Services", nav_customers: "Clients", nav_settings: "Settings",
-      total_revenue: "Total Revenue", bookings: "Bookings", quick_actions: "Quick Actions", upcoming: "Upcoming",
-      qa_book: "Book", qa_cust: "Client", qa_pay: "Pay", qa_share: "Share",
-      add_service: "Add Service", add_customer: "Add Customer", save: "Save",
-      payment_settings: "Payment Details", dark_mode: "Dark Mode", language: "Language",
-      services_desc: "Manage your menu and prices."
-    },
-    fr: {
-      nav_home: "Accueil", nav_bookings: "Réservations", nav_services: "Services", nav_customers: "Clients", nav_settings: "Paramètres",
-      total_revenue: "Revenu Total", bookings: "Réservations", quick_actions: "Actions Rapides", upcoming: "À venir",
-      qa_book: "Réserver", qa_cust: "Client", qa_pay: "Payer", qa_share: "Partager",
-      add_service: "Ajouter Service", add_customer: "Ajouter Client", save: "Enregistrer",
-      payment_settings: "Détails de Paiement", dark_mode: "Mode Sombre", language: "Langue",
-      services_desc: "Gérez votre menu et vos prix."
-    },
-    yo: {
-      nav_home: "Ilé", nav_bookings: "Àwọn Ìwé", nav_services: "Àwọn Iṣẹ́", nav_customers: "Àwọn Oníbárà", nav_settings: "Ètò",
-      total_revenue: "Owó Tó Wọlé", bookings: "Ibi Ìpamọ́", quick_actions: "Ìgbésẹ̀ Kíá", upcoming: "Ńbọ̀",
-      qa_book: "Wé", qa_cust: "Oníbárà", qa_pay: "Sanwó", qa_share: "Pín",
-      add_service: "Fi Iṣẹ́ Kún", add_customer: "Fi Oníbárà Kún", save: "Fipamọ́",
-      payment_settings: "Àlàyé Ìsanwó", dark_mode: "Ipo Okunkun", language: "Èdè",
-      services_desc: "Ṣakoso akojọ aṣayan ati awọn idiyele."
-    },
-    ha: {
-      nav_home: "Gida", nav_bookings: "Yin Ajiyar", nav_services: "Ayyuka", nav_customers: "Abokan Ciniki", nav_settings: "Saituna",
-      total_revenue: "Kudin Shiga", bookings: "Littattafai", quick_actions: "Ayyukan Gaggawa", upcoming: "Mai Zuwa",
-      qa_book: "Ajiye", qa_cust: "Aboki", qa_pay: "Biya", qa_share: "Raba",
-      add_service: "Ƙara Sabis", add_customer: "Ƙara Abokin Ciniki", save: "Ajiye",
-      payment_settings: "Bayanin Biya", dark_mode: "Yanayin Duhu", language: "Harshe",
-      services_desc: "Sarrafa menu da farashin ku."
-    },
-    ig: {
-      nav_home: "Ụlọ", nav_bookings: "Ntinye Akwụkwọ", nav_services: "Ọrụ", nav_customers: "Ndị Ahịa", nav_settings: "Nhazi",
-      total_revenue: "Ego Nata", bookings: "Ntinye", quick_actions: "Ihe Emere Ngwa", upcoming: "Na-abịa",
-      qa_book: "Debe", qa_cust: "Onye Ahịa", qa_pay: "Kwụọ Ụgwọ", qa_share: "Kekọrịta",
-      add_service: "Tinye Ọrụ", add_customer: "Tinye Onye Ahịa", save: "Chekwaa",
-      payment_settings: "Nkọwa Ịkwụ Ụgwọ", dark_mode: "Ọnọdụ Ojii", language: "Asụsụ",
-      services_desc: "Jikwaa menu na ọnụahịa gị."
-    },
-    pcm: {
-      nav_home: "House", nav_bookings: "Bookings", nav_services: "Work", nav_customers: "Customers", nav_settings: "Settings",
-      total_revenue: "Money wey enter", bookings: "Bookings", quick_actions: "Sharp Sharp", upcoming: "Coming",
-      qa_book: "Book", qa_cust: "Customer", qa_pay: "Pay", qa_share: "Share",
-      add_service: "Add Work", add_customer: "Add Customer", save: "Save am",
-      payment_settings: "Payment Details", dark_mode: "Dark Mode", language: "Language",
-      services_desc: "Manage your menu and prices."
-    }
-  },
+                detectPlatform() {
+                    // Simple user agent check for demo purposes
+                    const ua = navigator.userAgent.toLowerCase();
+                    this.state.isIOS = /iphone|ipad|ipod|macintosh/.test(ua) && 'ontouchend' in document;
 
-  init() {
-    try {
-      this.detectPlatform();
-      const saved = localStorage.getItem('enimara_db_v4');
-      if (saved) {
-        this.data = { ...this.data, ...JSON.parse(saved) };
-      }
-      this.applyTheme();
-      document.getElementById('lang-select').value = this.data.lang;
-      document.getElementById('pay-details').value = this.data.paymentDetails || '';
-      this.translate();
-      this.renderHome();
-      this.initRefresher();
-      console.log("Enimara Engine Started. Platform:", this.state.isIOS ? 'iOS' : 'MD');
-    } catch (e) {
-      console.error("Init Error", e);
-    }
-  },
+                    // Fallback: If running in iframe, you might want to force one mode to test
+                    // this.state.isIOS = true; // Uncomment to force iOS mode for testing
 
-  initRefresher() {
-    const refresher = document.getElementById('refresher');
-    if (refresher) {
-        refresher.addEventListener('ionRefresh', (event) => {
-            console.log("Refreshing...");
-            setTimeout(() => {
-                this.renderHome(); // Reload data
-                event.target.complete();
-            }, 1500);
-        });
-    }
-  },
-  
-  detectPlatform() {
-    // Simple user agent check for demo purposes
-    const ua = navigator.userAgent.toLowerCase();
-    this.state.isIOS = /iphone|ipad|ipod|macintosh/.test(ua) && 'ontouchend' in document;
-    
-    // Fallback: If running in iframe, you might want to force one mode to test
-    // this.state.isIOS = true; // Uncomment to force iOS mode for testing
-    
-    if (this.state.isIOS) {
-        document.body.classList.remove('mode-md');
-        document.body.classList.add('mode-ios');
-    } else {
-        document.body.classList.remove('mode-ios');
-        document.body.classList.add('mode-md');
-    }
-  },
+                    if (this.state.isIOS) {
+                        document.body.classList.remove('mode-md');
+                        document.body.classList.add('mode-ios');
+                    } else {
+                        document.body.classList.remove('mode-ios');
+                        document.body.classList.add('mode-md');
+                    }
+                },
 
-  save() {
-    localStorage.setItem('enimara_db_v4', JSON.stringify(this.data));
-    this.renderHome(); 
-  },
+                save() {
+                    localStorage.setItem('enimara_db_v4', JSON.stringify(this.data));
+                    this.renderHome();
+                },
 
-  t(key) {
-    const dict = this.i18n[this.data.lang] || this.i18n['en'];
-    return dict[key] || this.i18n['en'][key] || key;
-  },
+                t(key) {
+                    const dict = this.i18n[this.data.lang] || this.i18n['en'];
+                    return dict[key] || this.i18n['en'][key] || key;
+                },
 
-  translate() {
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      el.innerText = this.t(el.dataset.i18n);
-    });
-  },
+                translate() {
+                    document.querySelectorAll('[data-i18n]').forEach(el => {
+                        el.innerText = this.t(el.dataset.i18n);
+                    });
+                },
 
-  setLang(lang) {
-    this.data.lang = lang;
-    this.save();
-    this.translate();
-  },
+                setLang(lang) {
+                    this.data.lang = lang;
+                    this.save();
+                    this.translate();
+                },
 
-  toggleDark() {
-    this.data.dark = !this.data.dark;
-    this.applyTheme();
-    this.save();
-  },
+                toggleDark() {
+                    this.data.dark = !this.data.dark;
+                    this.applyTheme();
+                    this.save();
+                },
 
-  applyTheme() {
-    document.body.classList.toggle('dark', this.data.dark);
-    const toggleBtn = document.getElementById('dark-toggle-btn');
-    if(toggleBtn) {
-      if(this.data.dark) toggleBtn.classList.add('checked');
-      else toggleBtn.classList.remove('checked');
-    }
-  },
+                applyTheme() {
+                    document.body.classList.toggle('dark', this.data.dark);
+                    const toggleBtn = document.getElementById('dark-toggle-btn');
+                    if (toggleBtn) {
+                        if (this.data.dark) toggleBtn.classList.add('checked');
+                        else toggleBtn.classList.remove('checked');
+                    }
+                },
 
-  // --- NAVIGATION ---
-  login() {
-    document.getElementById('page-login').classList.remove('active');
-    setTimeout(() => document.getElementById('page-login').style.display = 'none', 300);
-    document.getElementById('tabbar').style.display = 'flex';
-    this.nav('home');
-  },
+                // --- NAVIGATION ---
+                login() {
+                    document.getElementById('page-login').classList.remove('active');
+                    setTimeout(() => document.getElementById('page-login').style.display = 'none', 300);
+                    document.getElementById('tabbar').style.display = 'flex';
+                    this.nav('home');
+                },
 
-  logout() {
-    document.getElementById('page-login').style.display = 'flex';
-    setTimeout(() => document.getElementById('page-login').classList.add('active'), 10);
-    document.getElementById('tabbar').style.display = 'none';
-  },
+                logout() {
+                    document.getElementById('page-login').style.display = 'flex';
+                    setTimeout(() => document.getElementById('page-login').classList.add('active'), 10);
+                    document.getElementById('tabbar').style.display = 'none';
+                },
 
-  nav(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    
-    const target = document.getElementById('page-' + pageId);
-    if(target) {
-        // Ion-content requires display flex on parent to size correctly
-        target.style.display = 'flex';
-        setTimeout(() => target.classList.add('active'), 10);
-    }
-    
-    const tab = document.getElementById('tab-' + pageId);
-    if(tab) tab.classList.add('active');
+                nav(pageId) {
+                    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
 
-    if(pageId !== 'login') document.getElementById('page-login').style.display = 'none';
-    if(pageId !== 'landing') document.getElementById('page-landing').style.display = 'none';
+                    const target = document.getElementById('page-' + pageId);
+                    if (target) {
+                        // Ion-content requires display flex on parent to size correctly
+                        target.style.display = 'flex';
+                        setTimeout(() => target.classList.add('active'), 10);
+                    }
 
-    if (pageId === 'home') this.renderHome();
-    if (pageId === 'bookings') this.renderCalendar();
-    if (pageId === 'services') this.renderServices();
-    if (pageId === 'customers') this.renderCustomers();
-  },
+                    const tab = document.getElementById('tab-' + pageId);
+                    if (tab) tab.classList.add('active');
 
-  // --- HOME ---
-  renderHome() {
-    const opts = { weekday: 'long', day: 'numeric', month: 'short' };
-    document.getElementById('home-date').innerText = new Date().toLocaleDateString(this.data.lang, opts);
+                    if (pageId !== 'login') document.getElementById('page-login').style.display = 'none';
+                    if (pageId !== 'landing') document.getElementById('page-landing').style.display = 'none';
 
-    const totalRev = this.data.bookings.reduce((acc, b) => {
-      const s = this.data.services.find(s => s.id === b.servId);
-      return acc + (s ? s.price : 0);
-    }, 0);
-    
-    document.getElementById('stat-revenue').innerText = '₦' + totalRev.toLocaleString();
-    const futureBookings = this.data.bookings.filter(b => new Date(b.date) > new Date());
-    document.getElementById('stat-bookings').innerText = futureBookings.length;
+                    if (pageId === 'home') this.renderHome();
+                    if (pageId === 'bookings') this.renderCalendar();
+                    if (pageId === 'services') this.renderServices();
+                    if (pageId === 'customers') this.renderCustomers();
+                },
 
-    const hasUnread = this.data.notifications.some(n => !n.read);
-    document.getElementById('notif-badge').style.display = hasUnread ? 'block' : 'none';
-  },
+                // --- HOME ---
+                renderHome() {
+                    const opts = { weekday: 'long', day: 'numeric', month: 'short' };
+                    document.getElementById('home-date').innerText = new Date().toLocaleDateString(this.data.lang, opts);
 
-  toggleNotif() {
-    const html = this.data.notifications.length ? this.data.notifications.map(n => `
+                    const totalRev = this.data.bookings.reduce((acc, b) => {
+                        const s = this.data.services.find(s => s.id === b.servId);
+                        return acc + (s ? s.price : 0);
+                    }, 0);
+
+                    document.getElementById('stat-revenue').innerText = '₦' + totalRev.toLocaleString();
+                    const futureBookings = this.data.bookings.filter(b => new Date(b.date) > new Date());
+                    document.getElementById('stat-bookings').innerText = futureBookings.length;
+
+                    const hasUnread = this.data.notifications.some(n => !n.read);
+                    document.getElementById('notif-badge').style.display = hasUnread ? 'block' : 'none';
+                },
+
+                toggleNotif() {
+                    const html = this.data.notifications.length ? this.data.notifications.map(n => `
       <div style="padding: 12px 0; border-bottom: 1px solid var(--border); opacity: ${n.read ? 0.5 : 1}">
         <div class="small">${n.text}</div>
       </div>
     `).join('') : '<div class="small p-4 text-center">No notifications</div>';
-    
-    this.openModal('Notifications', `
+
+                    this.openModal('Notifications', `
       <div style="max-height: 300px; overflow-y:auto;">${html}</div>
       <button class="btn btn-block btn-ghost" style="margin-top:16px;" onclick="window.app.clearNotifs()">Mark All Read</button>
     `);
-  },
+                },
 
-  clearNotifs() {
-    this.data.notifications.forEach(n => n.read = true);
-    this.save();
-    this.closeModal();
-    this.renderHome();
-  },
+                clearNotifs() {
+                    this.data.notifications.forEach(n => n.read = true);
+                    this.save();
+                    this.closeModal();
+                    this.renderHome();
+                },
 
-  // --- CALENDAR & BOOKINGS ---
-  changeMonth(dir) {
-    this.state.viewDate.setMonth(this.state.viewDate.getMonth() + dir);
-    this.renderCalendar();
-  },
+                // --- CALENDAR & BOOKINGS ---
+                changeMonth(dir) {
+                    this.state.viewDate.setMonth(this.state.viewDate.getMonth() + dir);
+                    this.renderCalendar();
+                },
 
-  renderCalendar() {
-    const year = this.state.viewDate.getFullYear();
-    const month = this.state.viewDate.getMonth();
-    
-    document.getElementById('cal-title').innerText = this.state.viewDate.toLocaleDateString(this.data.lang, { month: 'long', year: 'numeric' });
+                renderCalendar() {
+                    const year = this.state.viewDate.getFullYear();
+                    const month = this.state.viewDate.getMonth();
 
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const today = new Date();
-    today.setHours(0,0,0,0);
+                    document.getElementById('cal-title').innerText = this.state.viewDate.toLocaleDateString(this.data.lang, { month: 'long', year: 'numeric' });
 
-    let html = '';
-    for(let i=0; i<firstDay; i++) html += `<div></div>`;
+                    const firstDay = new Date(year, month, 1).getDay();
+                    const daysInMonth = new Date(year, month + 1, 0).getDate();
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
 
-    for(let d=1; d<=daysInMonth; d++) {
-      const current = new Date(year, month, d);
-      const isToday = current.getTime() === today.getTime();
-      const isPast = current < today;
-      
-      const dateStr = current.toDateString();
-      const dayBookings = this.data.bookings.filter(b => new Date(b.date).toDateString() === dateStr);
-      const hasBooking = dayBookings.length > 0;
+                    let html = '';
+                    for (let i = 0; i < firstDay; i++) html += `<div></div>`;
 
-      html += `
+                    for (let d = 1; d <= daysInMonth; d++) {
+                        const current = new Date(year, month, d);
+                        const isToday = current.getTime() === today.getTime();
+                        const isPast = current < today;
+
+                        const dateStr = current.toDateString();
+                        const dayBookings = this.data.bookings.filter(b => new Date(b.date).toDateString() === dateStr);
+                        const hasBooking = dayBookings.length > 0;
+
+                        html += `
         <div class="cal-cell ion-activatable ${isToday ? 'today' : ''} ${isPast ? 'disabled' : ''}" onclick="window.app.openDayBookings(${year}, ${month}, ${d})">
           ${d}
           ${hasBooking ? '<div class="cal-dot"></div>' : ''}
           <ion-ripple-effect></ion-ripple-effect>
         </div>
       `;
-    }
-    document.getElementById('cal-body').innerHTML = html;
-    this.renderBookingList();
-  },
+                    }
+                    document.getElementById('cal-body').innerHTML = html;
+                    this.renderBookingList();
+                },
 
-  renderBookingList() {
-    const now = new Date();
-    const allBookings = this.data.bookings.sort((a,b) => new Date(a.date) - new Date(b.date));
-    
-    const upcoming = allBookings.filter(b => new Date(b.date) >= now);
-    const history = allBookings.filter(b => new Date(b.date) < now).reverse();
+                renderBookingList() {
+                    const now = new Date();
+                    const allBookings = this.data.bookings.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-    const renderB = (list) => list.map(b => {
-        const s = this.data.services.find(s => s.id === b.servId) || {name: 'Deleted Service', price:0};
-        const c = this.data.customers.find(c => c.id === b.custId) || {name: 'Unknown'};
-        const d = new Date(b.date);
-        return `
+                    const upcoming = allBookings.filter(b => new Date(b.date) >= now);
+                    const history = allBookings.filter(b => new Date(b.date) < now).reverse();
+
+                    const renderB = (list) => list.map(b => {
+                        const s = this.data.services.find(s => s.id === b.servId) || { name: 'Deleted Service', price: 0 };
+                        const c = this.data.customers.find(c => c.id === b.custId) || { name: 'Unknown' };
+                        const d = new Date(b.date);
+                        return `
           <div class="app-card" style="display:flex; align-items:center; gap: 12px; margin-bottom: 8px;">
              <div style="background: var(--bg); padding: 10px; border-radius: 12px; text-align:center; min-width: 60px;">
                 <div class="bold" style="line-height:1;">${d.getDate()}</div>
-                <div class="small" style="font-size:10px; text-transform:uppercase;">${d.toLocaleDateString('en', {month:'short'})}</div>
+                <div class="small" style="font-size:10px; text-transform:uppercase;">${d.toLocaleDateString('en', { month: 'short' })}</div>
              </div>
              <div style="flex:1;">
                 <div class="bold">${s.name}</div>
-                <div class="small">${c.name} • ${d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
+                <div class="small">${c.name} • ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
              </div>
           </div>
         `;
-      }).join('') || '<div class="p" style="text-align:center;">No bookings.</div>';
+                    }).join('') || '<div class="p" style="text-align:center;">No bookings.</div>';
 
-    document.getElementById('booking-list-upcoming').innerHTML = renderB(upcoming);
-    document.getElementById('booking-list-history').innerHTML = renderB(history);
-  },
+                    document.getElementById('booking-list-upcoming').innerHTML = renderB(upcoming);
+                    document.getElementById('booking-list-history').innerHTML = renderB(history);
+                },
 
-  openDayBookings(y, m, d) {
-    const date = new Date(y, m, d);
-    const dateStr = date.toDateString();
-    
-    const dayBookings = this.data.bookings.filter(b => new Date(b.date).toDateString() === dateStr);
-    
-    const html = dayBookings.map(b => {
-      const s = this.data.services.find(x => x.id === b.servId) || {name:'?'};
-      const c = this.data.customers.find(x => x.id === b.custId) || {name:'?'};
-      const time = new Date(b.date).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-      return `<div style="padding: 10px 0; border-bottom:1px solid var(--border);">${time} - <b>${s.name}</b> (${c.name})</div>`;
-    }).join('');
+                openDayBookings(y, m, d) {
+                    const date = new Date(y, m, d);
+                    const dateStr = date.toDateString();
 
-    const yyyy = date.getFullYear();
-    const mm = String(date.getMonth()+1).padStart(2,'0');
-    const dd = String(date.getDate()).padStart(2,'0');
-    const isoStart = `${yyyy}-${mm}-${dd}T09:00`;
+                    const dayBookings = this.data.bookings.filter(b => new Date(b.date).toDateString() === dateStr);
 
-    this.openModal(dateStr, `
+                    const html = dayBookings.map(b => {
+                        const s = this.data.services.find(x => x.id === b.servId) || { name: '?' };
+                        const c = this.data.customers.find(x => x.id === b.custId) || { name: '?' };
+                        const time = new Date(b.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        return `<div style="padding: 10px 0; border-bottom:1px solid var(--border);">${time} - <b>${s.name}</b> (${c.name})</div>`;
+                    }).join('');
+
+                    const yyyy = date.getFullYear();
+                    const mm = String(date.getMonth() + 1).padStart(2, '0');
+                    const dd = String(date.getDate()).padStart(2, '0');
+                    const isoStart = `${yyyy}-${mm}-${dd}T09:00`;
+
+                    this.openModal(dateStr, `
       <div style="margin-bottom: 20px; max-height: 200px; overflow-y: auto;">
         ${html || '<div class="small">No bookings.</div>'}
       </div>
@@ -1039,17 +1363,17 @@ window.app = {
         <ion-ripple-effect></ion-ripple-effect>
       </button>
     `);
-  },
+                },
 
-  openBookingModal(preDate = '', preServiceId = null) {
-    if(this.data.customers.length === 0 && !preServiceId) return alert("Please add a client first!");
+                openBookingModal(preDate = '', preServiceId = null) {
+                    if (this.data.customers.length === 0 && !preServiceId) return alert("Please add a client first!");
 
-    const custOpts = this.data.customers.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
-    const servOpts = this.data.services.map(s => `<option value="${s.id}" ${preServiceId == s.id ? 'selected' : ''}>${s.name} - ₦${s.price.toLocaleString()}</option>`).join('');
-    
-    const isPublic = preServiceId !== null && document.getElementById('page-landing').classList.contains('active');
-    
-    this.openModal(isPublic ? 'Book Appointment' : this.t('bookings'), `
+                    const custOpts = this.data.customers.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+                    const servOpts = this.data.services.map(s => `<option value="${s.id}" ${preServiceId == s.id ? 'selected' : ''}>${s.name} - ₦${s.price.toLocaleString()}</option>`).join('');
+
+                    const isPublic = preServiceId !== null && document.getElementById('page-landing').classList.contains('active');
+
+                    this.openModal(isPublic ? 'Book Appointment' : this.t('bookings'), `
       ${!isPublic ? `<label class="small bold">Customer</label><select id="b-cust" class="input">${custOpts}</select>` : '<div class="p small">Guest Booking</div>'}
       
       <label class="small bold">Service</label>
@@ -1065,45 +1389,45 @@ window.app = {
         Confirm Booking <ion-ripple-effect></ion-ripple-effect>
       </button>
     `);
-  },
+                },
 
-  addBooking(isPublic = false) {
-    const sid = document.getElementById('b-serv').value;
-    const dateVal = document.getElementById('b-date').value;
-    let cid = isPublic ? 999 : document.getElementById('b-cust').value; // 999 for guest
+                addBooking(isPublic = false) {
+                    const sid = document.getElementById('b-serv').value;
+                    const dateVal = document.getElementById('b-date').value;
+                    let cid = isPublic ? 999 : document.getElementById('b-cust').value; // 999 for guest
 
-    if(!sid || !dateVal) return alert("Please fill all fields");
-    
-    const dateObj = new Date(dateVal);
-    const day = dateObj.getDay();
-    const hour = dateObj.getHours();
+                    if (!sid || !dateVal) return alert("Please fill all fields");
 
-    // LOGIC: Check Working Hours
-    if(!this.config.workDays.includes(day)) {
-        return alert("Sorry, we are closed on this day. Please choose Mon-Sat.");
-    }
-    if(hour < this.config.workStart || hour >= this.config.workEnd) {
-        return alert(`Please book between ${this.config.workStart}:00 AM and ${this.config.workEnd-12}:00 PM.`);
-    }
-    if(dateObj < new Date()) return alert("Cannot book in the past!");
+                    const dateObj = new Date(dateVal);
+                    const day = dateObj.getDay();
+                    const hour = dateObj.getHours();
 
-    this.data.bookings.push({
-      id: Date.now(),
-      custId: parseInt(cid),
-      servId: parseInt(sid),
-      date: dateVal,
-      paid: false
-    });
-    
-    this.save();
-    this.closeModal();
-    if(isPublic) alert("Booking Successful! We will contact you shortly.");
-    else this.renderCalendar(); 
-  },
+                    // LOGIC: Check Working Hours
+                    if (!this.config.workDays.includes(day)) {
+                        return alert("Sorry, we are closed on this day. Please choose Mon-Sat.");
+                    }
+                    if (hour < this.config.workStart || hour >= this.config.workEnd) {
+                        return alert(`Please book between ${this.config.workStart}:00 AM and ${this.config.workEnd - 12}:00 PM.`);
+                    }
+                    if (dateObj < new Date()) return alert("Cannot book in the past!");
 
-  // --- SERVICES ---
-  renderServices() {
-    const list = this.data.services.map(s => `
+                    this.data.bookings.push({
+                        id: Date.now(),
+                        custId: parseInt(cid),
+                        servId: parseInt(sid),
+                        date: dateVal,
+                        paid: false
+                    });
+
+                    this.save();
+                    this.closeModal();
+                    if (isPublic) alert("Booking Successful! We will contact you shortly.");
+                    else this.renderCalendar();
+                },
+
+                // --- SERVICES ---
+                renderServices() {
+                    const list = this.data.services.map(s => `
       <div class="app-card" style="display: flex; align-items: center; justify-content: space-between;">
         <div style="display: flex; gap: 14px; align-items: center;">
           <div style="width: 44px; height: 44px; background: var(--bg); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent);">
@@ -1120,22 +1444,22 @@ window.app = {
         </button>
       </div>
     `).join('');
-    document.getElementById('services-list').innerHTML = list;
-  },
+                    document.getElementById('services-list').innerHTML = list;
+                },
 
-  openServiceModal(id = null) {
-    const isEdit = id !== null;
-    const s = isEdit ? this.data.services.find(x => x.id === id) : { name: '', price: '', duration: '', icon: 'cut' };
-    this.state.selectedIcon = s.icon || 'cut';
-    
-    const iconGrid = this.icons.map(ic => `
+                openServiceModal(id = null) {
+                    const isEdit = id !== null;
+                    const s = isEdit ? this.data.services.find(x => x.id === id) : { name: '', price: '', duration: '', icon: 'cut' };
+                    this.state.selectedIcon = s.icon || 'cut';
+
+                    const iconGrid = this.icons.map(ic => `
       <div class="icon-option ion-activatable ${this.state.selectedIcon === ic ? 'selected' : ''}" onclick="window.app.selectIcon(this, '${ic}')">
         <ion-icon ios="${ic}-outline" md="${ic}" style="pointer-events:none;"></ion-icon>
         <ion-ripple-effect></ion-ripple-effect>
       </div>
     `).join('');
 
-    this.openModal(isEdit ? 'Edit Service' : 'New Service', `
+                    this.openModal(isEdit ? 'Edit Service' : 'New Service', `
       <label class="small bold">Icon</label>
       <div class="service-icon-grid">${iconGrid}</div>
 
@@ -1159,50 +1483,50 @@ window.app = {
       
       ${isEdit ? `<button class="btn btn-ghost btn-block ion-activatable" style="margin-top:10px; color:var(--danger); border-color:var(--danger);" onclick="window.app.deleteService(${id})">Delete Service <ion-ripple-effect></ion-ripple-effect></button>` : ''}
     `);
-  },
+                },
 
-  selectIcon(el, iconName) {
-    document.querySelectorAll('.icon-option').forEach(e => e.classList.remove('selected'));
-    el.classList.add('selected');
-    this.state.selectedIcon = iconName;
-  },
+                selectIcon(el, iconName) {
+                    document.querySelectorAll('.icon-option').forEach(e => e.classList.remove('selected'));
+                    el.classList.add('selected');
+                    this.state.selectedIcon = iconName;
+                },
 
-  saveService(id) {
-    const name = document.getElementById('s-name').value;
-    const price = parseFloat(document.getElementById('s-price').value);
-    const dur = parseInt(document.getElementById('s-dur').value);
-    
-    if(!name || !price) return alert("Please fill name and price");
+                saveService(id) {
+                    const name = document.getElementById('s-name').value;
+                    const price = parseFloat(document.getElementById('s-price').value);
+                    const dur = parseInt(document.getElementById('s-dur').value);
 
-    if(id) {
-      const idx = this.data.services.findIndex(x => x.id === id);
-      this.data.services[idx] = { id, name, price, duration: dur, icon: this.state.selectedIcon };
-    } else {
-      this.data.services.push({ id: Date.now(), name, price, duration: dur, icon: this.state.selectedIcon });
-    }
-    this.save();
-    this.closeModal();
-    this.renderServices();
-  },
+                    if (!name || !price) return alert("Please fill name and price");
 
-  deleteService(id) {
-    if(confirm('Delete service?')) {
-      this.data.services = this.data.services.filter(x => x.id !== id);
-      this.save();
-      this.closeModal();
-      this.renderServices();
-    }
-  },
+                    if (id) {
+                        const idx = this.data.services.findIndex(x => x.id === id);
+                        this.data.services[idx] = { id, name, price, duration: dur, icon: this.state.selectedIcon };
+                    } else {
+                        this.data.services.push({ id: Date.now(), name, price, duration: dur, icon: this.state.selectedIcon });
+                    }
+                    this.save();
+                    this.closeModal();
+                    this.renderServices();
+                },
 
-  // --- CUSTOMERS ---
-  renderCustomers() {
-    this.filterCustomers('');
-  },
+                deleteService(id) {
+                    if (confirm('Delete service?')) {
+                        this.data.services = this.data.services.filter(x => x.id !== id);
+                        this.save();
+                        this.closeModal();
+                        this.renderServices();
+                    }
+                },
 
-  filterCustomers(q) {
-    q = (q || '').toLowerCase();
-    const list = this.data.customers.filter(c => c.name.toLowerCase().includes(q) || c.phone.includes(q))
-    .map(c => `
+                // --- CUSTOMERS ---
+                renderCustomers() {
+                    this.filterCustomers('');
+                },
+
+                filterCustomers(q) {
+                    q = (q || '').toLowerCase();
+                    const list = this.data.customers.filter(c => c.name.toLowerCase().includes(q) || c.phone.includes(q))
+                        .map(c => `
       <div class="app-card ion-activatable" onclick="window.app.openCustomerModal(${c.id})">
         <div class="bold">${c.name}</div>
         <div class="small">${c.phone}</div>
@@ -1210,14 +1534,14 @@ window.app = {
         <ion-ripple-effect></ion-ripple-effect>
       </div>
     `).join('');
-    document.getElementById('customers-list').innerHTML = list || '<div class="p">No clients found.</div>';
-  },
+                    document.getElementById('customers-list').innerHTML = list || '<div class="p">No clients found.</div>';
+                },
 
-  openCustomerModal(id = null) {
-    const isEdit = id !== null;
-    const c = isEdit ? this.data.customers.find(x => x.id === id) : { name:'', phone:'', notes:'' };
-    
-    this.openModal(isEdit ? c.name : 'New Customer', `
+                openCustomerModal(id = null) {
+                    const isEdit = id !== null;
+                    const c = isEdit ? this.data.customers.find(x => x.id === id) : { name: '', phone: '', notes: '' };
+
+                    this.openModal(isEdit ? c.name : 'New Customer', `
       <label class="small bold">Name</label>
       <input id="c-name" class="input" value="${c.name}">
       
@@ -1244,36 +1568,36 @@ window.app = {
         </div>
       ` : ''}
     `);
-  },
+                },
 
-  saveCustomer(id) {
-    const name = document.getElementById('c-name').value;
-    const phone = document.getElementById('c-phone').value;
-    const notes = document.getElementById('c-notes').value;
-    
-    if(!name) return alert("Name is required");
+                saveCustomer(id) {
+                    const name = document.getElementById('c-name').value;
+                    const phone = document.getElementById('c-phone').value;
+                    const notes = document.getElementById('c-notes').value;
 
-    if(id) {
-      const idx = this.data.customers.findIndex(x => x.id === id);
-      this.data.customers[idx] = { id, name, phone, notes };
-    } else {
-      this.data.customers.push({ id: Date.now(), name, phone, notes });
-    }
-    this.save();
-    this.closeModal();
-    this.renderCustomers();
-  },
+                    if (!name) return alert("Name is required");
 
-  // --- SETTINGS & SHARING ---
-  saveSettings() {
-    this.data.paymentDetails = document.getElementById('pay-details').value;
-    this.save();
-    alert("Settings Saved!");
-  },
+                    if (id) {
+                        const idx = this.data.customers.findIndex(x => x.id === id);
+                        this.data.customers[idx] = { id, name, phone, notes };
+                    } else {
+                        this.data.customers.push({ id: Date.now(), name, phone, notes });
+                    }
+                    this.save();
+                    this.closeModal();
+                    this.renderCustomers();
+                },
 
-  sharePayment() {
-    const text = this.data.paymentDetails || "No payment details set.";
-    this.openModal("Share Payment", `
+                // --- SETTINGS & SHARING ---
+                saveSettings() {
+                    this.data.paymentDetails = document.getElementById('pay-details').value;
+                    this.save();
+                    alert("Settings Saved!");
+                },
+
+                sharePayment() {
+                    const text = this.data.paymentDetails || "No payment details set.";
+                    this.openModal("Share Payment", `
       <textarea class="input" readonly style="height:100px;">${text}</textarea>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px;">
         <button class="btn ion-activatable" onclick="navigator.clipboard.writeText('${text}'); alert('Copied!')">
@@ -1284,20 +1608,20 @@ window.app = {
         </a>
       </div>
     `);
-  },
-  
-  shareLink() {
-     const url = "https://enimara.app/demo"; 
-     const text = "Book your appointment with us here: " + url;
-     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
-  },
+                },
 
-  // --- LANDING PAGE LOGIC ---
-  showLanding() {
-    document.getElementById('tabbar').style.display = 'none';
-    
-    const grid = document.getElementById('landing-grid');
-    grid.innerHTML = this.data.services.map(s => `
+                shareLink() {
+                    const url = "https://enimara.app/demo";
+                    const text = "Book your appointment with us here: " + url;
+                    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
+                },
+
+                // --- LANDING PAGE LOGIC ---
+                showLanding() {
+                    document.getElementById('tabbar').style.display = 'none';
+
+                    const grid = document.getElementById('landing-grid');
+                    grid.innerHTML = this.data.services.map(s => `
       <div style="background: var(--card); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--border); display:flex; flex-direction:column;">
         <div style="height:140px; background:#e2e8f0; position:relative;">
            <img src="https://placehold.co/400x300/e2e8f0/1e293b?text=${s.name.replace(/\s+/g, '+')}" style="width:100%; height:100%; object-fit:cover;">
@@ -1315,13 +1639,13 @@ window.app = {
       </div>
     `).join('');
 
-    this.nav('landing');
-  },
+                    this.nav('landing');
+                },
 
-  // --- UTILS ---
-  openModal(title, html) {
-    const el = document.getElementById('modal-overlay');
-    document.getElementById('modal-content').innerHTML = `
+                // --- UTILS ---
+                openModal(title, html) {
+                    const el = document.getElementById('modal-overlay');
+                    document.getElementById('modal-content').innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
         <div class="h2" style="margin:0;">${title}</div>
         <div class="ion-activatable" onclick="window.app.closeModal()" style="padding:8px; border-radius:50%; background:var(--bg); cursor:pointer;">
@@ -1330,21 +1654,22 @@ window.app = {
       </div>
       ${html}
     `;
-    el.style.display = 'flex';
-    setTimeout(() => el.classList.add('active'), 10);
-  },
+                    el.style.display = 'flex';
+                    setTimeout(() => el.classList.add('active'), 10);
+                },
 
-  closeModal() {
-    const el = document.getElementById('modal-overlay');
-    el.classList.remove('active');
-    setTimeout(() => el.style.display = 'none', 300);
-  }
-};
+                closeModal() {
+                    const el = document.getElementById('modal-overlay');
+                    el.classList.remove('active');
+                    setTimeout(() => el.style.display = 'none', 300);
+                }
+            };
 
-// Start Engine
-document.addEventListener('DOMContentLoaded', () => window.app.init());
+            // Start Engine
+            document.addEventListener('DOMContentLoaded', () => window.app.init());
 
-})();
-</script>
+        })();
+    </script>
 </body>
+
 </html>
